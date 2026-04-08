@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>åäººå®¶æè«æ¬¾è¨æ¯ç¢çå¨</title>
+<title>個人家教請款訊息產生器</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", sans-serif; background: #f0f2f5; color: #333; min-height: 100vh; }
@@ -241,70 +241,70 @@ h1 { text-align: center; font-size: 1.6em; margin: 20px 0 8px; color: #2c3e50; }
 </head>
 <body>
 <div class="container">
-  <h1>åäººå®¶æè«æ¬¾è¨æ¯ç¢çå¨</h1>
-  <p class="subtitle">ä¸å³ Apple è¡äºæå¯åºç .ics æªï¼èªåç¢åºè«æ¬¾è¨æ¯</p>
+  <h1>個人家教請款訊息產生器</h1>
+  <p class="subtitle">上傳 Apple 行事曆匯出的 .ics 檔，自動產出請款訊息</p>
 
   <div class="hint-box">
-    å¯åºæ¹å¼ï¼æé Macãè¡äºæãApp â æªæ¡ â è¼¸åº â è¼¸åº...<br>
-    å¦æä½ åå¦ä¸ååæèªå·±çè¡äºæï¼å¯ä»¥åå¥ä¸å³å©å .ics æªï¼å±åå­¸çæèªååä½µã
+    匯出方式：打開 Mac「行事曆」App → 檔案 → 輸出 → 輸出...<br>
+    如果你和另一半各有自己的行事曆，可以分別上傳兩個 .ics 檔，共同學生會自動合併。
   </div>
 
   <div class="sync-bar" id="syncBar">
     <span class="sync-dot" id="syncDot"></span>
-    <span class="sync-text" id="syncText">æ­£å¨é£ç·...</span>
+    <span class="sync-text" id="syncText">正在連線...</span>
   </div>
 
   <div class="upload-section">
     <div class="upload-box" id="uploadMath" onclick="document.getElementById('fileMath').click()">
-      <div class="icon">ð</div>
-      <div class="label">Math è¡äºæï¼èå©ï¼</div>
-      <p>é»ææææ³ .ics æªæ¡</p>
+      <div class="icon">📐</div>
+      <div class="label">Math 行事曆（老婆）</div>
+      <p>點擊或拖曳 .ics 檔案</p>
       <div class="file-name" id="fileNameMath"></div>
       <input type="file" id="fileMath" accept=".ics">
     </div>
     <div class="upload-box" id="uploadScience" onclick="document.getElementById('fileScience').click()">
-      <div class="icon">ð¬</div>
-      <div class="label">Science è¡äºæï¼æï¼</div>
-      <p>é»ææææ³ .ics æªæ¡</p>
+      <div class="icon">🔬</div>
+      <div class="label">Science 行事曆（我）</div>
+      <p>點擊或拖曳 .ics 檔案</p>
       <div class="file-name" id="fileNameScience"></div>
       <input type="file" id="fileScience" accept=".ics">
     </div>
   </div>
 
   <div class="settings" id="settings">
-    <h3>è¨­å®</h3>
+    <h3>設定</h3>
     <div class="setting-row">
-      <label>æä»½ï¼</label>
+      <label>月份：</label>
       <select id="monthSelect"></select>
     </div>
     <div class="setting-row">
-      <label>è¨­çº±ï¼</label>
+      <label>稱謂：</label>
       <select id="titleSelect">
-        <option value="åª½åª½">åª½åª½</option>
-        <option value="ç¸ç¸">ç¸ç¸</option>
-        <option value="å®¶é·">å®¶é·</option>
+        <option value="媽媽">媽媽</option>
+        <option value="爸爸">爸爸</option>
+        <option value="家長">家長</option>
       </select>
     </div>
     <div class="setting-row">
-      <label>ååèªï¼</label>
+      <label>問候語：</label>
       <select id="greetingSelect">
-        <option value="æ¨å¥½">æ¨å¥½</option>
-        <option value="æ©å®">æ©å®</option>
-        <option value="åå®">åå®</option>
-        <option value="æå®">æå®</option>
+        <option value="您好">您好</option>
+        <option value="早安">早安</option>
+        <option value="午安">午安</option>
+        <option value="晚安">晚安</option>
       </select>
     </div>
   </div>
 
   <div class="rate-table" id="rateTable">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-      <h3 style="margin:0;">è¨­å®æ¯ä½å­¸ççæèª</h3>
+      <h3 style="margin:0;">設定每位學生的時薪</h3>
       <div>
-        <button class="btn-share" onclick="shareRates()">åäº«æèªè¨­å®</button>
-        <button class="btn-share" onclick="shareAll()">åäº«ææè¨­å®</button>
+        <button class="btn-share" onclick="shareRates()">分享時薪設定</button>
+        <button class="btn-share" onclick="shareAll()">分享所有設定</button>
       </div>
     </div>
-    <div class="rate-hint">æèªæèªåå²å­å¨çè¦½å¨ä¸­ï¼ä¸æ¬¡ä½¿ç¨ä¸ééæ°è¼¸å¥ãå±åå­¸çå¯åå¥è¨­å® Math / Science æèªãææ³å¡çèª¿æ´è«æ¬¾è²¬ä»»äººã</div>
+    <div class="rate-hint">時薪會自動儲存在瀏覽器中，下次使用不需重新輸入。共同學生可分別設定 Math / Science 時薪。拖曳卡片調整請款責任人。</div>
     <div class="info-box" id="infoBox"></div>
 
     <!-- Unified billing panels with student cards -->
@@ -313,14 +313,14 @@ h1 { text-align: center; font-size: 1.6em; margin: 20px 0 8px; color: #2c3e50; }
            ondragover="event.preventDefault(); this.classList.add('dragover')"
            ondragleave="this.classList.remove('dragover')"
            ondrop="dropOnBillingPanel(event, 'me')">
-        <div class="billing-panel-header">ð¬ æè² è²¬è«æ¬¾</div>
+        <div class="billing-panel-header">🔬 我負責請款</div>
         <div class="billing-students" id="billingStudentsMe"></div>
       </div>
       <div class="billing-panel" id="billingPanelWife"
            ondragover="event.preventDefault(); this.classList.add('dragover')"
            ondragleave="this.classList.remove('dragover')"
            ondrop="dropOnBillingPanel(event, 'wife')">
-        <div class="billing-panel-header">ð èå©è² è²¬è«æ¬¾</div>
+        <div class="billing-panel-header">📐 老婆負責請款</div>
         <div class="billing-students" id="billingStudentsWife"></div>
       </div>
     </div>
@@ -328,30 +328,30 @@ h1 { text-align: center; font-size: 1.6em; margin: 20px 0 8px; color: #2c3e50; }
 
   <div class="grouping-section" id="groupingSection">
     <div class="grouping-header">
-      <h3>è¨æ¯åçµ</h3>
-      <button class="btn-share" onclick="shareGroups()">åäº«ç¾¤çµè¨­å®</button>
+      <h3>訊息分組</h3>
+      <button class="btn-share" onclick="shareGroups()">分享群組設定</button>
     </div>
-    <div class="grouping-hint">åå¼å§å¦¹å¯ææ³å°åä¸çµï¼åçµå­¸çæåä½µçºä¸åè¨æ¯ãæªåçµçå­¸çåèªç¨ç«ç¢åºã</div>
-    <button class="btn-add-family" onclick="addFamilyLane()">+ æ°å¢å®¶åº­ç¾¤çµ</button>
+    <div class="grouping-hint">兄弟姊妹可拖曳到同一組，同組學生會合併為一則訊息。未分組的學生各自獨立產出。</div>
+    <button class="btn-add-family" onclick="addFamilyLane()">+ 新增家庭群組</button>
     <div id="familyLanes"></div>
     <div class="group-lane ungrouped" id="ungroupedLane">
       <div class="lane-header">
-        <span class="lane-label">æªåçµï¼åèªç¨ç«ç¢åºï¼</span>
+        <span class="lane-label">未分組（各自獨立產出）</span>
       </div>
       <div class="lane-students" id="ungroupedStudents"></div>
     </div>
     <div class="generate-bar">
-      <button class="btn-generate-one" style="padding:8px 20px;font-size:0.9em;" onclick="generateAll()">å¨é¨ç¢åº</button>
+      <button class="btn-generate-one" style="padding:8px 20px;font-size:0.9em;" onclick="generateAll()">全部產出</button>
     </div>
   </div>
 
   <div class="results" id="results">
     <div class="results-header">
-      <h2>è«æ¬¾è¨æ¯</h2>
+      <h2>請款訊息</h2>
       <div>
-        <span class="expand-toggle" id="expandToggle" onclick="toggleAll()">å¨é¨å±é</span>
+        <span class="expand-toggle" id="expandToggle" onclick="toggleAll()">全部展開</span>
         &nbsp;
-        <button class="btn btn-success" onclick="copyAll()">ä¸éµè¤è£½å¨é¨</button>
+        <button class="btn btn-success" onclick="copyAll()">一鍵複製全部</button>
       </div>
     </div>
     <p class="student-count" id="studentCount"></p>
@@ -423,12 +423,12 @@ function initSync() {
 
     document.getElementById('syncDot').classList.add('connected');
     const txt = document.getElementById('syncText');
-    txt.textContent = 'å·²åæ­¥ â å©å°é»è¦çè¨­å®æå³ææ´æ°';
+    txt.textContent = '已同步 — 兩台電腦的設定會即時更新';
     txt.classList.add('connected');
     refreshUIFromStorage();
   }).catch(() => {
     document.getElementById('syncDot').classList.add('error');
-    document.getElementById('syncText').textContent = 'åæ­¥é£ç·å¤±æï¼è¨­å®åå­å¨æ¬æ©';
+    document.getElementById('syncText').textContent = '同步連線失敗，設定僅存在本機';
   });
 }
 
@@ -454,7 +454,7 @@ let scienceEventsRaw = [];
 let mathEvents = [];      // after splitting 1-on-2
 let scienceEvents = [];   // after splitting 1-on-2
 let currentStudents = []; // { canonical, mathNames, sciNames, isBoth, isMath, isSci }
-let families = [];        // [ [studentIdx, ...], ... ] â grouped families
+let families = [];        // [ [studentIdx, ...], ... ] — grouped families
 let allExpanded = false;
 let billingDraggedIdx = null;
 
@@ -468,15 +468,15 @@ const TEAM_FLAG_KEY = 'tutorTeamFlag_v1';
 function cleanParens(name) {
   return name
     .replace(/\(.*?\)/g, '')
-    .replace(/ï¼.*?ï¼/g, '')
-    .replace(/[(\ï¼].*$/g, '')
+    .replace(/（.*?）/g, '')
+    .replace(/[(\（].*$/g, '')
     .trim();
 }
 
 function normalizeName(name) {
   return cleanParens(name)
-    .replace(/[&ï¼+ï¼]/g, ' ')
-    .replace(/[,ï¼ã]/g, ' ')
+    .replace(/[&＆+＋]/g, ' ')
+    .replace(/[,，、]/g, ' ')
     .replace(/\s+/g, ' ')
     .trim()
     .toLowerCase();
@@ -584,17 +584,17 @@ function extractDateTime(block, field) {
 document.getElementById('monthSelect').addEventListener('change', onMonthChange);
 
 function loadICS(file, type) {
-  if (!file.name.match(/\.ics$/i)) { showToast('è«ä¸å³ .ics æªæ¡'); return; }
+  if (!file.name.match(/\.ics$/i)) { showToast('請上傳 .ics 檔案'); return; }
   const reader = new FileReader();
   reader.onload = e => {
     try {
       const events = parseICS(e.target.result);
-      if (events.length === 0) { showToast('æ¾ä¸å°ä»»ä½è¡äºæäºä»¶'); return; }
+      if (events.length === 0) { showToast('找不到任何行事曆事件'); return; }
       if (type === 'Math') mathEventsRaw = events; else scienceEventsRaw = events;
       document.getElementById('upload' + type).classList.add('loaded');
-      document.getElementById('fileName' + type).textContent = file.name + ' (' + events.length + ' ç­)';
+      document.getElementById('fileName' + type).textContent = file.name + ' (' + events.length + ' 筆)';
       onDataUpdated();
-    } catch (err) { showToast('æªæ¡è§£æå¤±æï¼' + err.message); }
+    } catch (err) { showToast('檔案解析失敗：' + err.message); }
   };
   reader.readAsText(file);
 }
@@ -622,7 +622,7 @@ function setupMonthSelect() {
   const sel = document.getElementById('monthSelect');
   sel.innerHTML = sorted.map(m => {
     const [y, mo] = m.split('-');
-    return `<option value="${m}">${y}å¹´${mo}æ</option>`;
+    return `<option value="${m}">${y}年${mo}月</option>`;
   }).join('');
 }
 
@@ -664,7 +664,7 @@ function buildInfoBox() {
   currentStudents.forEach(s => {
     const allN = [...new Set([...s.mathNames, ...s.sciNames])];
     if (allN.length > 1) {
-      lines.push(`åç¨±åä½µï¼${allN.join(' + ')} â ${s.canonical}`);
+      lines.push(`名稱合併：${allN.join(' + ')} → ${s.canonical}`);
     }
   });
 
@@ -724,10 +724,10 @@ function makeStudentCard(idx) {
 
   let rateInputsHtml = '';
   if (s.isMath) {
-    rateInputsHtml += `<input type="number" id="rate-math-${idx}" value="${sMR}" placeholder="Math æèª" min="0" onchange="saveRates()">`;
+    rateInputsHtml += `<input type="number" id="rate-math-${idx}" value="${sMR}" placeholder="Math 時薪" min="0" onchange="saveRates()">`;
   }
   if (s.isSci) {
-    rateInputsHtml += `<input type="number" id="rate-sci-${idx}" value="${sSR}" placeholder="Sci æèª" min="0" onchange="saveRates()">`;
+    rateInputsHtml += `<input type="number" id="rate-sci-${idx}" value="${sSR}" placeholder="Sci 時薪" min="0" onchange="saveRates()">`;
   }
 
   return `
@@ -736,8 +736,8 @@ function makeStudentCard(idx) {
       <div class="student-card-header">
         <span class="student-card-name">${escapeHtml(s.canonical)}</span>
         <span class="source-tag ${tagClass}">${tagHtml}</span>
-        ${hasTeam ? '<span class="team-badge">ð¥</span>' : ''}
-        <span class="student-card-info">(${totalCount}å , ${formatNum(totalHrs)}hr)</span>
+        ${hasTeam ? '<span class="team-badge">👥</span>' : ''}
+        <span class="student-card-info">(${totalCount}堂, ${formatNum(totalHrs)}hr)</span>
       </div>
       <div class="student-card-controls">
         <div class="rate-inputs">
@@ -746,11 +746,11 @@ function makeStudentCard(idx) {
         <div class="card-checkboxes">
           <label>
             <input type="checkbox" data-student="${idx}" ${hasTeam ? 'checked' : ''} onchange="saveTeamFlag(${idx}, this.checked)">
-            åéä¹æ
+            團隊也有
           </label>
           <label>
-            <input type="checkbox" data-key="card-${idx}" ${isBilled ? 'checked' : ''} onchange="setCardBilledStatus(${idx}, '${s.canonical}', this.checked)">
-            å·²è«æ¬¾
+            <input type="checkbox" data-key="card-${idx}" ${isBilled? 'checked' : ''} onchange="setCardBilledStatus(${idx}, '${s.canonical}', this.checked)">
+            已請欼
           </label>
         </div>
       </div>
@@ -790,728 +790,640 @@ function setCardBilledStatus(idx, studentName, checked) {
   const billed = loadBilled();
   if (checked) billed[billedKey] = true;
   else delete billed[billedKey];
-  saveBilled(billed);
-
-  const card = document.getElementById('student-card-' + idx);
-  if (checked) card.classList.add('billed');
-  else card.classList.remove('billed');
-
-  // Sync message card below
-  syncMsgCardBilled(studentName, checked);
-}
-
-function saveTeamFlag(idx, checked) {
-  const s = currentStudents[idx];
-  if (!s) return;
-  const flags = loadTeamFlags();
-  if (checked) flags[s.canonical] = true;
-  else delete flags[s.canonical];
-  saveTeamFlags(flags);
-  renderGroupingUI();
-  renderBillingPanelsWithCards();
-}
-
-function loadBillingOwner() {
-  try { return JSON.parse(localStorage.getItem(BILLING_OWNER_KEY)) || {}; } catch { return {}; }
-}
-
-function saveBillingOwner(data) {
-  try { localStorage.setItem(BILLING_OWNER_KEY, JSON.stringify(data)); } catch {}
-  pushToFirebase(BILLING_OWNER_KEY, data);
-}
-
-function loadTeamFlags() {
-  try { return JSON.parse(localStorage.getItem(TEAM_FLAG_KEY)) || {}; } catch { return {}; }
-}
-
-function saveTeamFlags(data) {
-  try { localStorage.setItem(TEAM_FLAG_KEY, JSON.stringify(data)); } catch {}
-  pushToFirebase(TEAM_FLAG_KEY, data);
-}
-
-function loadBilled() {
-  try { return JSON.parse(localStorage.getItem(BILLED_KEY)) || {}; } catch { return {}; }
-}
-
-function saveBilled(data) {
-  try { localStorage.setItem(BILLED_KEY, JSON.stringify(data)); } catch {}
-  pushToFirebase(BILLED_KEY, data);
-}
-
-// ===== 7. Grouping UI (drag & drop) =====
-function saveFamilies() {
-  // Save as arrays of canonical names; keep empty groups as []
-  const toSave = families.map(group => group.map(idx => currentStudents[idx]?.canonical).filter(Boolean));
-  try { localStorage.setItem(GROUP_STORAGE_KEY, JSON.stringify(toSave)); } catch {}
-  pushToFirebase(GROUP_STORAGE_KEY, toSave);
-}
-
-function loadFamilies() {
-  try {
-    const saved = JSON.parse(localStorage.getItem(GROUP_STORAGE_KEY)) || [];
-    families = [];
-    saved.forEach(nameGroup => {
-      if (nameGroup.length === 0) { families.push([]); return; } // keep empty lanes
-      const idxGroup = [];
-      nameGroup.forEach(name => {
-        const idx = currentStudents.findIndex(s => s.canonical === name);
-        if (idx >= 0) idxGroup.push(idx);
-      });
-      if (idxGroup.length > 0) families.push(idxGroup);
-    });
-  } catch { families = []; }
-}
-
-function getUngrouped() {
-  const grouped = new Set(families.flat());
-  return currentStudents.map((_, i) => i).filter(i => !grouped.has(i));
-}
-
-function renderGroupingUI() {
-  if (currentStudents.length === 0) return;
-
-  const section = document.getElementById('groupingSection');
-  section.style.display = 'block';
-
-  // Render family lanes
-  const lanesDiv = document.getElementById('familyLanes');
-  lanesDiv.innerHTML = '';
-  families.forEach((group, fi) => {
-    lanesDiv.innerHTML += `
-      <div class="group-lane" id="family-${fi}"
-           ondragover="event.preventDefault(); this.classList.add('dragover')"
-           ondragleave="this.classList.remove('dragover')"
-           ondrop="dropOnFamily(event, ${fi})">
-        <div class="lane-header">
-          <span class="lane-label">å®¶åº­ ${fi + 1}</span>
-          <div class="lane-actions">
-            <button class="btn-generate-one" onclick="generateFamily(${fi})">ç¢åº</button>
-            <button class="lane-remove" onclick="removeFamilyLane(${fi})">ç§»é¤ç¾¤çµ</button>
-          </div>
-        </div>
-        <div class="lane-students">${group.map(idx => makeChip(idx)).join('')}</div>
-      </div>`;
-  });
-
-  // Render ungrouped
-  const ungrouped = getUngrouped();
-  const ungroupedDiv = document.getElementById('ungroupedStudents');
-  ungroupedDiv.innerHTML = ungrouped.map(idx =>
-    `<div style="display:inline-flex;align-items:center;gap:4px;margin:2px 0;">` +
-      makeChip(idx) +
-      `<button class="btn-generate-one" onclick="generateSingle(${idx})" style="padding:3px 8px;font-size:0.75em;">ç¢åº</button>` +
-    `</div>`
-  ).join('');
-
-  // Set up ungrouped lane drop
-  const lane = document.getElementById('ungroupedLane');
-  lane.ondragover = e => { e.preventDefault(); lane.classList.add('dragover'); };
-  lane.ondragleave = () => lane.classList.remove('dragover');
-  lane.ondrop = e => dropOnUngrouped(e);
-}
-
-function makeChip(idx) {
-  const s = currentStudents[idx];
-  if (!s) return '';
-  const tagClass = s.isBoth ? 'tag-both' : (s.isMath ? 'tag-math' : 'tag-science');
-  const teamFlags = loadTeamFlags();
-  const hasTeam = teamFlags[s.canonical] || false;
-  return `<span class="student-chip" draggable="true"
-    ondragstart="dragStart(event, ${idx})" ondragend="dragEnd(event)"
-    style="border-color:${s.isBoth ? '#c39bd3' : s.isMath ? '#82e0aa' : '#85c1e9'}">
-    ${escapeHtml(s.canonical)}
-    ${hasTeam ? '<span class="team-badge">ð¥</span>' : ''}
-    <span class="source-tag ${tagClass}" style="font-size:0.7em;margin-left:2px;">${s.isBoth ? 'M+S' : s.isMath ? 'M' : 'S'}</span>
-  </span>`;
-}
-
-let draggedIdx = null;
-
-function dragStart(e, idx) {
-  draggedIdx = idx;
-  e.target.closest('.student-chip').classList.add('dragging');
-  e.dataTransfer.effectAllowed = 'move';
-  e.dataTransfer.setData('text/plain', idx);
-}
-
-function dragEnd(e) {
-  e.target.closest('.student-chip').classList.remove('dragging');
-  document.querySelectorAll('.group-lane').forEach(l => l.classList.remove('dragover'));
-}
-
-function dropOnFamily(e, familyIdx) {
-  e.preventDefault();
-  e.currentTarget.classList.remove('dragover');
-  if (draggedIdx === null) return;
-
-  // Remove from any existing family
-  families.forEach(group => {
-    const pos = group.indexOf(draggedIdx);
-    if (pos >= 0) group.splice(pos, 1);
-  });
-  // Remove empty families
-  families = families.filter(g => g.length > 0);
-
-  // Recalculate familyIdx since families might have shifted
-  // Add to target family (find by checking if familyIdx is still valid)
-  if (familyIdx < families.length) {
-    if (!families[familyIdx].includes(draggedIdx)) families[familyIdx].push(draggedIdx);
-  } else {
-    families.push([draggedIdx]);
-  }
-
-  saveFamilies();
-  renderGroupingUI();
-  draggedIdx = null;
-}
-
-function dropOnUngrouped(e) {
-  e.preventDefault();
-  document.getElementById('ungroupedLane').classList.remove('dragover');
-  if (draggedIdx === null) return;
-  // Remove from any family
-  families.forEach(group => {
-    const pos = group.indexOf(draggedIdx);
-    if (pos >= 0) group.splice(pos, 1);
-  });
-  families = families.filter(g => g.length > 0);
-  saveFamilies();
-  renderGroupingUI();
-  draggedIdx = null;
-}
-
-function addFamilyLane() {
-  families.push([]);
-  saveFamilies();
-  renderGroupingUI();
-}
-
-function removeFamilyLane(fi) {
-  families.splice(fi, 1);
-  saveFamilies();
-  renderGroupingUI();
-}
-
-// ===== 8. Rate persistence =====
-function loadRates() {
-  try { return JSON.parse(localStorage.getItem(RATE_STORAGE_KEY)) || {}; } catch { return {}; }
-}
-
-function saveRates() {
-  const rates = {};
-  currentStudents.forEach((s, idx) => {
-    const mi = document.getElementById('rate-math-' + idx);
-    const si = document.getElementById('rate-sci-' + idx);
-    if (mi && mi.value) rates[s.canonical + '_math'] = mi.value;
-    if (si && si.value) rates[s.canonical + '_sci'] = si.value;
-  });
-  try { localStorage.setItem(RATE_STORAGE_KEY, JSON.stringify(rates)); } catch {}
-  pushToFirebase(RATE_STORAGE_KEY, rates);
-}
-
-// ===== 9. Message generation =====
-function getStudentData(idx) {
-  const [y, m] = getYM();
-  const s = currentStudents[idx];
-  if (!s) return null;
-
-  const mEv = getFiltered(mathEvents, y, m).filter(e => [...s.mathNames].includes(e.name)).sort((a, b) => a.date - b.date);
-  const sEv = getFiltered(scienceEvents, y, m).filter(e => [...s.sciNames].includes(e.name)).sort((a, b) => a.date - b.date);
-
-  const mi = document.getElementById('rate-math-' + idx);
-  const si = document.getElementById('rate-sci-' + idx);
-  const mathRate = mi && !mi.disabled ? parseFloat(mi.value) : 0;
-  const sciRate = si && !si.disabled ? parseFloat(si.value) : 0;
-
-  return { s, mEv, sEv, mathRate, sciRate, idx };
-}
-
-function validateRates(studentIndices) {
-  for (const idx of studentIndices) {
-    const d = getStudentData(idx);
-    if (!d) continue;
-    if (d.s.isMath && !d.mathRate) { showToast(`è«å¡«å¯« ${d.s.canonical} ç Math æèª`); return false; }
-    if (d.s.isSci && !d.sciRate) { showToast(`è«å¡«å¯« ${d.s.canonical} ç Science æèª`); return false; }
-  }
-  return true;
-}
-
-function buildSingleMessage(idx) {
-  const [y, m] = getYM();
-  const title = document.getElementById('titleSelect').value;
-  const greeting = document.getElementById('greetingSelect').value;
-  const d = getStudentData(idx);
-  if (!d) return null;
-
-  let msg = `${title}${greeting}ï¼åæ¨ç¢ºèª${m}æçä¸èª²ææ¸ï¼\n`;
-
-  if (d.s.isBoth) {
-    const mH = d.mEv.reduce((a, e) => a + e.hours, 0);
-    const sH = d.sEv.reduce((a, e) => a + e.hours, 0);
-    const mF = mH * d.mathRate, sF = sH * d.sciRate;
-    msg += '\n[Math]\n';
-    d.mEv.forEach(e => { msg += `${e.month}/${e.day}ï¼${formatNum(e.hours)}hr\n`; });
-    msg += `å°è¨ï¼${formatNum(mH)}hr x ${d.mathRate} = ${Math.round(mF)}å\n`;
-    msg += '\n[Science]\n';
-    d.sEv.forEach(e => { msg += `${e.month}/${e.day}ï¼${formatNum(e.hours)}hr\n`; });
-    msg += `å°è¨ï¼${formatNum(sH)}hr x ${d.sciRate} = ${Math.round(sF)}å\n`;
-    msg += `\nåè¨ï¼${Math.round(mF + sF)}åï¼è¬è¬${title}`;
-    return { name: d.s.canonical, msg, totalFee: Math.round(mF + sF), totalHours: mH + sH, count: d.mEv.length + d.sEv.length, isBoth: true };
-  } else {
-    const ev = d.s.isMath ? d.mEv : d.sEv;
-    const rate = d.s.isMath ? d.mathRate : d.sciRate;
-    ev.forEach(e => { msg += `${e.month}/${e.day}ï¼${formatNum(e.hours)}hr\n`; });
-    const tH = ev.reduce((a, e) => a + e.hours, 0);
-    const tF = tH * rate;
-    msg += `\nå±${formatNum(tH)}hr x ${rate} = ${Math.round(tF)}åï¼è¬è¬${title}`;
-    return { name: d.s.canonical, msg, totalFee: Math.round(tF), totalHours: tH, count: ev.length, isBoth: false };
-  }
-}
-
-function buildFamilyMessage(studentIndices) {
-  const [y, m] = getYM();
-  const title = document.getElementById('titleSelect').value;
-  const greeting = document.getElementById('greetingSelect').value;
-
-  let msg = `${title}${greeting}ï¼åæ¨ç¢ºèª${m}æçä¸èª²ææ¸ï¼\n`;
-  let grandTotal = 0;
-  let totalCount = 0;
-  let totalHrs = 0;
-  const names = [];
-
-  studentIndices.forEach(idx => {
-    const d = getStudentData(idx);
-    if (!d) return;
-    names.push(d.s.canonical);
-
-    msg += `\nã${d.s.canonical}ã\n`;
-
-    if (d.s.isBoth) {
-      const mH = d.mEv.reduce((a, e) => a + e.hours, 0);
-      const sH = d.sEv.reduce((a, e) => a + e.hours, 0);
-      const mF = mH * d.mathRate, sF = sH * d.sciRate;
-      msg += '[Math]\n';
-      d.mEv.forEach(e => { msg += `${e.month}/${e.day}ï¼${formatNum(e.hours)}hr\n`; });
-      msg += `å°è¨ï¼${formatNum(mH)}hr x ${d.mathRate} = ${Math.round(mF)}å\n`;
-      msg += '\n[Science]\n';
-      d.sEv.forEach(e => { msg += `${e.month}/${e.day}ï¼${formatNum(e.hours)}hr\n`; });
-      msg += `å°è¨ï¼${formatNum(sH)}hr x ${d.sciRate} = ${Math.round(sF)}å\n`;
-      grandTotal += mF + sF;
-      totalHrs += mH + sH;
-      totalCount += d.mEv.length + d.sEv.length;
-    } else if (d.s.isMath) {
-      d.mEv.forEach(e => { msg += `${e.month}/${e.day}ï¼${formatNum(e.hours)}hr\n`; });
-      const tH = d.mEv.reduce((a, e) => a + e.hours, 0);
-      msg += `å°è¨ï¼${formatNum(tH)}hr x ${d.mathRate} = ${Math.round(tH * d.mathRate)}å\n`;
-      grandTotal += tH * d.mathRate;
-      totalHrs += tH;
-      totalCount += d.mEv.length;
-    } else {
-      d.sEv.forEach(e => { msg += `${e.month}/${e.day}ï¼${formatNum(e.hours)}hr\n`; });
-      const tH = d.sEv.reduce((a, e) => a + e.hours, 0);
-      msg += `å°è¨ï¼${formatNum(tH)}hr x ${d.sciRate} = ${Math.round(tH * d.sciRate)}å\n`;
-      grandTotal += tH * d.sciRate;
-      totalHrs += tH;
-      totalCount += d.sEv.length;
-    }
-  });
-
-  msg += `\nåè¨ï¼${Math.round(grandTotal)}åï¼è¬è¬${title}`;
-
-  return { name: names.join(' + '), msg, totalFee: Math.round(grandTotal), totalHours: totalHrs, count: totalCount, isBoth: true, isFamily: true };
-}
-
-// ===== 10. Generate & display =====
-function generateSingle(idx) {
-  saveRates();
-  if (!validateRates([idx])) return;
-  const result = buildSingleMessage(idx);
-  if (!result) return;
-  showResult('s-' + idx, result);
-  showToast(`å·²ç¢åº ${result.name} çè«æ¬¾è¨æ¯`);
-}
-
-function generateFamily(fi) {
-  saveRates();
-  const group = families[fi];
-  if (!group || group.length === 0) { showToast('æ­¤ç¾¤çµæ²æå­¸ç'); return; }
-  if (!validateRates(group)) return;
-
-  let result;
-  if (group.length === 1) {
-    result = buildSingleMessage(group[0]);
-  } else {
-    result = buildFamilyMessage(group);
-  }
-  if (!result) return;
-  showResult('f-' + fi, result);
-  showToast(`å·²ç¢åº ${result.name} çè«æ¬¾è¨æ¯`);
-}
-
-function generateAll() {
-  saveRates();
-
-  // Collect all items: families + ungrouped individuals
-  const items = [];
-  families.forEach((group, fi) => {
-    if (group.length === 0) return;
-    items.push({ type: 'family', fi, indices: group });
-  });
-  getUngrouped().forEach(idx => {
-    items.push({ type: 'single', idx, indices: [idx] });
-  });
-
-  // Validate all rates
-  const allIndices = items.flatMap(i => i.indices);
-  if (!validateRates(allIndices)) return;
-
-  // Generate
-  let count = 0;
-  window._generatedMessages = {};
-  items.forEach(item => {
-    let result;
-    if (item.type === 'family') {
-      const key = 'f-' + item.fi;
-      result = item.indices.length === 1 ? buildSingleMessage(item.indices[0]) : buildFamilyMessage(item.indices);
-      if (result) { window._generatedMessages[key] = result; count++; }
-    } else {
-      const key = 's-' + item.idx;
-      result = buildSingleMessage(item.idx);
-      if (result) { window._generatedMessages[key] = result; count++; }
-    }
-  });
-
-  if (count > 0) {
-    renderAllMessages();
-    showToast(`å·²ç¢åº ${count} åè«æ¬¾è¨æ¯`);
-  }
-}
-
-function showResult(key, result) {
-  if (!window._generatedMessages) window._generatedMessages = {};
-  window._generatedMessages[key] = result;
-
-  const existing = document.getElementById('result-card-' + key);
-  const card = existing || document.createElement('div');
-  card.id = 'result-card-' + key;
-  card.className = 'msg-card';
-  card.innerHTML = makeCardHTML(key, result);
-
-  if (!existing) document.getElementById('msgList').appendChild(card);
-  document.getElementById('results').style.display = 'block';
-  document.getElementById('studentCount').textContent = `å·²ç¢åº ${Object.keys(window._generatedMessages).length} å`;
-  card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-}
-
-function renderAllMessages() {
-  if (!window._generatedMessages) return;
-  const entries = Object.entries(window._generatedMessages);
-  const msgList = document.getElementById('msgList');
-  msgList.innerHTML = entries.map(([key, m]) => `<div class="msg-card" id="result-card-${key}">${makeCardHTML(key, m)}</div>`).join('');
-  document.getElementById('results').style.display = 'block';
-  document.getElementById('studentCount').textContent = `å·²ç¢åº ${entries.length} å`;
-  document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
-}
-
-function makeCardHTML(key, m) {
-  const tag = m.isFamily ? '<span class="source-tag tag-both" style="font-size:0.7em;margin-left:6px;">å®¶åº­</span>' :
-              m.isBoth ? '<span class="source-tag tag-both" style="font-size:0.7em;margin-left:6px;">Math+Sci</span>' : '';
-  const teamFlags = loadTeamFlags();
-  const hasTeam = teamFlags[m.name] || false;
-  const teamBadge = hasTeam ? '<span style="margin-left:6px;font-size:0.75em;font-weight:600;color:#9b59b6;">ð¥ åé</span>' : '';
-  const billed = loadBilled();
-  const [y, mo] = getYM();
-  const billedKey = `${y}-${mo}_${m.name}`;
-  const isBilled = billed[billedKey] || false;
-  const cardClass = isBilled ? 'msg-card billed' : 'msg-card';
-
-  return `
-    <div class="msg-header" onclick="this.nextElementSibling.classList.toggle('open')">
-      <div class="msg-header-left">
-        <span class="name">${escapeHtml(m.name)} ${tag}${teamBadge}</span>
-      </div>
-      <div class="msg-header-right" onclick="event.stopPropagation()">
-        <span class="summary">${m.count}å  | ${formatNum(m.totalHours)}hr | $${m.totalFee.toLocaleString()}</span>
-        <label style="display:flex;align-items:center;gap:6px;margin-left:10px;">
-          <input type="checkbox" class="billed-checkbox" data-key="${key}" ${isBilled ? 'checked' : ''} onchange="setBilledStatus('${key}', '${m.name}', this.checked)">
-          <span style="font-size:0.8em;white-space:nowrap;">å·²è«æ¬¾</span>
-        </label>
-      </div>
-    </div>
-    <div class="msg-body open">
-      <div class="msg-text">${escapeHtml(m.msg)}</div>
-      <div style="display:flex;gap:8px;margin-top:10px;align-items:center;">
-        <button class="copy-btn" style="margin-top:0" onclick="copySingle(this, '${key}')">è¤è£½æ­¤è¨æ¯</button>
-        <button class="copy-btn" style="margin-top:0;background:#e74c3c;" onclick="deleteCard('${key}')" onmouseover="this.style.background='#c0392b'" onmouseout="this.style.background='#e74c3c'">åªé¤</button>
-      </div>
-    </div>`;
-}
-
-function setBilledStatus(key, studentName, checked) {
-  const [y, m] = getYM();
-  const billed = loadBilled();
-
-  // Get the message to check if it's a family group
-  const msg = window._generatedMessages && window._generatedMessages[key];
-  const isFamily = msg && msg.isFamily;
-
-  // Save billed for the combined family name
-  const billedKey = `${y}-${m}_${studentName}`;
-  if (checked) billed[billedKey] = true;
-  else delete billed[billedKey];
-
-  // If family, also save billed for each individual student
-  const individualNames = studentName.includes(' + ') ? studentName.split(' + ').map(n => n.trim()) : [studentName];
-  individualNames.forEach(name => {
-    const ik = `${y}-${m}_${name}`;
-    if (checked) billed[ik] = true;
-    else delete billed[ik];
-  });
-
-  saveBilled(billed);
-
-  const card = document.getElementById('result-card-' + key);
-  if (checked) card.classList.add('billed');
-  else card.classList.remove('billed');
-
-  // Sync each student card above (handles family groups too)
-  individualNames.forEach(name => syncStudentCardBilled(name, checked));
-}
-
-function syncMsgCardBilled(studentName, checked) {
-  if (!window._generatedMessages) return;
-  for (const [key, m] of Object.entries(window._generatedMessages)) {
-    // Match if message name equals the student, OR if message is a family containing this student
-    const msgNames = m.name.includes(' + ') ? m.name.split(' + ').map(n => n.trim()) : [m.name];
-    if (m.name === studentName || msgNames.includes(studentName)) {
-      // For family messages: only sync if ALL members are now billed (or unchecking)
-      if (m.isFamily && checked) {
-        const [y, mo] = getYM();
-        const billed = loadBilled();
-        const allBilled = msgNames.every(n => billed[`${y}-${mo}_${n}`]);
-        if (!allBilled) continue;
-      }
-      const card = document.getElementById('result-card-' + key);
-      if (!card) continue;
-      if (checked) card.classList.add('billed');
-      else card.classList.remove('billed');
-      const cb = card.querySelector('.billed-checkbox');
-      if (cb) cb.checked = checked;
-      // Also update localStorage for family key
-      if (m.isFamily && checked) {
-        const [y2, m2] = getYM();
-        const billed2 = loadBilled();
-        billed2[`${y2}-${m2}_${m.name}`] = true;
-        saveBilled(billed2);
-      }
-    }
-  }
-}
-
-function syncStudentCardBilled(studentName, checked) {
-  const idx = currentStudents.findIndex(s => s.canonical === studentName);
-  if (idx < 0) return;
-  const card = document.getElementById('student-card-' + idx);
-  if (!card) return;
-  if (checked) card.classList.add('billed');
-  else card.classList.remove('billed');
-  const cb = card.querySelector('input[data-key="card-' + idx + '"]');
-  if (cb) cb.checked = checked;
-  // Also save individual billed status
-  const [y, m] = getYM();
-  const billed = loadBilled();
-  if (checked) billed[`${y}-${m}_${studentName}`] = true;
-  else delete billed[`${y}-${m}_${studentName}`];
-  saveBilled(billed);
-}
-
-function deleteCard(key) {
-  const card = document.getElementById('result-card-' + key);
-  if (card) card.remove();
-  if (window._generatedMessages) delete window._generatedMessages[key];
-  const remaining = window._generatedMessages ? Object.keys(window._generatedMessages).length : 0;
-  document.getElementById('studentCount').textContent = `å·²ç¢åº ${remaining} å`;
-  if (remaining === 0) document.getElementById('results').style.display = 'none';
-}
-
-// ===== 11. Utilities =====
-function copySingle(btn, key) {
-  const msg = window._generatedMessages && window._generatedMessages[key];
-  if (!msg) return;
-  navigator.clipboard.writeText(msg.msg).then(() => {
-    btn.textContent = 'å·²è¤è£½ï¼'; btn.classList.add('copied');
-    setTimeout(() => { btn.textContent = 'è¤è£½æ­¤è¨æ¯'; btn.classList.remove('copied'); }, 1500);
-  });
-}
-
-function toggleAll() {
-  allExpanded = !allExpanded;
-  document.querySelectorAll('.msg-body').forEach(b => {
-    allExpanded ? b.classList.add('open') : b.classList.remove('open');
-  });
-  document.getElementById('expandToggle').textContent = allExpanded ? 'å¨é¨æ¶èµ·' : 'å¨é¨å±é';
-}
-
-function copyAll() {
-  if (!window._generatedMessages) return;
-  const msgs = Object.values(window._generatedMessages);
-  const all = msgs.map(m => 'ã' + m.name + 'ã\n' + m.msg).join('\n\nâââââââââââââ\n\n');
-  navigator.clipboard.writeText(all).then(() => showToast('å·²è¤è£½å¨é¨ ' + msgs.length + ' åè¨æ¯'));
-}
-
-// ===== 12. Rate sharing via URL =====
-function shareRates() {
-  saveRates();
-  const rates = loadRates();
-  if (Object.keys(rates).length === 0) { showToast('å°æªè¨­å®ä»»ä½æèª'); return; }
-  const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(rates))));
-  const url = location.origin + location.pathname + '#rates=' + encoded;
-  navigator.clipboard.writeText(url).then(() => {
-    showToast('å·²è¤è£½åäº«ç¶²åï¼å³çµ¦å°æ¹å³å¯åæ­¥æèªè¨­å®');
-  });
-}
-
-function shareGroups() {
-  saveFamilies();
-  const saved = JSON.parse(localStorage.getItem(GROUP_STORAGE_KEY)) || [];
-  if (saved.length === 0) { showToast('å°æªè¨­å®ä»»ä½ç¾¤çµ'); return; }
-  const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(saved))));
-  const url = location.origin + location.pathname + '#groups=' + encoded;
-  navigator.clipboard.writeText(url).then(() => {
-    showToast('å·²è¤è£½ç¾¤çµåäº«ç¶²åï¼å³çµ¦å°æ¹å³å¯åæ­¥ç¾¤çµè¨­å®');
-  });
-}
-
-function shareAll() {
-  saveRates();
-  saveFamilies();
-  const rates = loadRates();
-  const groups = JSON.parse(localStorage.getItem(GROUP_STORAGE_KEY)) || [];
-  const teamFlags = loadTeamFlags();
-  const billingOwner = loadBillingOwner();
-
-  const allData = {
-    rates,
-    groups,
-    teamFlags,
-    billingOwner
-  };
-
-  const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(allData))));
-  const url = location.origin + location.pathname + '#all=' + encoded;
-  navigator.clipboard.writeText(url).then(() => {
-    showToast('å·²è¤è£½å®æ´åäº«ç¶²åï¼åå«æèªãç¾¤çµãåéãè«æ¬¾è²¬ä»»è¨­å®');
-  });
-}
-
-function importRatesFromURL() {
-  const hash = location.hash;
-  if (!hash.startsWith('#rates=')) return;
-  try {
-    const encoded = hash.slice(7);
-    const json = decodeURIComponent(escape(atob(encoded)));
-    const rates = JSON.parse(json);
-    // Merge with existing rates (imported rates overwrite conflicts)
-    const existing = loadRates();
-    const merged = { ...existing, ...rates };
-    localStorage.setItem(RATE_STORAGE_KEY, JSON.stringify(merged));
-    pushToFirebase(RATE_STORAGE_KEY, merged);
-    // Clean up URL hash
-    history.replaceState(null, '', location.pathname);
-    showToast('å·²å¯å¥æèªè¨­å®ï¼å± ' + Object.keys(rates).length + ' ç­');
-  } catch (e) {
-    console.error('Rate import failed:', e);
-  }
-}
-
-function importGroupsFromURL() {
-  const hash = location.hash;
-  if (!hash.startsWith('#groups=')) return;
-  try {
-    const encoded = hash.slice(8);
-    const json = decodeURIComponent(escape(atob(encoded)));
-    const groups = JSON.parse(json);
-    // Merge with existing groups
-    const existing = JSON.parse(localStorage.getItem(GROUP_STORAGE_KEY)) || [];
-    const merged = [...existing];
-    groups.forEach(g => {
-      if (!merged.find(m => JSON.stringify(m) === JSON.stringify(g))) {
-        merged.push(g);
-      }
-    });
-    localStorage.setItem(GROUP_STORAGE_KEY, JSON.stringify(merged));
-    pushToFirebase(GROUP_STORAGE_KEY, merged);
-    // Clean up URL hash
-    history.replaceState(null, '', location.pathname);
-    showToast('å·²å¯å¥ç¾¤çµè¨­å®ï¼å± ' + groups.length + ' å');
-  } catch (e) {
-    console.error('Groups import failed:', e);
-  }
-}
-
-function importAllFromURL() {
-  const hash = location.hash;
-  if (!hash.startsWith('#all=')) return;
-  try {
-    const encoded = hash.slice(5);
-    const json = decodeURIComponent(escape(atob(encoded)));
-    const allData = JSON.parse(json);
-
-    // Import rates
-    if (allData.rates) {
-      const existing = loadRates();
-      const merged = { ...existing, ...allData.rates };
-      localStorage.setItem(RATE_STORAGE_KEY, JSON.stringify(merged));
-      pushToFirebase(RATE_STORAGE_KEY, merged);
-    }
-
-    // Import groups
-    if (allData.groups) {
-      const existing = JSON.parse(localStorage.getItem(GROUP_STORAGE_KEY)) || [];
-      const merged = [...existing];
-      allData.groups.forEach(g => {
-        if (!merged.find(m => JSON.stringify(m) === JSON.stringify(g))) {
-          merged.push(g);
-        }
-      });
-      localStorage.setItem(GROUP_STORAGE_KEY, JSON.stringify(merged));
-      pushToFirebase(GROUP_STORAGE_KEY, merged);
-    }
-
-    // Import team flags
-    if (allData.teamFlags) {
-      const existing = loadTeamFlags();
-      const merged = { ...existing, ...allData.teamFlags };
-      saveTeamFlags(merged);
-    }
-
-    // Import billing owner
-    if (allData.billingOwner) {
-      const existing = loadBillingOwner();
-      const merged = { ...existing, ...allData.billingOwner };
-      saveBillingOwner(merged);
-    }
-
-    // Clean up URL hash
-    history.replaceState(null, '', location.pathname);
-    showToast('å·²å¯å¥ææè¨­å®ï¼ï¼æèªãç¾¤çµãåéãè«æ¬¾è²¬ä»»ï¼');
-  } catch (e) {
-    console.error('All import failed:', e);
-  }
-}
-
-// Run on page load
-importRatesFromURL();
-importGroupsFromURL();
-importAllFromURL();
-
-function formatNum(n) { return Number.isInteger(n) ? String(n) : String(parseFloat(n.toFixed(2))); }
-function escapeHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2000);
-}
-</script>
-</body>
-</html>
+  saveBilled(billY
+N��ۜ��\�H��[Y[���][[Y[��RY
+	��Y[�X�\�I�
+�Y
+NY�
+�X��Y
+H�\���\��\��Y
+	ؚ[Y	�N[�H�\���\��\���[[ݙJ	ؚ[Y	�N����[��Y\��Y�H�\��[��[��\���\��[Y
+�Y[��[YK�X��Y
+NB���[��[ۈ�]�UX[Q�Y�Y�X��Y
+H�ۜ��H�\��[��Y[���YNY�
+\�H�]\���ۜ��Y��H�YX[Q�Y��
+NY�
+�X��Y
+H�Y���˘�[�ۚX�[HH�YN[�H[]H�Y���˘�[�ۚX�[N�]�UX[Q�Y���Y��N�[�\�ܛ�\[��RJ
+N�[�\��[[��[�[��]�\��
+NB���[��[ۈ�Y�[[���ۙ\�
+H�H��]\����Ӌ�\��J��[�ܘY�K��]][J�SS����ӑT���VJJH�N�H�]���]\���N�B�B���[��[ۈ�]�P�[[���ۙ\�]JH�H���[�ܘY�K��]][J�SS����ӑT���VK��Ӌ���[��Y�J]JJN�H�]��B�\�њ\�X�\�J�SS����ӑT���VK]JNB���[��[ۈ�YX[Q�Y��
+H�H��]\����Ӌ�\��J��[�ܘY�K��]][JPSWѓQ���VJJH�N�H�]���]\���N�B�B���[��[ۈ�]�UX[Q�Y��]JH�H���[�ܘY�K��]][JPSWѓQ���VK��Ӌ���[��Y�J]JJN�H�]��B�\�њ\�X�\�JPSWѓQ���VK]JNB���[��[ۈ�Y�[Y
+
+H�H��]\����Ӌ�\��J��[�ܘY�K��]][J�SQ��VJJH�N�H�]���]\���N�B�B���[��[ۈ�]�P�[Y
+]JH�H���[�ܘY�K��]][J�SQ��VK��Ӌ���[��Y�J]JJN�H�]��B�\�њ\�X�\�J�SQ��VK]JNB����OOOOH
+ˈܛ�\[��RH
+�Y�	���
+HOOOOB��[��[ۈ�]�Q�[Z[Y\�
+H���]�H\�\��^\�و�[�ۚX�[�[Y\���Y\[\Hܛ�\�\��B��ۜ���]�HH�[Z[Y\˛X\
+ܛ�\O�ܛ�\�X\
+YO��\��[��Y[���YO˘�[�ۚX�[
+K��[\����X[�JN�H���[�ܘY�K��]][Jԓ�T��ԐQ�W��VK��Ӌ���[��Y�J��]�JJN�H�]��B�\�њ\�X�\�Jԓ�T��ԐQ�W��VK��]�JNB���[��[ۈ�Y�[Z[Y\�
+H�H�ۜ��]�YH��Ӌ�\��J��[�ܘY�K��]][Jԓ�T��ԐQ�W��VJJH�N�[Z[Y\�H�N�]�Y��ܑXX�
+�[YQܛ�\O�Y�
+�[YQܛ�\�[��OOH
+H��[Z[Y\˜\�
+�JN��]\���H���Y\[\H[�\�ۜ�Yܛ�\H�N�[YQܛ�\��ܑXX�
+�[YHO��ۜ�YH�\��[��Y[�˙�[�[�^
+�O�˘�[�ۚX�[OOH�[YJNY�
+Y�H
+HYܛ�\�\�
+Y
+NJNY�
+Yܛ�\�[���
+H�[Z[Y\˜\�
+Yܛ�\
+NJNH�]���[Z[Y\�H�N�B�B���[��[ۈ�][�ܛ�\Y
+
+H�ۜ�ܛ�\YH�]��]
+�[Z[Y\˙�]
+
+JN�]\���\��[��Y[�˛X\
+
+�JHO�JK��[\�HO�Yܛ�\Y�\�JJNB���[��[ۈ�[�\�ܛ�\[��RJ
+HY�
+�\��[��Y[�˛[��OOH
+H�]\����ۜ��X�[ۈH��[Y[���][[Y[��RY
+	�ܛ�\[���X�[ۉ�N�X�[ۋ��[K�\�^HH	؛��������[�\��[Z[H[�\�ۜ�[�\�]�H��[Y[���][[Y[��RY
+	٘[Z[S[�\��N[�\�]��[��\�SH	���[Z[Y\˙�ܑXX�
+
+ܛ�\�JHO�[�\�]��[��\�S
+�H�]��\��H�ܛ�\[[�H�YH��[Z[KIٚ_H��ۙ�Y�ݙ\�H�]�[���]�[�Y�][
+
+N�\˘�\��\��Y
+	��Y�ݙ\��H��ۙ�Y�X]�OH�\˘�\��\���[[ݙJ	��Y�ݙ\��H��ۙ��H���ۑ�[Z[J]�[�	ٚ_JH���]��\��H�[�KZXY\�����[��\��H�[�K[X�[��k��n�H	ٚH
+�_O��[���]��\��H�[�KXX�[ۜȏ���]ۈ�\��H���Y�[�\�]K[ۙH�ۘ�X��H��[�\�]Q�[Z[J	ٚ_JH���(�a�؝]ۏ���]ۈ�\��H�[�K\�[[ݙH�ۘ�X��H��[[ݙQ�[Z[S[�J	ٚ_JH�����fi9�9�a؝]ۏ���]����]���]��\��H�[�K\�Y[�ȏ��ܛ�\�X\
+YO�XZ�P�\
+Y
+JK���[�	��_O�]����]��JN����[�\�[�ܛ�\Y��ۜ�[�ܛ�\YH�][�ܛ�\Y
+
+N�ۜ�[�ܛ�\Y]�H��[Y[���][[Y[��RY
+	�[�ܛ�\Y�Y[���N[�ܛ�\Y]��[��\�SH[�ܛ�\Y�X\
+YO��]��[OH�\�^N�[�[�KY�^�[YۋZ][\Θ�[�\���\��X\��[���ȏ�
+XZ�P�\
+Y
+H
+�]ۈ�\��H���Y�[�\�]K[ۙH�ۘ�X��H��[�\�]T�[��J	�YJH��[OH�Y[�Ό�ٛ۝\�^�N���Y[Nȏ��(�a�؝]ۏ�
+�]���
+K���[�	��N����]\[�ܛ�\Y[�H����ۜ�[�HH��[Y[���][[Y[��RY
+	�[�ܛ�\Y[�I�N[�K�ۙ�Y�ݙ\�HHO��K��]�[�Y�][
+
+N�[�K��\��\��Y
+	��Y�ݙ\��N�N[�K�ۙ�Y�X]�HH
+
+HO�[�K��\��\���[[ݙJ	��Y�ݙ\��N[�K�ۙ��HHO���ە[�ܛ�\Y
+JNB���[��[ۈXZ�P�\
+Y
+H�ۜ��H�\��[��Y[���YNY�
+\�H�]\��	���ۜ�Y��\��H˚\Л��	�Y�X��	��
+˚\�X]�	�Y�[X]	��	�Y�\��Y[��I�N�ۜ�X[Q�Y��H�YX[Q�Y��
+N�ۜ�\�X[HHX[Q�Y���˘�[�ۚX�[H�[�N�]\���[��\��H��Y[�X�\��Y��X�OH��YH��ۙ�Y��\�H��Y��\�
+]�[�	�YJH�ۙ�Y�[�H��Y�[�
+]�[�
+H���[OH��ܙ\�X��܎��˚\Л��	����X����˚\�X]�	���LXI��	��
+X�YNI�H���	�\��\R[
+˘�[�ۚX�[
+_B�	�\�X[H�	��[��\��H�X[KX�Y�H��'�iO��[����	��B��[��\��H���\��K]Y�	�Y��\��H��[OH��۝\�^�N���[N�X\��[�[Y���ȏ��˚\Л��	�J����˚\�X]�	�I��	���O��[�����[��B��]�Y��YYH�[��[��[ۈ�Y��\�
+KY
+H�Y��YYHYK�\��]����\�
+	˜�Y[�X�\	�K��\��\��Y
+	��Y��[���NK�]U�[�ٙ\��Y��X�[��YH	�[ݙI�K�]U�[�ٙ\���]]J	�^�Z[��Y
+NB���[��[ۈ�Y�[�
+JHK�\��]����\�
+	˜�Y[�X�\	�K��\��\���[[ݙJ	��Y��[���N��[Y[��]Y\�T�[X�ܐ[
+	˙ܛ�\[[�I�K��ܑXX�
+O���\��\���[[ݙJ	��Y�ݙ\��JNB���[��[ۈ��ۑ�[Z[JK�[Z[RY
+HK��]�[�Y�][
+
+NK��\��[�\��]��\��\���[[ݙJ	��Y�ݙ\��NY�
+�Y��YYOOH�[
+H�]\������[[ݙH���H[�H^\�[���[Z[B��[Z[Y\˙�ܑXX�
+ܛ�\O��ۜ���Hܛ�\�[�^ي�Y��YY
+NY�
+���H
+Hܛ�\��X�J��JNJN���[[ݙH[\H�[Z[Y\�[Z[Y\�H�[Z[Y\˙�[\��O�˛[���
+N����X�[�[]H�[Z[RY�[��H�[Z[Y\�ZY�]�H�Y�Y���Y�\��]�[Z[H
+�[��H�X��[��Y��[Z[RY\��[�[Y
+B�Y�
+�[Z[RY�[Z[Y\˛[��
+HY�
+Y�[Z[Y\�٘[Z[RYK�[��Y\��Y��YY
+JH�[Z[Y\�٘[Z[RYK�\�
+�Y��YY
+NH[�H�[Z[Y\˜\�
+��Y��YYJNB���]�Q�[Z[Y\�
+N�[�\�ܛ�\[��RJ
+N�Y��YYH�[B���[��[ۈ��ە[�ܛ�\Y
+JHK��]�[�Y�][
+
+N��[Y[���][[Y[��RY
+	�[�ܛ�\Y[�I�K��\��\���[[ݙJ	��Y�ݙ\��NY�
+�Y��YYOOH�[
+H�]\�����[[ݙH���H[�H�[Z[B��[Z[Y\˙�ܑXX�
+ܛ�\O��ۜ���Hܛ�\�[�^ي�Y��YY
+NY�
+���H
+Hܛ�\��X�J��JNJN�[Z[Y\�H�[Z[Y\˙�[\��O�˛[���
+N�]�Q�[Z[Y\�
+N�[�\�ܛ�\[��RJ
+N�Y��YYH�[B���[��[ۈY�[Z[S[�J
+H�[Z[Y\˜\�
+�JN�]�Q�[Z[Y\�
+N�[�\�ܛ�\[��RJ
+NB���[��[ۈ�[[ݙQ�[Z[S[�J�JH�[Z[Y\˜�X�J�KJN�]�Q�[Z[Y\�
+N�[�\�ܛ�\[��RJ
+NB����OOOOH��]H\��\�[��HOOOOB��[��[ۈ�Y�]\�
+H�H��]\����Ӌ�\��J��[�ܘY�K��]][J�UW��ԐQ�W��VJJH�N�H�]���]\���N�B�B���[��[ۈ�]�T�]\�
+H�ۜ��]\�H�N�\��[��Y[�˙�ܑXX�
+
+�Y
+HO��ۜ�ZHH��[Y[���][[Y[��RY
+	ܘ]K[X]I�
+�Y
+N�ۜ��HH��[Y[���][[Y[��RY
+	ܘ]K\��KI�
+�Y
+NY�
+ZH	��ZK��[YJH�]\��˘�[�ۚX�[
+�	��X]	�HHZK��[YNY�
+�H	���K��[YJH�]\��˘�[�ۚX�[
+�	����I�HH�K��[YNJN�H���[�ܘY�K��]][J�UW��ԐQ�W��VK��Ӌ���[��Y�J�]\�JN�H�]��B�\�њ\�X�\�J�UW��ԐQ�W��VK�]\�NB����OOOOHK�Y\��Y�H�[�\�][ۈOOOOB��[��[ۈ�]�Y[�]JY
+H�ۜ��KWHH�]SJ
+N�ۜ��H�\��[��Y[���YNY�
+\�H�]\���[��ۜ�Q]�H�]�[\�Y
+X]]�[��KJK��[\�HO�ˋ��˛X]�[Y\�K�[��Y\�K��[YJJK��ܝ
+
+K�HO�K�]HH��]JN�ۜ��]�H�]�[\�Y
+��Y[��Q]�[��KJK��[\�HO�ˋ��˜��S�[Y\�K�[��Y\�K��[YJJK��ܝ
+
+K�HO�K�]HH��]JN��ۜ�ZHH��[Y[���][[Y[��RY
+	ܘ]K[X]I�
+�Y
+N�ۜ��HH��[Y[���][[Y[��RY
+	ܘ]K\��KI�
+�Y
+N�ۜ�X]�]HHZH	��[ZK�\�X�Y�\��Q��]
+ZK��[YJH��ۜ���T�]HH�H	��\�K�\�X�Y�\��Q��]
+�K��[YJH���]\����Q]��]�X]�]K��T�]KYNB���[��[ۈ�[Y]T�]\��Y[�[�X�\�H�܈
+�ۜ�Yو�Y[�[�X�\�H�ۜ�H�]�Y[�]JY
+NY�
+Y
+H�۝[�YNY�
+�˚\�X]	��Y�X]�]JH�����\�
+:*��hj�k��	��˘�[�ۚX�[H9�X]9�`�%��
+N��]\���[�N�B�Y�
+�˚\���H	��Y���T�]JH�����\�
+:*��hj�k��	��˘�[�ۚX�[H9���Y[��H9�`�%��
+N��]\���[�N�B�B��]\���YNB���[��[ۈ�Z[�[��SY\��Y�JY
+H�ۜ��KWHH�]SJ
+N�ۜ�]HH��[Y[���][[Y[��RY
+	�]T�[X�	�K��[YN�ۜ�ܙY][��H��[Y[���][[Y[��RY
+	�ܙY][���[X�	�K��[YN�ۜ�H�]�Y[�]JY
+NY�
+Y
+H�]\���[�]\��H	�]_I�ܙY][��{�#9d�9��9论*�I�_y�"9�9."�*���`��n;�&���Y�
+�˚\Л�
+H�ۜ�RH�Q]���YX�J
+KJHO�H
+�K��\��
+N�ۜ��H��]���YX�J
+KJHO�H
+�K��\��
+N�ۜ�Q�HR
+��X]�]KшH�
+����T�]N\��
+�H	���X]W���Q]���ܑXX�
+HO��\��
+�H	�K�[۝K��K�^_{�&�ٛܛX]�[JK��\��_Z���JN\��
+�H9l#�*";�&�ٛܛX]�[JR
+_Z�	��X]�]_HH	�X]���[�
+Q�_ya`��\��
+�H	�����Y[��WW����]���ܑXX�
+HO��\��
+�H	�K�[۝K��K�^_{�&�ٛܛX]�[JK��\��_Z���JN\��
+�H9l#�*";�&�ٛܛX]�[J�
+_Z�	����T�]_HH	�X]���[�
+ъ_ya`��\��
+�H�d":*";�&��X]���[�
+Q�
+�ъ_ya`��#:+'z+'I�]_X�]\����[YN��˘�[�ۚX�[\���[�YN�X]���[�
+Q�
+�ъK�[�\�ΈR
+����[���Q]��[��
+���]��[��\Л���YHNH[�H�ۜ�]�H�˚\�X]��Q]����]��ۜ��]HH�˚\�X]��X]�]H����T�]N]���ܑXX�
+HO��\��
+�H	�K�[۝K��K�^_{�&�ٛܛX]�[JK��\��_Z���JN�ۜ�H]���YX�J
+KJHO�H
+�K��\��
+N�ۜ��H
+��]N\��
+�H�alIٛܛX]�[J
+_Z�	ܘ]_HH	�X]���[�
+�_ya`��#:+'z+'I�]_X�]\����[YN��˘�[�ۚX�[\���[�YN�X]���[�
+�K�[�\�Έ��[��]��[��\Л���[�HNB�B���[��[ۈ�Z[�[Z[SY\��Y�J�Y[�[�X�\�H�ۜ��KWHH�]SJ
+N�ۜ�]HH��[Y[���][[Y[��RY
+	�]T�[X�	�K��[YN�ۜ�ܙY][��H��[Y[���][[Y[��RY
+	�ܙY][���[X�	�K��[YN�]\��H	�]_I�ܙY][��{�#9d�9��9论*�I�_y�"9�9."�*���`��n;�&��]ܘ[��[H]�[��[�H]�[��H�ۜ��[Y\�H�N��Y[�[�X�\˙�ܑXX�
+YO��ۜ�H�]�Y[�]JY
+NY�
+Y
+H�]\���[Y\˜\�
+�˘�[�ۚX�[
+N�\��
+�H��$	��˘�[�ۚX�[x�$W��Y�
+�˚\Л�
+H�ۜ�RH�Q]���YX�J
+KJHO�H
+�K��\��
+N�ۜ��H��]���YX�J
+KJHO�H
+�K��\��
+N�ۜ�Q�HR
+��X]�]KшH�
+����T�]N\��
+�H	��X]W���Q]���ܑXX�
+HO��\��
+�H	�K�[۝K��K�^_{�&�ٛܛX]�[JK��\��_Z���JN\��
+�H9l#�*";�&�ٛܛX]�[JR
+_Z�	��X]�]_HH	�X]���[�
+Q�_ya`��\��
+�H	�����Y[��WW����]���ܑXX�
+HO��\��
+�H	�K�[۝K��K�^_{�&�ٛܛX]�[JK��\��_Z���JN\��
+�H9l#�*";�&�ٛܛX]�[J�
+_Z�	����T�]_HH	�X]���[�
+ъ_ya`��ܘ[��[
+�HQ�
+�ю�[��
+�HR
+���[��[�
+�H�Q]��[��
+���]��[��H[�HY�
+�˚\�X]
+H�Q]���ܑXX�
+HO��\��
+�H	�K�[۝K��K�^_{�&�ٛܛX]�[JK��\��_Z���JN�ۜ�H�Q]���YX�J
+KJHO�H
+�K��\��
+N\��
+�H9l#�*";�&�ٛܛX]�[J
+_Z�	��X]�]_HH	�X]���[�
+
+��X]�]J_ya`��ܘ[��[
+�H
+��X]�]N�[��
+�H�[��[�
+�H�Q]��[��H[�H��]���ܑXX�
+HO��\��
+�H	�K�[۝K��K�^_{�&�ٛܛX]�[JK��\��_Z���JN�ۜ�H��]���YX�J
+KJHO�H
+�K��\��
+N\��
+�H9l#�*";�&�ٛܛX]�[J
+_Z�	����T�]_HH	�X]���[�
+
+����T�]J_ya`��ܘ[��[
+�H
+����T�]N�[��
+�H�[��[�
+�H��]��[��B�JN�\��
+�H�d":*";�&��X]���[�
+ܘ[��[
+_ya`��#:+'z+'I�]_X��]\����[YN��[Y\˚��[�	�
+�	�K\���[�YN�X]���[�
+ܘ[��[
+K�[�\�Έ�[����[���[��[�\Л���YK\ј[Z[N��YHNB����OOOOHL��[�\�]H	�\�^HOOOOB��[��[ۈ�[�\�]T�[��JY
+H�]�T�]\�
+NY�
+]�[Y]T�]\��YJJH�]\���ۜ��\�[H�Z[�[��SY\��Y�JY
+NY�
+\�\�[
+H�]\����ԙ\�[
+	��I�
+�Y�\�[
+N����\�
+9m��(�a�	ܙ\�[��[Y_H9�:*���/�*"��k�
+NB���[��[ۈ�[�\�]Q�[Z[J�JH�]�T�]\�
+N�ۜ�ܛ�\H�[Z[Y\�ٚWNY�
+Yܛ�\ܛ�\�[��OOH
+H�����\�
+	��i9�9�a9����"ykn9�'��N��]\���B�Y�
+]�[Y]T�]\�ܛ�\
+JH�]\���]�\�[Y�
+ܛ�\�[��OOHJH�\�[H�Z[�[��SY\��Y�Jܛ�\�JNH[�H�\�[H�Z[�[Z[SY\��Y�Jܛ�\
+NB�Y�
+\�\�[
+H�]\����ԙ\�[
+	ًI�
+��K�\�[
+N����\�
+9m��(�a�	ܙ\�[��[Y_H9�:*���/�*"��k�
+NB���[��[ۈ�[�\�]P[
+
+H�]�T�]\�
+N�����X�[][\Έ�[Z[Y\�
+�[�ܛ�\Y[�]�YX[�ۜ�][\�H�N�[Z[Y\˙�ܑXX�
+
+ܛ�\�JHO�Y�
+ܛ�\�[��OOH
+H�]\��][\˜\�
+�\N�	٘[Z[I��K[�X�\Έܛ�\JNJN�][�ܛ�\Y
+
+K��ܑXX�
+YO�][\˜\�
+�\N�	��[��I�Y[�X�\Έ�YHJNJN����[Y]H[�]\�ۜ�[[�X�\�H][\˙�]X\
+HO�K�[�X�\�NY�
+]�[Y]T�]\�[[�X�\�JH�]\������[�\�]B�]��[�H�[��˗��[�\�]YY\��Y�\�H�N][\˙�ܑXX�
+][HO�]�\�[Y�
+][K�\HOOH	٘[Z[I�H�ۜ��^HH	ًI�
+�][K��N�\�[H][K�[�X�\˛[��OOHH��Z[�[��SY\��Y�J][K�[�X�\��JH��Z[�[Z[SY\��Y�J][K�[�X�\�NY�
+�\�[
+H��[��˗��[�\�]YY\��Y�\���^WHH�\�[���[�
+���B�H[�H�ۜ��^HH	��I�
+�][K�Y�\�[H�Z[�[��SY\��Y�J][K�Y
+NY�
+�\�[
+H��[��˗��[�\�]YY\��Y�\���^WHH�\�[���[�
+���B�B�JN�Y�
+��[��
+H�[�\�[Y\��Y�\�
+N����\�
+9m��(�a�	���[�H9ba�*���/�*"��k�
+NB�B���[��[ۈ��ԙ\�[
+�^K�\�[
+HY�
+]�[��˗��[�\�]YY\��Y�\�H�[��˗��[�\�]YY\��Y�\�H�N�[��˗��[�\�]YY\��Y�\���^WHH�\�[��ۜ�^\�[��H��[Y[���][[Y[��RY
+	ܙ\�[X�\�I�
+��^JN�ۜ��\�H^\�[����[Y[��ܙX]Q[[Y[�
+	�]��N�\��YH	ܙ\�[X�\�I�
+��^N�\���\�Ә[YHH	�\��X�\�	��\��[��\�SHXZ�P�\�S
+�^K�\�[
+N�Y�
+Y^\�[��H��[Y[���][[Y[��RY
+	�\��\�	�K�\[��[
+�\�
+N��[Y[���][[Y[��RY
+	ܙ\�[��K��[K�\�^HH	؛������[Y[���][[Y[��RY
+	��Y[���[�	�K�^�۝[�H9m��(�a�	�ؚ�X���^\��[��˗��[�\�]YY\��Y�\�K�[��H9ba��\���ܛ�[�՚Y]���Z]�[܎�	��[��	����Έ	ۙX\�\�	�JNB���[��[ۈ�[�\�[Y\��Y�\�
+HY�
+]�[��˗��[�\�]YY\��Y�\�H�]\���ۜ�[��Y\�Hؚ�X��[��Y\��[��˗��[�\�]YY\��Y�\�N�ۜ�\��\�H��[Y[���][[Y[��RY
+	�\��\�	�N\��\��[��\�SH[��Y\˛X\
+
+��^KWJHO�]��\��H�\��X�\��YH��\�[X�\�I��^_H���XZ�P�\�S
+�^KJ_O�]��
+K���[�	��N��[Y[���][[Y[��RY
+	ܙ\�[��K��[K�\�^HH	؛������[Y[���][[Y[��RY
+	��Y[���[�	�K�^�۝[�H9m��(�a�	�[��Y\˛[��H9ba���[Y[���][[Y[��RY
+	ܙ\�[��K��ܛ�[�՚Y]���Z]�[܎�	��[��	�JNB���[��[ۈXZ�P�\�S
+�^KJH�ۜ�Y�HK�\ј[Z[H�	��[��\��H���\��K]Y�Y�X����[OH��۝\�^�N���[N�X\��[�[Y���ȏ�k��n�O��[�����K�\Л��	��[��\��H���\��K]Y�Y�X����[OH��۝\�^�N���[N�X\��[�[Y���ȏ�X]
+���O��[����	���ۜ�X[Q�Y��H�YX[Q�Y��
+N�ۜ�\�X[HHX[Q�Y���K��[YWH�[�N�ۜ�X[P�Y�HH\�X[H�	��[��[OH�X\��[�[Y���ٛ۝\�^�N���Y[Nٛ۝]�ZY������܎��X�NX��ȏ�'�iH9g&:f����[����	���ۜ��[YH�Y�[Y
+
+N�ۜ��K[�HH�]SJ
+N�ۜ��[Y�^HH	�_KI�[�W��K��[Y_X�ۜ�\К[YH�[Yؚ[Y�^WH�[�N�ۜ��\��\��H\К[Y�	�\��X�\��[Y	��	�\��X�\�	���]\���]��\��H�\��ZXY\��ۘ�X��H�\˛�^[[Y[��X�[�˘�\��\�����J	��[��H���]��\��H�\��ZXY\�[Y�����[��\��H��[YH���\��\R[
+K��[YJ_H	�Y�I�X[P�Y�_O��[����]���]��\��H�\��ZXY\�\�Y��ۘ�X��H�]�[������Y�][ۊ
+H����[��\��H��[[X\�H���K���[�yh �	ٛܛX]�[JK��[�\��_Z�		�K��[�YK����[T��[��
+_O��[���X�[�[OH�\�^N��^�[YۋZ][\Θ�[�\���\���X\��[�[Y��Lȏ��[�]\OH��X�؛���\��H��[YX�X�؛��]KZ�^OH���^_H�	�\К[Y�	��X��Y	��	��Hۘ�[��OH��]�[Y�]\�	���^_I�	��K��[Y_I�\˘�X��Y
+H����[��[OH��۝\�^�N��[N��]K\�X�N���ܘ\ȏ�m�*���/���[����X�[���]����]���]��\��H�\��X��H�[����]��\��H�\��]^���\��\R[
+K�\��_O�]���]��[OH�\�^N��^��\��X\��[�]��L�[YۋZ][\Θ�[�\�ȏ���]ۈ�\��H���KX����[OH�X\��[�]���ۘ�X��H���T�[��J\�	���^_I�H��)!�(�y�i:*"��k�؝]ۏ���]ۈ�\��H���KX����[OH�X\��[�]��ؘX��ܛ�[���M����Ȉۘ�X��H�[]P�\�
+	���^_I�H�ۛ[�\�[ݙ\�H�\˜�[K��X��ܛ�[�I����L��Ȉۛ[�\�[�]H�\˜�[K��X��ܛ�[�I��M����ȏ�b*�fi؝]ۏ���]����]��B���[��[ۈ�]�[Y�]\��^K�Y[��[YK�X��Y
+H�ۜ��KWHH�]SJ
+N�ۜ��[YH�Y�[Y
+
+N����]HY\��Y�H��X��Y�]	��H�[Z[Hܛ�\��ۜ�\��H�[��˗��[�\�]YY\��Y�\�	���[��˗��[�\�]YY\��Y�\���^WN�ۜ�\ј[Z[HH\��	��\�˚\ј[Z[N����]�H�[Y�܈H��X�[�Y�[Z[H�[YB��ۜ��[Y�^HH	�_KI�_W���Y[��[Y_XY�
+�X��Y
+H�[Yؚ[Y�^WHH�YN[�H[]H�[Yؚ[Y�^WN���Y��[Z[K[���]�H�[Y�܈XX�[�]�YX[�Y[���ۜ�[�]�YX[�[Y\�H�Y[��[YK�[��Y\�	�
+�	�H��Y[��[YK��]
+	�
+�	�K�X\
+�O����[J
+JH���Y[��[YWN[�]�YX[�[Y\˙�ܑXX�
+�[YHO��ۜ�Z�H	�_KI�_W�ۘ[Y_XY�
+�X��Y
+H�[Y�Z�HH�YN[�H[]H�[Y�Z�NJN��]�P�[Y
+�[Y
+N��ۜ��\�H��[Y[���][[Y[��RY
+	ܙ\�[X�\�I�
+��^JNY�
+�X��Y
+H�\���\��\��Y
+	ؚ[Y	�N[�H�\���\��\���[[ݙJ	ؚ[Y	�N����[��XX��Y[��\�X�ݙH
+[�\��[Z[Hܛ�\���B�[�]�YX[�[Y\˙�ܑXX�
+�[YHO��[���Y[��\��[Y
+�[YK�X��Y
+JNB���[��[ۈ�[��\���\��[Y
+�Y[��[YK�X��Y
+HY�
+]�[��˗��[�\�]YY\��Y�\�H�]\���܈
+�ۜ���^KWHوؚ�X��[��Y\��[��˗��[�\�]YY\��Y�\�JH��X]�Y�Y\��Y�H�[YH\]X[�H�Y[�ԈY�Y\��Y�H\�H�[Z[H�۝Z[�[��\��Y[���ۜ�\�Ә[Y\�HK��[YK�[��Y\�	�
+�	�H�K��[YK��]
+	�
+�	�K�X\
+�O����[J
+JH��K��[YWNY�
+K��[YHOOH�Y[��[YH\�Ә[Y\˚[��Y\��Y[��[YJJH���܈�[Z[HY\��Y�\ΈۛH�[��Y�SY[X�\��\�H����[Y
+܈[��X��[��B�Y�
+K�\ј[Z[H	���X��Y
+H�ۜ��K[�HH�]SJ
+N�ۜ��[YH�Y�[Y
+
+N�ۜ�[�[YH\�Ә[Y\˙]�\�J�O��[Y�	�_KI�[�W�۟XJNY�
+X[�[Y
+H�۝[�YNB��ۜ��\�H��[Y[���][[Y[��RY
+	ܙ\�[X�\�I�
+��^JNY�
+X�\�
+H�۝[�YNY�
+�X��Y
+H�\���\��\��Y
+	ؚ[Y	�N[�H�\���\��\���[[ݙJ	ؚ[Y	�N�ۜ�؈H�\��]Y\�T�[X�܊	˘�[YX�X�؛�	�NY�
+؊H؋��X��YH�X��Y��[��\]H��[�ܘY�H�܈�[Z[H�^B�Y�
+K�\ј[Z[H	���X��Y
+H�ۜ��L�L�HH�]SJ
+N�ۜ��[Y�H�Y�[Y
+
+N�[Y��	�L�KI�L�W��K��[Y_XHH�YN�]�P�[Y
+�[Y�NB�B�B�B���[��[ۈ�[���Y[��\��[Y
+�Y[��[YK�X��Y
+H�ۜ�YH�\��[��Y[�˙�[�[�^
+�O�˘�[�ۚX�[OOH�Y[��[YJNY�
+Y
+H�]\���ۜ��\�H��[Y[���][[Y[��RY
+	��Y[�X�\�I�
+�Y
+NY�
+X�\�
+H�]\��Y�
+�X��Y
+H�\���\��\��Y
+	ؚ[Y	�N[�H�\���\��\���[[ݙJ	ؚ[Y	�N�ۜ�؈H�\��]Y\�T�[X�܊	�[�]�]KZ�^OH��\�I�
+�Y
+�	ȗI�NY�
+؊H؋��X��YH�X��Y��[���]�H[�]�YX[�[Y�]\�ۜ��KWHH�]SJ
+N�ۜ��[YH�Y�[Y
+
+NY�
+�X��Y
+H�[Y�	�_KI�_W���Y[��[Y_XHH�YN[�H[]H�[Y�	�_KI�_W���Y[��[Y_XN�]�P�[Y
+�[Y
+NB���[��[ۈ[]P�\�
+�^JH�ۜ��\�H��[Y[���][[Y[��RY
+	ܙ\�[X�\�I�
+��^JNY�
+�\�
+H�\���[[ݙJ
+NY�
+�[��˗��[�\�]YY\��Y�\�H[]H�[��˗��[�\�]YY\��Y�\���^WN�ۜ��[XZ[�[��H�[��˗��[�\�]YY\��Y�\��ؚ�X���^\��[��˗��[�\�]YY\��Y�\�K�[�����[Y[���][[Y[��RY
+	��Y[���[�	�K�^�۝[�H9m��(�a�	ܙ[XZ[�[��H9ba�Y�
+�[XZ[�[��OOH
+H��[Y[���][[Y[��RY
+	ܙ\�[��K��[K�\�^HH	ۛۙI�B����OOOOHLK�][]Y\�OOOOB��[��[ۈ��T�[��J���^JH�ۜ�\��H�[��˗��[�\�]YY\��Y�\�	���[��˗��[�\�]YY\��Y�\���^WNY�
+[\��H�]\���]�Y�]܋��\��\��ܚ]U^
+\�˛\��K�[�
+
+HO����^�۝[�H	�m�)!�(�{� I������\��\��Y
+	���YY	�N�][Y[�]
+
+
+HO�����^�۝[�H	�)!�(�y�i:*"��k�������\��\���[[ݙJ	���YY	�N�KML
+NJNB���[��[ۈ���P[
+
+H[^[�YHX[^[�Y��[Y[��]Y\�T�[X�ܐ[
+	˛\��X��I�K��ܑXX�
+�O�[^[�Y����\��\��Y
+	��[��H����\��\���[[ݙJ	��[��NJN��[Y[���][[Y[��RY
+	�^[����I�K�^�۝[�H[^[�Y�	�aj:`�9�-�-m���	�aj:`�9leze���B���[��[ۈ��P[
+
+HY�
+]�[��˗��[�\�]YY\��Y�\�H�]\���ۜ�\���Hؚ�X���[Y\��[��˗��[�\�]YY\��Y�\�N�ۜ�[H\��˛X\
+HO�	��$	�
+�K��[YH
+�	��$W��
+�K�\��K���[�	���� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� ���N�]�Y�]܋��\��\��ܚ]U^
+[
+K�[�
+
+HO�����\�
+	�m�)!�(�yaj:`�	�
+�\��˛[��
+�	�9ba�*"��k��JNB����OOOOHL���]H�\�[���XHT�OOOOB��[��[ۈ�\�T�]\�
+H�]�T�]\�
+N�ۜ��]\�H�Y�]\�
+NY�
+ؚ�X���^\��]\�K�[��OOH
+H�����\�
+	�l&��*�*+yk��.��/ey�`�%���N��]\���B��ۜ�[���YH��J[�\��\J[���UT�P��\ۙ[�
+��Ӌ���[��Y�J�]\�JJJN�ۜ�\�H��][ۋ�ܚY�[�
+���][ۋ�]�[YH
+�	�ܘ]\�I�
+�[���Y�]�Y�]܋��\��\��ܚ]U^
+\�
+K�[�
+
+HO�����\�
+	�m�)!�(�yb!�.�����g`;� y`���i�l#y��ycl�c��d#9�iy�`�%��*+yk���NJNB���[��[ۈ�\�Qܛ�\�
+H�]�Q�[Z[Y\�
+N�ۜ��]�YH��Ӌ�\��J��[�ܘY�K��]][Jԓ�T��ԐQ�W��VJJH�NY�
+�]�Y�[��OOH
+H�����\�
+	�l&��*�*+yk��.��/ey�9�a	�N��]\���B��ۜ�[���YH��J[�\��\J[���UT�P��\ۙ[�
+��Ӌ���[��Y�J�]�Y
+JJJN�ۜ�\�H��][ۋ�ܚY�[�
+���][ۋ�]�[YH
+�	��ܛ�\�I�
+�[���Y�]�Y�]܋��\��\��ܚ]U^
+\�
+K�[�
+
+HO�����\�
+	�m�)!�(�y�9�a9b!�.�����g`;� y`���i�l#y��ycl�c��d#9�iy�9�a:*+yk���NJNB���[��[ۈ�\�P[
+
+H�]�T�]\�
+N�]�Q�[Z[Y\�
+N�ۜ��]\�H�Y�]\�
+N�ۜ�ܛ�\�H��Ӌ�\��J��[�ܘY�K��]][Jԓ�T��ԐQ�W��VJJH�N�ۜ�X[Q�Y��H�YX[Q�Y��
+N�ۜ��[[���ۙ\�H�Y�[[���ۙ\�
+N��ۜ�[]HH�]\��ܛ�\��X[Q�Y����[[���ۙ\��N��ۜ�[���YH��J[�\��\J[���UT�P��\ۙ[�
+��Ӌ���[��Y�J[]JJJJN�ۜ�\�H��][ۋ�ܚY�[�
+���][ۋ�]�[YH
+�	��[I�
+�[���Y�]�Y�]܋��\��\��ܚ]U^
+\�
+K�[�
+
+HO�����\�
+	�m�)!�(�yk�9�m9b!�.�����g`;� yc!yd*��`�%��� y�9�a8� yg&:f��� z*���/�,�9.��*+yk���NJNB���[��[ۈ[\ܝ�]\ќ��UT�
+
+H�ۜ�\�H��][ۋ�\�Y�
+Z\���\���]
+	�ܘ]\�I�JH�]\���H�ۜ�[���YH\���X�J
+�N�ۜ���ۈHX��UT�P��\ۙ[�
+\��\J]؊[���Y
+JJN�ۜ��]\�H��Ӌ�\��J��ۊN��Y\��H�]^\�[���]\�
+[\ܝY�]\�ݙ\�ܚ]H�ۙ�X��B��ۜ�^\�[��H�Y�]\�
+N�ۜ�Y\��YH����^\�[������]\�N��[�ܘY�K��]][J�UW��ԐQ�W��VK��Ӌ���[��Y�JY\��Y
+JN\�њ\�X�\�J�UW��ԐQ�W��VKY\��Y
+N���X[�\T�\��\�ܞK��\X�T�]J�[	����][ۋ�]�[YJN����\�
+	�m�c+�aiy�`�%��*+yk��� yalH	�
+�ؚ�X���^\��]\�K�[��
+�	�9�a��NH�]�
+JH�ۜ��K�\��܊	Ԙ]H[\ܝ�Z[Y��JNB�B���[��[ۈ[\ܝܛ�\ќ��UT�
+
+H�ۜ�\�H��][ۋ�\�Y�
+Z\���\���]
+	��ܛ�\�I�JH�]\���H�ۜ�[���YH\���X�J
+N�ۜ���ۈHX��UT�P��\ۙ[�
+\��\J]؊[���Y
+JJN�ۜ�ܛ�\�H��Ӌ�\��J��ۊN��Y\��H�]^\�[��ܛ�\�ۜ�^\�[��H��Ӌ�\��J��[�ܘY�K��]][Jԓ�T��ԐQ�W��VJJH�N�ۜ�Y\��YHˋ��^\�[��Nܛ�\˙�ܑXX�
+�O�Y�
+[Y\��Y��[�
+HO���Ӌ���[��Y�JJHOOH��Ӌ���[��Y�J�JJHY\��Y�\�
+�NB�JN��[�ܘY�K��]][Jԓ�T��ԐQ�W��VK��Ӌ���[��Y�JY\��Y
+JN\�њ\�X�\�Jԓ�T��ԐQ�W��VKY\��Y
+N���X[�\T�\��\�ܞK��\X�T�]J�[	����][ۋ�]�[YJN����\�
+	�m�c+�aiy�9�a:*+yk��� yalH	�
+�ܛ�\˛[��
+�	�9`"��NH�]�
+JH�ۜ��K�\��܊	�ܛ�\�[\ܝ�Z[Y��JNB�B���[��[ۈ[\ܝ[���UT�
+
+H�ۜ�\�H��][ۋ�\�Y�
+Z\���\���]
+	��[I�JH�]\���H�ۜ�[���YH\���X�J
+JN�ۜ���ۈHX��UT�P��\ۙ[�
+\��\J]؊[���Y
+JJN�ۜ�[]HH��Ӌ�\��J��ۊN���[\ܝ�]\Y�
+[]K��]\�H�ۜ�^\�[��H�Y�]\�
+N�ۜ�Y\��YH����^\�[�����[]K��]\�N��[�ܘY�K��]][J�UW��ԐQ�W��VK��Ӌ���[��Y�JY\��Y
+JN\�њ\�X�\�J�UW��ԐQ�W��VKY\��Y
+NB����[\ܝܛ�\Y�
+[]K�ܛ�\�H�ۜ�^\�[��H��Ӌ�\��J��[�ܘY�K��]][Jԓ�T��ԐQ�W��VJJH�N�ۜ�Y\��YHˋ��^\�[��N[]K�ܛ�\˙�ܑXX�
+�O�Y�
+[Y\��Y��[�
+HO���Ӌ���[��Y�JJHOOH��Ӌ���[��Y�J�JJHY\��Y�\�
+�NB�JN��[�ܘY�K��]][Jԓ�T��ԐQ�W��VK��Ӌ���[��Y�JY\��Y
+JN\�њ\�X�\�Jԓ�T��ԐQ�W��VKY\��Y
+NB����[\ܝX[H�Y�Y�
+[]K�X[Q�Y��H�ۜ�^\�[��H�YX[Q�Y��
+N�ۜ�Y\��YH����^\�[�����[]K�X[Q�Y��N�]�UX[Q�Y��Y\��Y
+NB����[\ܝ�[[���ۙ\��Y�
+[]K��[[���ۙ\�H�ۜ�^\�[��H�Y�[[���ۙ\�
+N�ۜ�Y\��YH����^\�[�����[]K��[[���ۙ\�N�]�P�[[���ۙ\�Y\��Y
+NB�����X[�\T�\��\�ܞK��\X�T�]J�[	����][ۋ�]�[YJN����\�
+	�m�c+�aiy�`9�"z*+yk��� {�"9�`�%��� y�9�a8� yg&:f��� z*���/�,�9.���"I�NH�]�
+JH�ۜ��K�\��܊	�[[\ܝ�Z[Y��JNB�B�����[�ۈY�H�Y�[\ܝ�]\ќ��UT�
+
+N[\ܝܛ�\ќ��UT�
+
+N[\ܝ[���UT�
+
+N��[��[ۈ�ܛX]�[J�H��]\���[X�\��\�[�Y�\��H���[���H���[��\��Q��]
+��њ^Y
+�JJN�B��[��[ۈ\��\R[
+�H��]\��˜�\X�Jɋ��	ɘ[\��K��\X�J���	ɛ��K��\X�Jϋ��	ə���N�B��[��[ۈ����\�
+\��H�ۜ�H��[Y[���][[Y[��RY
+	��\�	�N�^�۝[�H\�����\��\��Y
+	�����N�][Y[�]
+
+
+HO���\��\���[[ݙJ	�����K�
+NB���ܚ\��؛�O���[�
