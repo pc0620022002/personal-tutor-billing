@@ -688,6 +688,9 @@ function setCardBilledStatus(idx, studentName, checked) {
   const card = document.getElementById('student-card-' + idx);
   if (checked) card.classList.add('billed');
   else card.classList.remove('billed');
+
+  // Sync message card below
+  syncMsgCardBilled(studentName, checked);
 }
 
 function saveTeamFlag(idx, checked) {
@@ -1134,15 +1137,80 @@ function makeCardHTML(key, m) {
 
 function setBilledStatus(key, studentName, checked) {
   const [y, m] = getYM();
-  const billedKey = `${y}-${m}_${studentName}`;
   const billed = loadBilled();
+
+  // Get the message to check if it's a family group
+  const msg = window._generatedMessages && window._generatedMessages[key];
+  const isFamily = msg && msg.isFamily;
+
+  // Save billed for the combined family name
+  const billedKey = `${y}-${m}_${studentName}`;
   if (checked) billed[billedKey] = true;
   else delete billed[billedKey];
+
+  // If family, also save billed for each individual student
+  const individualNames = studentName.includes(' + ') ? studentName.split(' + ').map(n => n.trim()) : [studentName];
+  individualNames.forEach(name => {
+    const ik = `${y}-${m}_${name}`;
+    if (checked) billed[ik] = true;
+    else delete billed[ik];
+  });
+
   saveBilled(billed);
 
   const card = document.getElementById('result-card-' + key);
   if (checked) card.classList.add('billed');
   else card.classList.remove('billed');
+
+  // Sync each student card above (handles family groups too)
+  individualNames.forEach(name => syncStudentCardBilled(name, checked));
+}
+
+function syncMsgCardBilled(studentName, checked) {
+  if (!window._generatedMessages) return;
+  for (const [key, m] of Object.entries(window._generatedMessages)) {
+    // Match if message name equals the student, OR if message is a family containing this student
+    const msgNames = m.name.includes(' + ') ? m.name.split(' + ').map(n => n.trim()) : [m.name];
+    if (m.name === studentName || msgNames.includes(studentName)) {
+      // For family messages: only sync if ALL members are now billed (or unchecking)
+      if (m.isFamily && checked) {
+        const [y, mo] = getYM();
+        const billed = loadBilled();
+        const allBilled = msgNames.every(n => billed[`${y}-${mo}_${n}`]);
+        if (!allBilled) continue;
+      }
+      const card = document.getElementById('result-card-' + key);
+      if (!card) continue;
+      if (checked) card.classList.add('billed');
+      else card.classList.remove('billed');
+      const cb = card.querySelector('.billed-checkbox');
+      if (cb) cb.checked = checked;
+      // Also update localStorage for family key
+      if (m.isFamily && checked) {
+        const [y2, m2] = getYM();
+        const billed2 = loadBilled();
+        billed2[`${y2}-${m2}_${m.name}`] = true;
+        saveBilled(billed2);
+      }
+    }
+  }
+}
+
+function syncStudentCardBilled(studentName, checked) {
+  const idx = currentStudents.findIndex(s => s.canonical === studentName);
+  if (idx < 0) return;
+  const card = document.getElementById('student-card-' + idx);
+  if (!card) return;
+  if (checked) card.classList.add('billed');
+  else card.classList.remove('billed');
+  const cb = card.querySelector('input[data-key="card-' + idx + '"]');
+  if (cb) cb.checked = checked;
+  // Also save individual billed status
+  const [y, m] = getYM();
+  const billed = loadBilled();
+  if (checked) billed[`${y}-${m}_${studentName}`] = true;
+  else delete billed[`${y}-${m}_${studentName}`];
+  saveBilled(billed);
 }
 
 function deleteCard(key) {
