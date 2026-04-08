@@ -428,7 +428,7 @@ function initSync() {
     refreshUIFromStorage();
   }).catch(() => {
     document.getElementById('syncDot').classList.add('error');
-    document.getElementById('syncText').textContent = '同步連線失敗，設定僅存在本機';
+    document.getElementById('syncText').textContent = '同步連線失敗（設定僅存在本機';
   });
 }
 
@@ -664,7 +664,7 @@ function buildInfoBox() {
   currentStudents.forEach(s => {
     const allN = [...new Set([...s.mathNames, ...s.sciNames])];
     if (allN.length > 1) {
-      lines.push(`名稱合併：${allN.join(' + ')} → ${s.canonical}`);
+      lines.push(`名稱合併；${allN.join(' + ')} → ${s.canonical}`);
     }
   });
 
@@ -749,8 +749,8 @@ function makeStudentCard(idx) {
             團隊也有
           </label>
           <label>
-            <input type="checkbox" data-key="card-${idx}" ${isBilled? 'checked' : ''} onchange="setCardBilledStatus(${idx}, '${s.canonical}', this.checked)">
-            已請欼
+            <input type="checkbox" data-key="card-${idx}" ${isBilled ? 'checked' : ''} onchange="setCardBilledStatus(${idx}, '${s.canonical}', this.checked)">
+            已請款
           </label>
         </div>
       </div>
@@ -790,640 +790,728 @@ function setCardBilledStatus(idx, studentName, checked) {
   const billed = loadBilled();
   if (checked) billed[billedKey] = true;
   else delete billed[billedKey];
-  saveBilled(billY
-N��ۜ��\�H��[Y[���][[Y[��RY
-	��Y[�X�\�I�
-�Y
-NY�
-�X��Y
-H�\���\��\��Y
-	ؚ[Y	�N[�H�\���\��\���[[ݙJ	ؚ[Y	�N����[��Y\��Y�H�\��[��[��\���\��[Y
-�Y[��[YK�X��Y
-NB���[��[ۈ�]�UX[Q�Y�Y�X��Y
-H�ۜ��H�\��[��Y[���YNY�
-\�H�]\���ۜ��Y��H�YX[Q�Y��
-NY�
-�X��Y
-H�Y���˘�[�ۚX�[HH�YN[�H[]H�Y���˘�[�ۚX�[N�]�UX[Q�Y���Y��N�[�\�ܛ�\[��RJ
-N�[�\��[[��[�[��]�\��
-NB���[��[ۈ�Y�[[���ۙ\�
-H�H��]\����Ӌ�\��J��[�ܘY�K��]][J�SS����ӑT���VJJH�N�H�]���]\���N�B�B���[��[ۈ�]�P�[[���ۙ\�]JH�H���[�ܘY�K��]][J�SS����ӑT���VK��Ӌ���[��Y�J]JJN�H�]��B�\�њ\�X�\�J�SS����ӑT���VK]JNB���[��[ۈ�YX[Q�Y��
-H�H��]\����Ӌ�\��J��[�ܘY�K��]][JPSWѓQ���VJJH�N�H�]���]\���N�B�B���[��[ۈ�]�UX[Q�Y��]JH�H���[�ܘY�K��]][JPSWѓQ���VK��Ӌ���[��Y�J]JJN�H�]��B�\�њ\�X�\�JPSWѓQ���VK]JNB���[��[ۈ�Y�[Y
+  saveBilled(billed);
 
-H�H��]\����Ӌ�\��J��[�ܘY�K��]][J�SQ��VJJH�N�H�]���]\���N�B�B���[��[ۈ�]�P�[Y
-]JH�H���[�ܘY�K��]][J�SQ��VK��Ӌ���[��Y�J]JJN�H�]��B�\�њ\�X�\�J�SQ��VK]JNB����OOOOH
-ˈܛ�\[��RH
-�Y�	���
-HOOOOB��[��[ۈ�]�Q�[Z[Y\�
-H���]�H\�\��^\�و�[�ۚX�[�[Y\���Y\[\Hܛ�\�\��B��ۜ���]�HH�[Z[Y\˛X\
-ܛ�\O�ܛ�\�X\
-YO��\��[��Y[���YO˘�[�ۚX�[
-K��[\����X[�JN�H���[�ܘY�K��]][Jԓ�T��ԐQ�W��VK��Ӌ���[��Y�J��]�JJN�H�]��B�\�њ\�X�\�Jԓ�T��ԐQ�W��VK��]�JNB���[��[ۈ�Y�[Z[Y\�
-H�H�ۜ��]�YH��Ӌ�\��J��[�ܘY�K��]][Jԓ�T��ԐQ�W��VJJH�N�[Z[Y\�H�N�]�Y��ܑXX�
-�[YQܛ�\O�Y�
-�[YQܛ�\�[��OOH
-H��[Z[Y\˜\�
-�JN��]\���H���Y\[\H[�\�ۜ�Yܛ�\H�N�[YQܛ�\��ܑXX�
-�[YHO��ۜ�YH�\��[��Y[�˙�[�[�^
-�O�˘�[�ۚX�[OOH�[YJNY�
-Y�H
-HYܛ�\�\�
-Y
-NJNY�
-Yܛ�\�[���
-H�[Z[Y\˜\�
-Yܛ�\
-NJNH�]���[Z[Y\�H�N�B�B���[��[ۈ�][�ܛ�\Y
+  const card = document.getElementById('student-card-' + idx);
+  if (checked) card.classList.add('billed');
+  else card.classList.remove('billed');
 
-H�ۜ�ܛ�\YH�]��]
-�[Z[Y\˙�]
+  // Sync message card below
+  syncMsgCardBilled(studentName, checked);
+}
 
-JN�]\���\��[��Y[�˛X\
+function saveTeamFlag(idx, checked) {
+  const s = currentStudents[idx];
+  if (!s) return;
+  const flags = loadTeamFlags();
+  if (checked) flags[s.canonical] = true;
+  else delete flags[s.canonical];
+  saveTeamFlags(flags);
+  renderGroupingUI();
+  renderBillingPanelsWithCards();
+}
 
-�JHO�JK��[\�HO�Yܛ�\Y�\�JJNB���[��[ۈ�[�\�ܛ�\[��RJ
-HY�
-�\��[��Y[�˛[��OOH
-H�]\����ۜ��X�[ۈH��[Y[���][[Y[��RY
-	�ܛ�\[���X�[ۉ�N�X�[ۋ��[K�\�^HH	؛��������[�\��[Z[H[�\�ۜ�[�\�]�H��[Y[���][[Y[��RY
-	٘[Z[S[�\��N[�\�]��[��\�SH	���[Z[Y\˙�ܑXX�
+function loadBillingOwner() {
+  try { return JSON.parse(localStorage.getItem(BILLING_OWNER_KEY)) || {}; } catch { return {}; }
+}
 
-ܛ�\�JHO�[�\�]��[��\�S
-�H�]��\��H�ܛ�\[[�H�YH��[Z[KIٚ_H��ۙ�Y�ݙ\�H�]�[���]�[�Y�][
+function saveBillingOwner(data) {
+  try { localStorage.setItem(BILLING_OWNER_KEY, JSON.stringify(data)); } catch {}
+  pushToFirebase(BILLING_OWNER_KEY, data);
+}
 
-N�\˘�\��\��Y
-	��Y�ݙ\��H��ۙ�Y�X]�OH�\˘�\��\���[[ݙJ	��Y�ݙ\��H��ۙ��H���ۑ�[Z[J]�[�	ٚ_JH���]��\��H�[�KZXY\�����[��\��H�[�K[X�[��k��n�H	ٚH
-�_O��[���]��\��H�[�KXX�[ۜȏ���]ۈ�\��H���Y�[�\�]K[ۙH�ۘ�X��H��[�\�]Q�[Z[J	ٚ_JH���(�a�؝]ۏ���]ۈ�\��H�[�K\�[[ݙH�ۘ�X��H��[[ݙQ�[Z[S[�J	ٚ_JH�����fi9�9�a؝]ۏ���]����]���]��\��H�[�K\�Y[�ȏ��ܛ�\�X\
-YO�XZ�P�\
-Y
-JK���[�	��_O�]����]��JN����[�\�[�ܛ�\Y��ۜ�[�ܛ�\YH�][�ܛ�\Y
+function loadTeamFlags() {
+  try { return JSON.parse(localStorage.getItem(TEAM_FLAG_KEY)) || {}; } catch { return {}; }
+}
 
-N�ۜ�[�ܛ�\Y]�H��[Y[���][[Y[��RY
-	�[�ܛ�\Y�Y[���N[�ܛ�\Y]��[��\�SH[�ܛ�\Y�X\
-YO��]��[OH�\�^N�[�[�KY�^�[YۋZ][\Θ�[�\���\��X\��[���ȏ�
-XZ�P�\
-Y
-H
-�]ۈ�\��H���Y�[�\�]K[ۙH�ۘ�X��H��[�\�]T�[��J	�YJH��[OH�Y[�Ό�ٛ۝\�^�N���Y[Nȏ��(�a�؝]ۏ�
-�]���
-K���[�	��N����]\[�ܛ�\Y[�H����ۜ�[�HH��[Y[���][[Y[��RY
-	�[�ܛ�\Y[�I�N[�K�ۙ�Y�ݙ\�HHO��K��]�[�Y�][
+function saveTeamFlags(data) {
+  try { localStorage.setItem(TEAM_FLAG_KEY, JSON.stringify(data)); } catch {}
+  pushToFirebase(TEAM_FLAG_KEY, data);
+}
 
-N�[�K��\��\��Y
-	��Y�ݙ\��N�N[�K�ۙ�Y�X]�HH
+function loadBilled() {
+  try { return JSON.parse(localStorage.getItem(BILLED_KEY)) || {}; } catch { return {}; }
+}
 
-HO�[�K��\��\���[[ݙJ	��Y�ݙ\��N[�K�ۙ��HHO���ە[�ܛ�\Y
-JNB���[��[ۈXZ�P�\
-Y
-H�ۜ��H�\��[��Y[���YNY�
-\�H�]\��	���ۜ�Y��\��H˚\Л��	�Y�X��	��
-˚\�X]�	�Y�[X]	��	�Y�\��Y[��I�N�ۜ�X[Q�Y��H�YX[Q�Y��
-N�ۜ�\�X[HHX[Q�Y���˘�[�ۚX�[H�[�N�]\���[��\��H��Y[�X�\��Y��X�OH��YH��ۙ�Y��\�H��Y��\�
-]�[�	�YJH�ۙ�Y�[�H��Y�[�
-]�[�
-H���[OH��ܙ\�X��܎��˚\Л��	����X����˚\�X]�	���LXI��	��
-X�YNI�H���	�\��\R[
-˘�[�ۚX�[
-_B�	�\�X[H�	��[��\��H�X[KX�Y�H��'�iO��[����	��B��[��\��H���\��K]Y�	�Y��\��H��[OH��۝\�^�N���[N�X\��[�[Y���ȏ��˚\Л��	�J����˚\�X]�	�I��	���O��[�����[��B��]�Y��YYH�[��[��[ۈ�Y��\�
-KY
-H�Y��YYHYK�\��]����\�
-	˜�Y[�X�\	�K��\��\��Y
-	��Y��[���NK�]U�[�ٙ\��Y��X�[��YH	�[ݙI�K�]U�[�ٙ\���]]J	�^�Z[��Y
-NB���[��[ۈ�Y�[�
-JHK�\��]����\�
-	˜�Y[�X�\	�K��\��\���[[ݙJ	��Y��[���N��[Y[��]Y\�T�[X�ܐ[
-	˙ܛ�\[[�I�K��ܑXX�
-O���\��\���[[ݙJ	��Y�ݙ\��JNB���[��[ۈ��ۑ�[Z[JK�[Z[RY
-HK��]�[�Y�][
+function saveBilled(data) {
+  try { localStorage.setItem(BILLED_KEY, JSON.stringify(data)); } catch {}
+  pushToFirebase(BILLED_KEY, data);
+}
 
-NK��\��[�\��]��\��\���[[ݙJ	��Y�ݙ\��NY�
-�Y��YYOOH�[
-H�]\������[[ݙH���H[�H^\�[���[Z[B��[Z[Y\˙�ܑXX�
-ܛ�\O��ۜ���Hܛ�\�[�^ي�Y��YY
-NY�
-���H
-Hܛ�\��X�J��JNJN���[[ݙH[\H�[Z[Y\�[Z[Y\�H�[Z[Y\˙�[\��O�˛[���
-N����X�[�[]H�[Z[RY�[��H�[Z[Y\�ZY�]�H�Y�Y���Y�\��]�[Z[H
-�[��H�X��[��Y��[Z[RY\��[�[Y
-B�Y�
-�[Z[RY�[Z[Y\˛[��
-HY�
-Y�[Z[Y\�٘[Z[RYK�[��Y\��Y��YY
-JH�[Z[Y\�٘[Z[RYK�\�
-�Y��YY
-NH[�H�[Z[Y\˜\�
-��Y��YYJNB���]�Q�[Z[Y\�
-N�[�\�ܛ�\[��RJ
-N�Y��YYH�[B���[��[ۈ��ە[�ܛ�\Y
-JHK��]�[�Y�][
+// ===== 7. Grouping UI (drag & drop) =====
+function saveFamilies() {
+  // Save as arrays of canonical names; keep empty groups as []
+  const toSave = families.map(group => group.map(idx => currentStudents[idx]?.canonical).filter(Boolean));
+  try { localStorage.setItem(GROUP_STORAGE_KEY, JSON.stringify(toSave)); } catch {}
+  pushToFirebase(GROUP_STORAGE_KEY, toSave);
+}
 
-N��[Y[���][[Y[��RY
-	�[�ܛ�\Y[�I�K��\��\���[[ݙJ	��Y�ݙ\��NY�
-�Y��YYOOH�[
-H�]\�����[[ݙH���H[�H�[Z[B��[Z[Y\˙�ܑXX�
-ܛ�\O��ۜ���Hܛ�\�[�^ي�Y��YY
-NY�
-���H
-Hܛ�\��X�J��JNJN�[Z[Y\�H�[Z[Y\˙�[\��O�˛[���
-N�]�Q�[Z[Y\�
-N�[�\�ܛ�\[��RJ
-N�Y��YYH�[B���[��[ۈY�[Z[S[�J
-H�[Z[Y\˜\�
-�JN�]�Q�[Z[Y\�
-N�[�\�ܛ�\[��RJ
-NB���[��[ۈ�[[ݙQ�[Z[S[�J�JH�[Z[Y\˜�X�J�KJN�]�Q�[Z[Y\�
-N�[�\�ܛ�\[��RJ
-NB����OOOOH��]H\��\�[��HOOOOB��[��[ۈ�Y�]\�
-H�H��]\����Ӌ�\��J��[�ܘY�K��]][J�UW��ԐQ�W��VJJH�N�H�]���]\���N�B�B���[��[ۈ�]�T�]\�
-H�ۜ��]\�H�N�\��[��Y[�˙�ܑXX�
+function loadFamilies() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(GROUP_STORAGE_KEY)) || [];
+    families = [];
+    saved.forEach(nameGroup => {
+      if (nameGroup.length === 0) { families.push([]); return; } // keep empty lanes
+      const idxGroup = [];
+      nameGroup.forEach(name => {
+        const idx = currentStudents.findIndex(s => s.canonical === name);
+        if (idx >= 0) idxGroup.push(idx);
+      });
+      if (idxGroup.length > 0) families.push(idxGroup);
+    });
+  } catch { families = []; }
+}
 
-�Y
-HO��ۜ�ZHH��[Y[���][[Y[��RY
-	ܘ]K[X]I�
-�Y
-N�ۜ��HH��[Y[���][[Y[��RY
-	ܘ]K\��KI�
-�Y
-NY�
-ZH	��ZK��[YJH�]\��˘�[�ۚX�[
-�	��X]	�HHZK��[YNY�
-�H	���K��[YJH�]\��˘�[�ۚX�[
-�	����I�HH�K��[YNJN�H���[�ܘY�K��]][J�UW��ԐQ�W��VK��Ӌ���[��Y�J�]\�JN�H�]��B�\�њ\�X�\�J�UW��ԐQ�W��VK�]\�NB����OOOOHK�Y\��Y�H�[�\�][ۈOOOOB��[��[ۈ�]�Y[�]JY
-H�ۜ��KWHH�]SJ
-N�ۜ��H�\��[��Y[���YNY�
-\�H�]\���[��ۜ�Q]�H�]�[\�Y
-X]]�[��KJK��[\�HO�ˋ��˛X]�[Y\�K�[��Y\�K��[YJJK��ܝ
+function getUngrouped() {
+  const grouped = new Set(families.flat());
+  return currentStudents.map((_, i) => i).filter(i => !grouped.has(i));
+}
 
-K�HO�K�]HH��]JN�ۜ��]�H�]�[\�Y
-��Y[��Q]�[��KJK��[\�HO�ˋ��˜��S�[Y\�K�[��Y\�K��[YJJK��ܝ
+function renderGroupingUI() {
+  if (currentStudents.length === 0) return;
 
-K�HO�K�]HH��]JN��ۜ�ZHH��[Y[���][[Y[��RY
-	ܘ]K[X]I�
-�Y
-N�ۜ��HH��[Y[���][[Y[��RY
-	ܘ]K\��KI�
-�Y
-N�ۜ�X]�]HHZH	��[ZK�\�X�Y�\��Q��]
-ZK��[YJH��ۜ���T�]HH�H	��\�K�\�X�Y�\��Q��]
-�K��[YJH���]\����Q]��]�X]�]K��T�]KYNB���[��[ۈ�[Y]T�]\��Y[�[�X�\�H�܈
-�ۜ�Yو�Y[�[�X�\�H�ۜ�H�]�Y[�]JY
-NY�
-Y
-H�۝[�YNY�
-�˚\�X]	��Y�X]�]JH�����\�
-:*��hj�k��	��˘�[�ۚX�[H9�X]9�`�%��
-N��]\���[�N�B�Y�
-�˚\���H	��Y���T�]JH�����\�
-:*��hj�k��	��˘�[�ۚX�[H9���Y[��H9�`�%��
-N��]\���[�N�B�B��]\���YNB���[��[ۈ�Z[�[��SY\��Y�JY
-H�ۜ��KWHH�]SJ
-N�ۜ�]HH��[Y[���][[Y[��RY
-	�]T�[X�	�K��[YN�ۜ�ܙY][��H��[Y[���][[Y[��RY
-	�ܙY][���[X�	�K��[YN�ۜ�H�]�Y[�]JY
-NY�
-Y
-H�]\���[�]\��H	�]_I�ܙY][��{�#9d�9��9论*�I�_y�"9�9."�*���`��n;�&���Y�
-�˚\Л�
-H�ۜ�RH�Q]���YX�J
-KJHO�H
-�K��\��
-N�ۜ��H��]���YX�J
-KJHO�H
-�K��\��
-N�ۜ�Q�HR
-��X]�]KшH�
-����T�]N\��
-�H	���X]W���Q]���ܑXX�
-HO��\��
-�H	�K�[۝K��K�^_{�&�ٛܛX]�[JK��\��_Z���JN\��
-�H9l#�*";�&�ٛܛX]�[JR
-_Z�	��X]�]_HH	�X]���[�
-Q�_ya`��\��
-�H	�����Y[��WW����]���ܑXX�
-HO��\��
-�H	�K�[۝K��K�^_{�&�ٛܛX]�[JK��\��_Z���JN\��
-�H9l#�*";�&�ٛܛX]�[J�
-_Z�	����T�]_HH	�X]���[�
-ъ_ya`��\��
-�H�d":*";�&��X]���[�
-Q�
-�ъ_ya`��#:+'z+'I�]_X�]\����[YN��˘�[�ۚX�[\���[�YN�X]���[�
-Q�
-�ъK�[�\�ΈR
-����[���Q]��[��
-���]��[��\Л���YHNH[�H�ۜ�]�H�˚\�X]��Q]����]��ۜ��]HH�˚\�X]��X]�]H����T�]N]���ܑXX�
-HO��\��
-�H	�K�[۝K��K�^_{�&�ٛܛX]�[JK��\��_Z���JN�ۜ�H]���YX�J
-KJHO�H
-�K��\��
-N�ۜ��H
-��]N\��
-�H�alIٛܛX]�[J
-_Z�	ܘ]_HH	�X]���[�
-�_ya`��#:+'z+'I�]_X�]\����[YN��˘�[�ۚX�[\���[�YN�X]���[�
-�K�[�\�Έ��[��]��[��\Л���[�HNB�B���[��[ۈ�Z[�[Z[SY\��Y�J�Y[�[�X�\�H�ۜ��KWHH�]SJ
-N�ۜ�]HH��[Y[���][[Y[��RY
-	�]T�[X�	�K��[YN�ۜ�ܙY][��H��[Y[���][[Y[��RY
-	�ܙY][���[X�	�K��[YN�]\��H	�]_I�ܙY][��{�#9d�9��9论*�I�_y�"9�9."�*���`��n;�&��]ܘ[��[H]�[��[�H]�[��H�ۜ��[Y\�H�N��Y[�[�X�\˙�ܑXX�
-YO��ۜ�H�]�Y[�]JY
-NY�
-Y
-H�]\���[Y\˜\�
-�˘�[�ۚX�[
-N�\��
-�H��$	��˘�[�ۚX�[x�$W��Y�
-�˚\Л�
-H�ۜ�RH�Q]���YX�J
-KJHO�H
-�K��\��
-N�ۜ��H��]���YX�J
-KJHO�H
-�K��\��
-N�ۜ�Q�HR
-��X]�]KшH�
-����T�]N\��
-�H	��X]W���Q]���ܑXX�
-HO��\��
-�H	�K�[۝K��K�^_{�&�ٛܛX]�[JK��\��_Z���JN\��
-�H9l#�*";�&�ٛܛX]�[JR
-_Z�	��X]�]_HH	�X]���[�
-Q�_ya`��\��
-�H	�����Y[��WW����]���ܑXX�
-HO��\��
-�H	�K�[۝K��K�^_{�&�ٛܛX]�[JK��\��_Z���JN\��
-�H9l#�*";�&�ٛܛX]�[J�
-_Z�	����T�]_HH	�X]���[�
-ъ_ya`��ܘ[��[
-�HQ�
-�ю�[��
-�HR
-���[��[�
-�H�Q]��[��
-���]��[��H[�HY�
-�˚\�X]
-H�Q]���ܑXX�
-HO��\��
-�H	�K�[۝K��K�^_{�&�ٛܛX]�[JK��\��_Z���JN�ۜ�H�Q]���YX�J
-KJHO�H
-�K��\��
-N\��
-�H9l#�*";�&�ٛܛX]�[J
-_Z�	��X]�]_HH	�X]���[�
-
-��X]�]J_ya`��ܘ[��[
-�H
-��X]�]N�[��
-�H�[��[�
-�H�Q]��[��H[�H��]���ܑXX�
-HO��\��
-�H	�K�[۝K��K�^_{�&�ٛܛX]�[JK��\��_Z���JN�ۜ�H��]���YX�J
-KJHO�H
-�K��\��
-N\��
-�H9l#�*";�&�ٛܛX]�[J
-_Z�	����T�]_HH	�X]���[�
-
-����T�]J_ya`��ܘ[��[
-�H
-����T�]N�[��
-�H�[��[�
-�H��]��[��B�JN�\��
-�H�d":*";�&��X]���[�
-ܘ[��[
-_ya`��#:+'z+'I�]_X��]\����[YN��[Y\˚��[�	�
-�	�K\���[�YN�X]���[�
-ܘ[��[
-K�[�\�Έ�[����[���[��[�\Л���YK\ј[Z[N��YHNB����OOOOHL��[�\�]H	�\�^HOOOOB��[��[ۈ�[�\�]T�[��JY
-H�]�T�]\�
-NY�
-]�[Y]T�]\��YJJH�]\���ۜ��\�[H�Z[�[��SY\��Y�JY
-NY�
-\�\�[
-H�]\����ԙ\�[
-	��I�
-�Y�\�[
-N����\�
-9m��(�a�	ܙ\�[��[Y_H9�:*���/�*"��k�
-NB���[��[ۈ�[�\�]Q�[Z[J�JH�]�T�]\�
-N�ۜ�ܛ�\H�[Z[Y\�ٚWNY�
-Yܛ�\ܛ�\�[��OOH
-H�����\�
-	��i9�9�a9����"ykn9�'��N��]\���B�Y�
-]�[Y]T�]\�ܛ�\
-JH�]\���]�\�[Y�
-ܛ�\�[��OOHJH�\�[H�Z[�[��SY\��Y�Jܛ�\�JNH[�H�\�[H�Z[�[Z[SY\��Y�Jܛ�\
-NB�Y�
-\�\�[
-H�]\����ԙ\�[
-	ًI�
-��K�\�[
-N����\�
-9m��(�a�	ܙ\�[��[Y_H9�:*���/�*"��k�
-NB���[��[ۈ�[�\�]P[
+  const section = document.getElementById('groupingSection');
+  section.style.display = 'block';
 
-H�]�T�]\�
-N�����X�[][\Έ�[Z[Y\�
-�[�ܛ�\Y[�]�YX[�ۜ�][\�H�N�[Z[Y\˙�ܑXX�
+  // Render family lanes
+  const lanesDiv = document.getElementById('familyLanes');
+  lanesDiv.innerHTML = '';
+  families.forEach((group, fi) => {
+    lanesDiv.innerHTML += `
+      <div class="group-lane" id="family-${fi}"
+           ondragover="event.preventDefault(); this.classList.add('dragover')"
+           ondragleave="this.classList.remove('dragover')"
+           ondrop="dropOnFamily(event, ${fi})">
+        <div class="lane-header">
+          <span class="lane-label">家庭 ${fi + 1}</span>
+          <div class="lane-actions">
+            <button class="btn-generate-one" onclick="generateFamily(${fi})">產出</button>
+            <button class="lane-remove" onclick="removeFamilyLane(${fi})">移除群組</button>
+          </div>
+        </div>
+        <div class="lane-students">${group.map(idx => makeChip(idx)).join('')}</div>
+      </div>`;
+  });
 
-ܛ�\�JHO�Y�
-ܛ�\�[��OOH
-H�]\��][\˜\�
-�\N�	٘[Z[I��K[�X�\Έܛ�\JNJN�][�ܛ�\Y
+  // Render ungrouped
+  const ungrouped = getUngrouped();
+  const ungroupedDiv = document.getElementById('ungroupedStudents');
+  ungroupedDiv.innerHTML = ungrouped.map(idx =>
+    `<div style="display:inline-flex;align-items:center;gap:4px;margin:2px 0;">` +
+      makeChip(idx) +
+      `<button class="btn-generate-one" onclick="generateSingle(${idx})" style="padding:3px 8px;font-size:0.75em;">產出</button>` +
+    `</div>`
+  ).join('');
 
-K��ܑXX�
-YO�][\˜\�
-�\N�	��[��I�Y[�X�\Έ�YHJNJN����[Y]H[�]\�ۜ�[[�X�\�H][\˙�]X\
-HO�K�[�X�\�NY�
-]�[Y]T�]\�[[�X�\�JH�]\������[�\�]B�]��[�H�[��˗��[�\�]YY\��Y�\�H�N][\˙�ܑXX�
-][HO�]�\�[Y�
-][K�\HOOH	٘[Z[I�H�ۜ��^HH	ًI�
-�][K��N�\�[H][K�[�X�\˛[��OOHH��Z[�[��SY\��Y�J][K�[�X�\��JH��Z[�[Z[SY\��Y�J][K�[�X�\�NY�
-�\�[
-H��[��˗��[�\�]YY\��Y�\���^WHH�\�[���[�
-���B�H[�H�ۜ��^HH	��I�
-�][K�Y�\�[H�Z[�[��SY\��Y�J][K�Y
-NY�
-�\�[
-H��[��˗��[�\�]YY\��Y�\���^WHH�\�[���[�
-���B�B�JN�Y�
-��[��
-H�[�\�[Y\��Y�\�
-N����\�
-9m��(�a�	���[�H9ba�*���/�*"��k�
-NB�B���[��[ۈ��ԙ\�[
-�^K�\�[
-HY�
-]�[��˗��[�\�]YY\��Y�\�H�[��˗��[�\�]YY\��Y�\�H�N�[��˗��[�\�]YY\��Y�\���^WHH�\�[��ۜ�^\�[��H��[Y[���][[Y[��RY
-	ܙ\�[X�\�I�
-��^JN�ۜ��\�H^\�[����[Y[��ܙX]Q[[Y[�
-	�]��N�\��YH	ܙ\�[X�\�I�
-��^N�\���\�Ә[YHH	�\��X�\�	��\��[��\�SHXZ�P�\�S
-�^K�\�[
-N�Y�
-Y^\�[��H��[Y[���][[Y[��RY
-	�\��\�	�K�\[��[
-�\�
-N��[Y[���][[Y[��RY
-	ܙ\�[��K��[K�\�^HH	؛������[Y[���][[Y[��RY
-	��Y[���[�	�K�^�۝[�H9m��(�a�	�ؚ�X���^\��[��˗��[�\�]YY\��Y�\�K�[��H9ba��\���ܛ�[�՚Y]���Z]�[܎�	��[��	����Έ	ۙX\�\�	�JNB���[��[ۈ�[�\�[Y\��Y�\�
-HY�
-]�[��˗��[�\�]YY\��Y�\�H�]\���ۜ�[��Y\�Hؚ�X��[��Y\��[��˗��[�\�]YY\��Y�\�N�ۜ�\��\�H��[Y[���][[Y[��RY
-	�\��\�	�N\��\��[��\�SH[��Y\˛X\
+  // Set up ungrouped lane drop
+  const lane = document.getElementById('ungroupedLane');
+  lane.ondragover = e => { e.preventDefault(); lane.classList.add('dragover'); };
+  lane.ondragleave = () => lane.classList.remove('dragover');
+  lane.ondrop = e => dropOnUngrouped(e);
+}
 
-��^KWJHO�]��\��H�\��X�\��YH��\�[X�\�I��^_H���XZ�P�\�S
-�^KJ_O�]��
-K���[�	��N��[Y[���][[Y[��RY
-	ܙ\�[��K��[K�\�^HH	؛������[Y[���][[Y[��RY
-	��Y[���[�	�K�^�۝[�H9m��(�a�	�[��Y\˛[��H9ba���[Y[���][[Y[��RY
-	ܙ\�[��K��ܛ�[�՚Y]���Z]�[܎�	��[��	�JNB���[��[ۈXZ�P�\�S
-�^KJH�ۜ�Y�HK�\ј[Z[H�	��[��\��H���\��K]Y�Y�X����[OH��۝\�^�N���[N�X\��[�[Y���ȏ�k��n�O��[�����K�\Л��	��[��\��H���\��K]Y�Y�X����[OH��۝\�^�N���[N�X\��[�[Y���ȏ�X]
-���O��[����	���ۜ�X[Q�Y��H�YX[Q�Y��
-N�ۜ�\�X[HHX[Q�Y���K��[YWH�[�N�ۜ�X[P�Y�HH\�X[H�	��[��[OH�X\��[�[Y���ٛ۝\�^�N���Y[Nٛ۝]�ZY������܎��X�NX��ȏ�'�iH9g&:f����[����	���ۜ��[YH�Y�[Y
+function makeChip(idx) {
+  const s = currentStudents[idx];
+  if (!s) return '';
+  const tagClass = s.isBoth ? 'tag-both' : (s.isMath ? 'tag-math' : 'tag-science');
+  const teamFlags = loadTeamFlags();
+  const hasTeam = teamFlags[s.canonical] || false;
+  return `<span class="student-chip" draggable="true"
+    ondragstart="dragStart(event, ${idx})" ondragend="dragEnd(event)"
+    style="border-color:${s.isBoth ? '#c39bd3' : s.isMath ? '#82e0aa' : '#85c1e9'}">
+    ${escapeHtml(s.canonical)}
+    ${hasTeam ? '<span class="team-badge">👥</span>' : ''}
+    <span class="source-tag ${tagClass}" style="font-size:0.7em;margin-left:2px;">${s.isBoth ? 'M+S' : s.isMath ? 'M' : 'S'}</span>
+  </span>`;
+}
 
-N�ۜ��K[�HH�]SJ
-N�ۜ��[Y�^HH	�_KI�[�W��K��[Y_X�ۜ�\К[YH�[Yؚ[Y�^WH�[�N�ۜ��\��\��H\К[Y�	�\��X�\��[Y	��	�\��X�\�	���]\���]��\��H�\��ZXY\��ۘ�X��H�\˛�^[[Y[��X�[�˘�\��\�����J	��[��H���]��\��H�\��ZXY\�[Y�����[��\��H��[YH���\��\R[
-K��[YJ_H	�Y�I�X[P�Y�_O��[����]���]��\��H�\��ZXY\�\�Y��ۘ�X��H�]�[������Y�][ۊ
-H����[��\��H��[[X\�H���K���[�yh �	ٛܛX]�[JK��[�\��_Z�		�K��[�YK����[T��[��
-_O��[���X�[�[OH�\�^N��^�[YۋZ][\Θ�[�\���\���X\��[�[Y��Lȏ��[�]\OH��X�؛���\��H��[YX�X�؛��]KZ�^OH���^_H�	�\К[Y�	��X��Y	��	��Hۘ�[��OH��]�[Y�]\�	���^_I�	��K��[Y_I�\˘�X��Y
-H����[��[OH��۝\�^�N��[N��]K\�X�N���ܘ\ȏ�m�*���/���[����X�[���]����]���]��\��H�\��X��H�[����]��\��H�\��]^���\��\R[
-K�\��_O�]���]��[OH�\�^N��^��\��X\��[�]��L�[YۋZ][\Θ�[�\�ȏ���]ۈ�\��H���KX����[OH�X\��[�]���ۘ�X��H���T�[��J\�	���^_I�H��)!�(�y�i:*"��k�؝]ۏ���]ۈ�\��H���KX����[OH�X\��[�]��ؘX��ܛ�[���M����Ȉۘ�X��H�[]P�\�
-	���^_I�H�ۛ[�\�[ݙ\�H�\˜�[K��X��ܛ�[�I����L��Ȉۛ[�\�[�]H�\˜�[K��X��ܛ�[�I��M����ȏ�b*�fi؝]ۏ���]����]��B���[��[ۈ�]�[Y�]\��^K�Y[��[YK�X��Y
-H�ۜ��KWHH�]SJ
-N�ۜ��[YH�Y�[Y
+let draggedIdx = null;
 
-N����]HY\��Y�H��X��Y�]	��H�[Z[Hܛ�\��ۜ�\��H�[��˗��[�\�]YY\��Y�\�	���[��˗��[�\�]YY\��Y�\���^WN�ۜ�\ј[Z[HH\��	��\�˚\ј[Z[N����]�H�[Y�܈H��X�[�Y�[Z[H�[YB��ۜ��[Y�^HH	�_KI�_W���Y[��[Y_XY�
-�X��Y
-H�[Yؚ[Y�^WHH�YN[�H[]H�[Yؚ[Y�^WN���Y��[Z[K[���]�H�[Y�܈XX�[�]�YX[�Y[���ۜ�[�]�YX[�[Y\�H�Y[��[YK�[��Y\�	�
-�	�H��Y[��[YK��]
-	�
-�	�K�X\
-�O����[J
-JH���Y[��[YWN[�]�YX[�[Y\˙�ܑXX�
-�[YHO��ۜ�Z�H	�_KI�_W�ۘ[Y_XY�
-�X��Y
-H�[Y�Z�HH�YN[�H[]H�[Y�Z�NJN��]�P�[Y
-�[Y
-N��ۜ��\�H��[Y[���][[Y[��RY
-	ܙ\�[X�\�I�
-��^JNY�
-�X��Y
-H�\���\��\��Y
-	ؚ[Y	�N[�H�\���\��\���[[ݙJ	ؚ[Y	�N����[��XX��Y[��\�X�ݙH
-[�\��[Z[Hܛ�\���B�[�]�YX[�[Y\˙�ܑXX�
-�[YHO��[���Y[��\��[Y
-�[YK�X��Y
-JNB���[��[ۈ�[��\���\��[Y
-�Y[��[YK�X��Y
-HY�
-]�[��˗��[�\�]YY\��Y�\�H�]\���܈
-�ۜ���^KWHوؚ�X��[��Y\��[��˗��[�\�]YY\��Y�\�JH��X]�Y�Y\��Y�H�[YH\]X[�H�Y[�ԈY�Y\��Y�H\�H�[Z[H�۝Z[�[��\��Y[���ۜ�\�Ә[Y\�HK��[YK�[��Y\�	�
-�	�H�K��[YK��]
-	�
-�	�K�X\
-�O����[J
-JH��K��[YWNY�
-K��[YHOOH�Y[��[YH\�Ә[Y\˚[��Y\��Y[��[YJJH���܈�[Z[HY\��Y�\ΈۛH�[��Y�SY[X�\��\�H����[Y
-܈[��X��[��B�Y�
-K�\ј[Z[H	���X��Y
-H�ۜ��K[�HH�]SJ
-N�ۜ��[YH�Y�[Y
+function dragStart(e, idx) {
+  draggedIdx = idx;
+  e.target.closest('.student-chip').classList.add('dragging');
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('text/plain', idx);
+}
 
-N�ۜ�[�[YH\�Ә[Y\˙]�\�J�O��[Y�	�_KI�[�W�۟XJNY�
-X[�[Y
-H�۝[�YNB��ۜ��\�H��[Y[���][[Y[��RY
-	ܙ\�[X�\�I�
-��^JNY�
-X�\�
-H�۝[�YNY�
-�X��Y
-H�\���\��\��Y
-	ؚ[Y	�N[�H�\���\��\���[[ݙJ	ؚ[Y	�N�ۜ�؈H�\��]Y\�T�[X�܊	˘�[YX�X�؛�	�NY�
-؊H؋��X��YH�X��Y��[��\]H��[�ܘY�H�܈�[Z[H�^B�Y�
-K�\ј[Z[H	���X��Y
-H�ۜ��L�L�HH�]SJ
-N�ۜ��[Y�H�Y�[Y
+function dragEnd(e) {
+  e.target.closest('.student-chip').classList.remove('dragging');
+  document.querySelectorAll('.group-lane').forEach(l => l.classList.remove('dragover'));
+}
 
-N�[Y��	�L�KI�L�W��K��[Y_XHH�YN�]�P�[Y
-�[Y�NB�B�B�B���[��[ۈ�[���Y[��\��[Y
-�Y[��[YK�X��Y
-H�ۜ�YH�\��[��Y[�˙�[�[�^
-�O�˘�[�ۚX�[OOH�Y[��[YJNY�
-Y
-H�]\���ۜ��\�H��[Y[���][[Y[��RY
-	��Y[�X�\�I�
-�Y
-NY�
-X�\�
-H�]\��Y�
-�X��Y
-H�\���\��\��Y
-	ؚ[Y	�N[�H�\���\��\���[[ݙJ	ؚ[Y	�N�ۜ�؈H�\��]Y\�T�[X�܊	�[�]�]KZ�^OH��\�I�
-�Y
-�	ȗI�NY�
-؊H؋��X��YH�X��Y��[���]�H[�]�YX[�[Y�]\�ۜ��KWHH�]SJ
-N�ۜ��[YH�Y�[Y
+function dropOnFamily(e, familyIdx) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('dragover');
+  if (draggedIdx === null) return;
 
-NY�
-�X��Y
-H�[Y�	�_KI�_W���Y[��[Y_XHH�YN[�H[]H�[Y�	�_KI�_W���Y[��[Y_XN�]�P�[Y
-�[Y
-NB���[��[ۈ[]P�\�
-�^JH�ۜ��\�H��[Y[���][[Y[��RY
-	ܙ\�[X�\�I�
-��^JNY�
-�\�
-H�\���[[ݙJ
-NY�
-�[��˗��[�\�]YY\��Y�\�H[]H�[��˗��[�\�]YY\��Y�\���^WN�ۜ��[XZ[�[��H�[��˗��[�\�]YY\��Y�\��ؚ�X���^\��[��˗��[�\�]YY\��Y�\�K�[�����[Y[���][[Y[��RY
-	��Y[���[�	�K�^�۝[�H9m��(�a�	ܙ[XZ[�[��H9ba�Y�
-�[XZ[�[��OOH
-H��[Y[���][[Y[��RY
-	ܙ\�[��K��[K�\�^HH	ۛۙI�B����OOOOHLK�][]Y\�OOOOB��[��[ۈ��T�[��J���^JH�ۜ�\��H�[��˗��[�\�]YY\��Y�\�	���[��˗��[�\�]YY\��Y�\���^WNY�
-[\��H�]\���]�Y�]܋��\��\��ܚ]U^
-\�˛\��K�[�
+  // Remove from any existing family
+  families.forEach(group => {
+    const pos = group.indexOf(draggedIdx);
+    if (pos >= 0) group.splice(pos, 1);
+  });
+  // Remove empty families
+  families = families.filter(g => g.length > 0);
 
-HO����^�۝[�H	�m�)!�(�{� I������\��\��Y
-	���YY	�N�][Y[�]
+  // Recalculate familyIdx since families might have shifted
+  // Add to target family (find by checking if familyIdx is still valid)
+  if (familyIdx < families.length) {
+    if (!families[familyIdx].includes(draggedIdx)) families[familyIdx].push(draggedIdx);
+  } else {
+    families.push([draggedIdx]);
+  }
 
+  saveFamilies();
+  renderGroupingUI();
+  draggedIdx = null;
+}
 
-HO�����^�۝[�H	�)!�(�y�i:*"��k�������\��\���[[ݙJ	���YY	�N�KML
-NJNB���[��[ۈ���P[
+function dropOnUngrouped(e) {
+  e.preventDefault();
+  document.getElementById('ungroupedLane').classList.remove('dragover');
+  if (draggedIdx === null) return;
+  // Remove from any family
+  families.forEach(group => {
+    const pos = group.indexOf(draggedIdx);
+    if (pos >= 0) group.splice(pos, 1);
+  });
+  families = families.filter(g => g.length > 0);
+  saveFamilies();
+  renderGroupingUI();
+  draggedIdx = null;
+}
 
-H[^[�YHX[^[�Y��[Y[��]Y\�T�[X�ܐ[
-	˛\��X��I�K��ܑXX�
-�O�[^[�Y����\��\��Y
-	��[��H����\��\���[[ݙJ	��[��NJN��[Y[���][[Y[��RY
-	�^[����I�K�^�۝[�H[^[�Y�	�aj:`�9�-�-m���	�aj:`�9leze���B���[��[ۈ��P[
+function addFamilyLane() {
+  families.push([]);
+  saveFamilies();
+  renderGroupingUI();
+}
 
-HY�
-]�[��˗��[�\�]YY\��Y�\�H�]\���ۜ�\���Hؚ�X���[Y\��[��˗��[�\�]YY\��Y�\�N�ۜ�[H\��˛X\
-HO�	��$	�
-�K��[YH
-�	��$W��
-�K�\��K���[�	���� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� ���N�]�Y�]܋��\��\��ܚ]U^
-[
-K�[�
+function removeFamilyLane(fi) {
+  families.splice(fi, 1);
+  saveFamilies();
+  renderGroupingUI();
+}
 
-HO�����\�
-	�m�)!�(�yaj:`�	�
-�\��˛[��
-�	�9ba�*"��k��JNB����OOOOHL���]H�\�[���XHT�OOOOB��[��[ۈ�\�T�]\�
-H�]�T�]\�
-N�ۜ��]\�H�Y�]\�
-NY�
-ؚ�X���^\��]\�K�[��OOH
-H�����\�
-	�l&��*�*+yk��.��/ey�`�%���N��]\���B��ۜ�[���YH��J[�\��\J[���UT�P��\ۙ[�
-��Ӌ���[��Y�J�]\�JJJN�ۜ�\�H��][ۋ�ܚY�[�
-���][ۋ�]�[YH
-�	�ܘ]\�I�
-�[���Y�]�Y�]܋��\��\��ܚ]U^
-\�
-K�[�
+// ===== 8. Rate persistence =====
+function loadRates() {
+  try { return JSON.parse(localStorage.getItem(RATE_STORAGE_KEY)) || {}; } catch { return {}; }
+}
 
-HO�����\�
-	�m�)!�(�yb!�.�����g`;� y`���i�l#y��ycl�c��d#9�iy�`�%��*+yk���NJNB���[��[ۈ�\�Qܛ�\�
-H�]�Q�[Z[Y\�
-N�ۜ��]�YH��Ӌ�\��J��[�ܘY�K��]][Jԓ�T��ԐQ�W��VJJH�NY�
-�]�Y�[��OOH
-H�����\�
-	�l&��*�*+yk��.��/ey�9�a	�N��]\���B��ۜ�[���YH��J[�\��\J[���UT�P��\ۙ[�
-��Ӌ���[��Y�J�]�Y
-JJJN�ۜ�\�H��][ۋ�ܚY�[�
-���][ۋ�]�[YH
-�	��ܛ�\�I�
-�[���Y�]�Y�]܋��\��\��ܚ]U^
-\�
-K�[�
+function saveRates() {
+  const rates = {};
+  currentStudents.forEach((s, idx) => {
+    const mi = document.getElementById('rate-math-' + idx);
+    const si = document.getElementById('rate-sci-' + idx);
+    if (mi && mi.value) rates[s.canonical + '_math'] = mi.value;
+    if (si && si.value) rates[s.canonical + '_sci'] = si.value;
+  });
+  try { localStorage.setItem(RATE_STORAGE_KEY, JSON.stringify(rates)); } catch {}
+  pushToFirebase(RATE_STORAGE_KEY, rates);
+}
 
-HO�����\�
-	�m�)!�(�y�9�a9b!�.�����g`;� y`���i�l#y��ycl�c��d#9�iy�9�a:*+yk���NJNB���[��[ۈ�\�P[
+// ===== 9. Message generation =====
+function getStudentData(idx) {
+  const [y, m] = getYM();
+  const s = currentStudents[idx];
+  if (!s) return null;
 
-H�]�T�]\�
-N�]�Q�[Z[Y\�
-N�ۜ��]\�H�Y�]\�
-N�ۜ�ܛ�\�H��Ӌ�\��J��[�ܘY�K��]][Jԓ�T��ԐQ�W��VJJH�N�ۜ�X[Q�Y��H�YX[Q�Y��
-N�ۜ��[[���ۙ\�H�Y�[[���ۙ\�
-N��ۜ�[]HH�]\��ܛ�\��X[Q�Y����[[���ۙ\��N��ۜ�[���YH��J[�\��\J[���UT�P��\ۙ[�
-��Ӌ���[��Y�J[]JJJJN�ۜ�\�H��][ۋ�ܚY�[�
-���][ۋ�]�[YH
-�	��[I�
-�[���Y�]�Y�]܋��\��\��ܚ]U^
-\�
-K�[�
+  const mEv = getFiltered(mathEvents, y, m).filter(e => [...s.mathNames].includes(e.name)).sort((a, b) => a.date - b.date);
+  const sEv = getFiltered(scienceEvents, y, m).filter(e => [...s.sciNames].includes(e.name)).sort((a, b) => a.date - b.date);
 
-HO�����\�
-	�m�)!�(�yk�9�m9b!�.�����g`;� yc!yd*��`�%��� y�9�a8� yg&:f��� z*���/�,�9.��*+yk���NJNB���[��[ۈ[\ܝ�]\ќ��UT�
+  const mi = document.getElementById('rate-math-' + idx);
+  const si = document.getElementById('rate-sci-' + idx);
+  const mathRate = mi && !mi.disabled ? parseFloat(mi.value) : 0;
+  const sciRate = si && !si.disabled ? parseFloat(si.value) : 0;
 
-H�ۜ�\�H��][ۋ�\�Y�
-Z\���\���]
-	�ܘ]\�I�JH�]\���H�ۜ�[���YH\���X�J
-�N�ۜ���ۈHX��UT�P��\ۙ[�
-\��\J]؊[���Y
-JJN�ۜ��]\�H��Ӌ�\��J��ۊN��Y\��H�]^\�[���]\�
-[\ܝY�]\�ݙ\�ܚ]H�ۙ�X��B��ۜ�^\�[��H�Y�]\�
-N�ۜ�Y\��YH����^\�[������]\�N��[�ܘY�K��]][J�UW��ԐQ�W��VK��Ӌ���[��Y�JY\��Y
-JN\�њ\�X�\�J�UW��ԐQ�W��VKY\��Y
-N���X[�\T�\��\�ܞK��\X�T�]J�[	����][ۋ�]�[YJN����\�
-	�m�c+�aiy�`�%��*+yk��� yalH	�
-�ؚ�X���^\��]\�K�[��
-�	�9�a��NH�]�
-JH�ۜ��K�\��܊	Ԙ]H[\ܝ�Z[Y��JNB�B���[��[ۈ[\ܝܛ�\ќ��UT�
+  return { s, mEv, sEv, mathRate, sciRate, idx };
+}
 
-H�ۜ�\�H��][ۋ�\�Y�
-Z\���\���]
-	��ܛ�\�I�JH�]\���H�ۜ�[���YH\���X�J
-N�ۜ���ۈHX��UT�P��\ۙ[�
-\��\J]؊[���Y
-JJN�ۜ�ܛ�\�H��Ӌ�\��J��ۊN��Y\��H�]^\�[��ܛ�\�ۜ�^\�[��H��Ӌ�\��J��[�ܘY�K��]][Jԓ�T��ԐQ�W��VJJH�N�ۜ�Y\��YHˋ��^\�[��Nܛ�\˙�ܑXX�
-�O�Y�
-[Y\��Y��[�
-HO���Ӌ���[��Y�JJHOOH��Ӌ���[��Y�J�JJHY\��Y�\�
-�NB�JN��[�ܘY�K��]][Jԓ�T��ԐQ�W��VK��Ӌ���[��Y�JY\��Y
-JN\�њ\�X�\�Jԓ�T��ԐQ�W��VKY\��Y
-N���X[�\T�\��\�ܞK��\X�T�]J�[	����][ۋ�]�[YJN����\�
-	�m�c+�aiy�9�a:*+yk��� yalH	�
-�ܛ�\˛[��
-�	�9`"��NH�]�
-JH�ۜ��K�\��܊	�ܛ�\�[\ܝ�Z[Y��JNB�B���[��[ۈ[\ܝ[���UT�
+function validateRates(studentIndices) {
+  for (const idx of studentIndices) {
+    const d = getStudentData(idx);
+    if (!d) continue;
+    if (d.s.isMath && !d.mathRate) { showToast(`請填寫 ${d.s.canonical} 的 Math 時薪`); return false; }
+    if (d.s.isSci && !d.sciRate) { showToast(`請填寫 ${d.s.canonical} 的 Science 時薪`); return false; }
+  }
+  return true;
+}
 
-H�ۜ�\�H��][ۋ�\�Y�
-Z\���\���]
-	��[I�JH�]\���H�ۜ�[���YH\���X�J
-JN�ۜ���ۈHX��UT�P��\ۙ[�
-\��\J]؊[���Y
-JJN�ۜ�[]HH��Ӌ�\��J��ۊN���[\ܝ�]\Y�
-[]K��]\�H�ۜ�^\�[��H�Y�]\�
-N�ۜ�Y\��YH����^\�[�����[]K��]\�N��[�ܘY�K��]][J�UW��ԐQ�W��VK��Ӌ���[��Y�JY\��Y
-JN\�њ\�X�\�J�UW��ԐQ�W��VKY\��Y
-NB����[\ܝܛ�\Y�
-[]K�ܛ�\�H�ۜ�^\�[��H��Ӌ�\��J��[�ܘY�K��]][Jԓ�T��ԐQ�W��VJJH�N�ۜ�Y\��YHˋ��^\�[��N[]K�ܛ�\˙�ܑXX�
-�O�Y�
-[Y\��Y��[�
-HO���Ӌ���[��Y�JJHOOH��Ӌ���[��Y�J�JJHY\��Y�\�
-�NB�JN��[�ܘY�K��]][Jԓ�T��ԐQ�W��VK��Ӌ���[��Y�JY\��Y
-JN\�њ\�X�\�Jԓ�T��ԐQ�W��VKY\��Y
-NB����[\ܝX[H�Y�Y�
-[]K�X[Q�Y��H�ۜ�^\�[��H�YX[Q�Y��
-N�ۜ�Y\��YH����^\�[�����[]K�X[Q�Y��N�]�UX[Q�Y��Y\��Y
-NB����[\ܝ�[[���ۙ\��Y�
-[]K��[[���ۙ\�H�ۜ�^\�[��H�Y�[[���ۙ\�
-N�ۜ�Y\��YH����^\�[�����[]K��[[���ۙ\�N�]�P�[[���ۙ\�Y\��Y
-NB�����X[�\T�\��\�ܞK��\X�T�]J�[	����][ۋ�]�[YJN����\�
-	�m�c+�aiy�`9�"z*+yk��� {�"9�`�%��� y�9�a8� yg&:f��� z*���/�,�9.���"I�NH�]�
-JH�ۜ��K�\��܊	�[[\ܝ�Z[Y��JNB�B�����[�ۈY�H�Y�[\ܝ�]\ќ��UT�
+function buildSingleMessage(idx) {
+  const [y, m] = getYM();
+  const title = document.getElementById('titleSelect').value;
+  const greeting = document.getElementById('greetingSelect').value;
+  const d = getStudentData(idx);
+  if (!d) return null;
 
-N[\ܝܛ�\ќ��UT�
+  let msg = `${title}${greeting}，和您確認${m}月的上課時數：\n`;
 
-N[\ܝ[���UT�
+  if (d.s.isBoth) {
+    const mH = d.mEv.reduce((a, e) => a + e.hours, 0);
+    const sH = d.sEv.reduce((a, e) => a + e.hours, 0);
+    const mF = mH * d.mathRate, sF = sH * d.sciRate;
+    msg += '\n[Math]\n';
+    d.mEv.forEach(e => { msg += `${e.month}/${e.day}：${formatNum(e.hours)}hr\n`; });
+    msg += `小計：${formatNum(mH)}hr x ${d.mathRate} = ${Math.round(mF)}元\n`;
+    msg += '\n[Science]\n';
+    d.sEv.forEach(e => { msg += `${e.month}/${e.day}：${formatNum(e.hours)}hr\n`; });
+    msg += `小計：${formatNum(sH)}hr x ${d.sciRate} = ${Math.round(sF)}元\n`;
+    msg += `\n合計：${Math.round(mF + sF)}元，謝謝${title}`;
+    return { name: d.s.canonical, msg, totalFee: Math.round(mF + sF), totalHours: mH + sH, count: d.mEv.length + d.sEv.length, isBoth: true };
+  } else {
+    const ev = d.s.isMath ? d.mEv : d.sEv;
+    const rate = d.s.isMath ? d.mathRate : d.sciRate;
+    ev.forEach(e => { msg += `${e.month}/${e.day}：${formatNum(e.hours)}hr\n`; });
+    const tH = ev.reduce((a, e) => a + e.hours, 0);
+    const tF = tH * rate;
+    msg += `\n共${formatNum(tH)}hr x ${rate} = ${Math.round(tF)}元，謝謝${title}`;
+    return { name: d.s.canonical, msg, totalFee: Math.round(tF), totalHours: tH, count: ev.length, isBoth: false };
+  }
+}
 
-N��[��[ۈ�ܛX]�[J�H��]\���[X�\��\�[�Y�\��H���[���H���[��\��Q��]
-��њ^Y
-�JJN�B��[��[ۈ\��\R[
-�H��]\��˜�\X�Jɋ��	ɘ[\��K��\X�J���	ɛ��K��\X�Jϋ��	ə���N�B��[��[ۈ����\�
-\��H�ۜ�H��[Y[���][[Y[��RY
-	��\�	�N�^�۝[�H\�����\��\��Y
-	�����N�][Y[�]
+function buildFamilyMessage(studentIndices) {
+  const [y, m] = getYM();
+  const title = document.getElementById('titleSelect').value;
+  const greeting = document.getElementById('greetingSelect').value;
 
+  let msg = `${title}${greeting}，和您確認${m}月的上課時數：\n`;
+  let grandTotal = 0;
+  let totalCount = 0;
+  let totalHrs = 0;
+  const names = [];
 
-HO���\��\���[[ݙJ	�����K�
-NB���ܚ\��؛�O���[�
+  studentIndices.forEach(idx => {
+    const d = getStudentData(idx);
+    if (!d) return;
+    names.push(d.s.canonical);
+
+    msg += `\n【${d.s.canonical}】\n`;
+
+    if (d.s.isBoth) {
+      const mH = d.mEv.reduce((a, e) => a + e.hours, 0);
+      const sH = d.sEv.reduce((a, e) => a + e.hours, 0);
+      const mF = mH * d.mathRate, sF = sH * d.sciRate;
+      msg += '[Math]\n';
+      d.mEv.forEach(e => { msg += `${e.month}/${e.day}：${formatNum(e.hours)}hr\n`; });
+      msg += `小計：${formatNum(mH)}hr x ${d.mathRate} = ${Math.round(mF)}元\n`;
+      msg += '\n[Science]\n';
+      d.sEv.forEach(e => { msg += `${e.month}/${e.day}：${formatNum(e.hours)}hr\n`; });
+      msg += `小計：${formatNum(sH)}hr x ${d.sciRate} = ${Math.round(sF)}元\n`;
+      grandTotal += mF + sF;
+      totalHrs += mH + sH;
+      totalCount += d.mEv.length + d.sEv.length;
+    } else if (d.s.isMath) {
+      d.mEv.forEach(e => { msg += `${e.month}/${e.day}：${formatNum(e.hours)}hr\n`; });
+      const tH = d.mEv.reduce((a, e) => a + e.hours, 0);
+      msg += `小計：${formatNum(tH)}hr x ${d.mathRate} = ${Math.round(tH * d.mathRate)}元\n`;
+      grandTotal += tH * d.mathRate;
+      totalHrs += tH;
+      totalCount += d.mEv.length;
+    } else {
+      d.sEv.forEach(e => { msg += `${e.month}/${e.day}：${formatNum(e.hours)}hr\n`; });
+      const tH = d.sEv.reduce((a, e) => a + e.hours, 0);
+      msg += `小計：${formatNum(tH)}hr x ${d.sciRate} = ${Math.round(tH * d.sciRate)}元\n`;
+      grandTotal += tH * d.sciRate;
+      totalHrs += tH;
+      totalCount += d.sEv.length;
+    }
+  });
+
+  msg += `\n合計：${Math.round(grandTotal)}元，謝謝${title}`;
+
+  return { name: names.join(' + '), msg, totalFee: Math.round(grandTotal), totalHours: totalHrs, count: totalCount, isBoth: true, isFamily: true };
+}
+
+// ===== 10. Generate & display =====
+function generateSingle(idx) {
+  saveRates();
+  if (!validateRates([idx])) return;
+  const result = buildSingleMessage(idx);
+  if (!result) return;
+  showResult('s-' + idx, result);
+  showToast(`已產出 ${result.name} 的請款訊息`);
+}
+
+function generateFamily(fi) {
+  saveRates();
+  const group = families[fi];
+  if (!group || group.length === 0) { showToast('此群組沒有學生'); return; }
+  if (!validateRates(group)) return;
+
+  let result;
+  if (group.length === 1) {
+    result = buildSingleMessage(group[0]);
+  } else {
+    result = buildFamilyMessage(group);
+  }
+  if (!result) return;
+  showResult('f-' + fi, result);
+  showToast(`已產出 ${result.name} 的請款訊息`);
+}
+
+function generateAll() {
+  saveRates();
+
+  // Collect all items: families + ungrouped individuals
+  const items = [];
+  families.forEach((group, fi) => {
+    if (group.length === 0) return;
+    items.push({ type: 'family', fi, indices: group });
+  });
+  getUngrouped().forEach(idx => {
+    items.push({ type: 'single', idx, indices: [idx] });
+  });
+
+  // Validate all rates
+  const allIndices = items.flatMap(i => i.indices);
+  if (!validateRates(allIndices)) return;
+
+  // Generate
+  let count = 0;
+  window._generatedMessages = {};
+  items.forEach(item => {
+    let result;
+    if (item.type === 'family') {
+      const key = 'f-' + item.fi;
+      result = item.indices.length === 1 ? buildSingleMessage(item.indices[0]) : buildFamilyMessage(item.indices);
+      if (result) { window._generatedMessages[key] = result; count++; }
+    } else {
+      const key = 's-' + item.idx;
+      result = buildSingleMessage(item.idx);
+      if (result) { window._generatedMessages[key] = result; count++; }
+    }
+  });
+
+  if (count > 0) {
+    renderAllMessages();
+    showToast(`已產出 ${count} 則請款訊息`);
+  }
+}
+
+function showResult(key, result) {
+  if (!window._generatedMessages) window._generatedMessages = {};
+  window._generatedMessages[key] = result;
+
+  const existing = document.getElementById('result-card-' + key);
+  const card = existing || document.createElement('div');
+  card.id = 'result-card-' + key;
+  card.className = 'msg-card';
+  card.innerHTML = makeCardHTML(key, result);
+
+  if (!existing) document.getElementById('msgList').appendChild(card);
+  document.getElementById('results').style.display = 'block';
+  document.getElementById('studentCount').textContent = `已產出 ${Object.keys(window._generatedMessages).length} 則`;
+  card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function renderAllMessages() {
+  if (!window._generatedMessages) return;
+  const entries = Object.entries(window._generatedMessages);
+  const msgList = document.getElementById('msgList');
+  msgList.innerHTML = entries.map(([key, m]) => `<div class="msg-card" id="result-card-${key}">${makeCardHTML(key, m)}</div>`).join('');
+  document.getElementById('results').style.display = 'block';
+  document.getElementById('studentCount').textContent = `已產出 ${entries.length} 則`;
+  document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+}
+
+function makeCardHTML(key, m) {
+  const tag = m.isFamily ? '<span class="source-tag tag-both" style="font-size:0.7em;margin-left:6px;">家庭</span>' :
+              m.isBoth ? '<span class="source-tag tag-both" style="font-size:0.7em;margin-left:6px;">Math+Sci</span>' : '';
+  const teamFlags = loadTeamFlags();
+  const hasTeam = teamFlags[m.name] || false;
+  const teamBadge = hasTeam ? '<span style="margin-left:6px;font-size:0.75em;font-weight:600;color:#9b59b6;">👥 團隊</span>' : '';
+  const billed = loadBilled();
+  const [y, mo] = getYM();
+  const billedKey = `${y}-${mo}_${m.name}`;
+  const isBilled = billed[billedKey] || false;
+  const cardClass = isBilled ? 'msg-card billed' : 'msg-card';
+
+  return `
+    <div class="msg-header" onclick="this.nextElementSibling.classList.toggle('open')">
+      <div class="msg-header-left">
+        <span class="name">${escapeHtml(m.name)} ${tag}${teamBadge}</span>
+      </div>
+      <div class="msg-header-right" onclick="event.stopPropagation()">
+        <span class="summary">${m.count}堂 | ${formatNum(m.totalHours)}hr | $${m.totalFee.toLocaleString()}</span>
+        <label style="display:flex;align-items:center;gap:6px;margin-left:10px;">
+          <input type="checkbox" class="billed-checkbox" data-key="${key}" ${isBilled ? 'checked' : ''} onchange="setBilledStatus('${key}', '${m.name}', this.checked)">
+          <span style="font-size:0.8em;white-space:nowrap;">已請款</span>
+        </label>
+      </div>
+    </div>
+    <div class="msg-body open">
+      <div class="msg-text">${escapeHtml(m.msg)}</div>
+      <div style="display:flex;gap:8px;margin-top:10px;align-items:center;">
+        <button class="copy-btn" style="margin-top:0" onclick="copySingle(this, '${key}')">複製此訊息</button>
+        <button class="copy-btn" style="margin-top:0;background:#e74c3c;" onclick="deleteCard('${key}')" onmouseover="this.style.background='#c0392b'" onmouseout="this.style.background='#e74c3c'">刪除</button>
+      </div>
+    </div>`;
+}
+
+function setBilledStatus(key, studentName, checked) {
+  const [y, m] = getYM();
+  const billed = loadBilled();
+
+  // Get the message to check if it's a family group
+  const msg = window._generatedMessages && window._generatedMessages[key];
+  const isFamily = msg && msg.isFamily;
+
+  // Save billed for the combined family name
+  const billedKey = `${y}-${m}_${studentName}`;
+  if (checked) billed[billedKey] = true;
+  else delete billed[billedKey];
+
+  // If family, also save billed for each individual student
+  const individualNames = studentName.includes(' + ') ? studentName.split(' + ').map(n => n.trim()) : [studentName];
+  individualNames.forEach(name => {
+    const ik = `${y}-${m}_${name}`;
+    if (checked) billed[ik] = true;
+    else delete billed[ik];
+  });
+
+  saveBilled(billed);
+
+  const card = document.getElementById('result-card-' + key);
+  if (checked) card.classList.add('billed');
+  else card.classList.remove('billed');
+
+  // Sync each student card above (handles family groups too)
+  individualNames.forEach(name => syncStudentCardBilled(name, checked));
+}
+
+function syncMsgCardBilled(studentName, checked) {
+  if (!window._generatedMessages) return;
+  for (const [key, m] of Object.entries(window._generatedMessages)) {
+    // Match if message name equals the student, OR if message is a family containing this student
+    const msgNames = m.name.includes(' + ') ? m.name.split(' + ').map(n => n.trim()) : [m.name];
+    if (m.name === studentName || msgNames.includes(studentName)) {
+      // For family messages: only sync if ALL members are now billed (or unchecking)
+      if (m.isFamily && checked) {
+        const [y, mo] = getYM();
+        const billed = loadBilled();
+        const allBilled = msgNames.every(n => billed[`${y}-${mo}_${n}`]);
+        if (!allBilled) continue;
+      }
+      const card = document.getElementById('result-card-' + key);
+      if (!card) continue;
+      if (checked) card.classList.add('billed');
+      else card.classList.remove('billed');
+      const cb = card.querySelector('.billed-checkbox');
+      if (cb) cb.checked = checked;
+      // Also update localStorage for family key
+      if (m.isFamily && checked) {
+        const [y2, m2] = getYM();
+        const billed2 = loadBilled();
+        billed2[`${y2}-${m2}_${m.name}`] = true;
+        saveBilled(billed2);
+      }
+    }
+  }
+}
+
+function syncStudentCardBilled(studentName, checked) {
+  const idx = currentStudents.findIndex(s => s.canonical === studentName);
+  if (idx < 0) return;
+  const card = document.getElementById('student-card-' + idx);
+  if (!card) return;
+  if (checked) card.classList.add('billed');
+  else card.classList.remove('billed');
+  const cb = card.querySelector('input[data-key="card-' + idx + '"]');
+  if (cb) cb.checked = checked;
+  // Also save individual billed status
+  const [y, m] = getYM();
+  const billed = loadBilled();
+  if (checked) billed[`${y}-${m}_${studentName}`] = true;
+  else delete billed[`${y}-${m}_${studentName}`];
+  saveBilled(billed);
+}
+
+function deleteCard(key) {
+  const card = document.getElementById('result-card-' + key);
+  if (card) card.remove();
+  if (window._generatedMessages) delete window._generatedMessages[key];
+  const remaining = window._generatedMessages ? Object.keys(window._generatedMessages).length : 0;
+  document.getElementById('studentCount').textContent = `已產出 ${remaining} 則`;
+  if (remaining === 0) document.getElementById('results').style.display = 'none';
+}
+
+// ===== 11. Utilities =====
+function copySingle(btn, key) {
+  const msg = window._generatedMessages && window._generatedMessages[key];
+  if (!msg) return;
+  navigator.clipboard.writeText(msg.msg).then(() => {
+    btn.textContent = '已複製！'; btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '複製此訊息'; btn.classList.remove('copied'); }, 1500);
+  });
+}
+
+function toggleAll() {
+  allExpanded = !allExpanded;
+  document.querySelectorAll('.msg-body').forEach(b => {
+    allExpanded ? b.classList.add('open') : b.classList.remove('open');
+  });
+  document.getElementById('expandToggle').textContent = allExpanded ? '全部收起' : '全部展開';
+}
+
+function copyAll() {
+  if (!window._generatedMessages) return;
+  const msgs = Object.values(window._generatedMessages);
+  const all = msgs.map(m => '【' + m.name + '】\n' + m.msg).join('\n\n─────────────\n\n');
+  navigator.clipboard.writeText(all).then(() => showToast('已複製全部 ' + msgs.length + ' 則訊息'));
+}
+
+// ===== 12. Rate sharing via URL =====
+function shareRates() {
+  saveRates();
+  const rates = loadRates();
+  if (Object.keys(rates).length === 0) { showToast('尚未設定任何時薪'); return; }
+  const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(rates))));
+  const url = location.origin + location.pathname + '#rates=' + encoded;
+  navigator.clipboard.writeText(url).then(() => {
+    showToast('已複製分享網址！傳給對方即可同步時薪設定');
+  });
+}
+
+function shareGroups() {
+  saveFamilies();
+  const saved = JSON.parse(localStorage.getItem(GROUP_STORAGE_KEY)) || [];
+  if (saved.length === 0) { showToast('尚未設定任何群組'); return; }
+  const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(saved))));
+  const url = location.origin + location.pathname + '#groups=' + encoded;
+  navigator.clipboard.writeText(url).then(() => {
+    showToast('已複製群組分享網址！傳給對方即可同步群組設定');
+  });
+}
+
+function shareAll() {
+  saveRates();
+  saveFamilies();
+  const rates = loadRates();
+  const groups = JSON.parse(localStorage.getItem(GROUP_STORAGE_KEY)) || [];
+  const teamFlags = loadTeamFlags();
+  const billingOwner = loadBillingOwner();
+
+  const allData = {
+    rates,
+    groups,
+    teamFlags,
+    billingOwner
+  };
+
+  const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(allData))));
+  const url = location.origin + location.pathname + '#all=' + encoded;
+  navigator.clipboard.writeText(url).then(() => {
+    showToast('已複製完整分享網址！包含時薪、群組、團隊、請款責任設定');
+  });
+}
+
+function importRatesFromURL() {
+  const hash = location.hash;
+  if (!hash.startsWith('#rates=')) return;
+  try {
+    const encoded = hash.slice(7);
+    const json = decodeURIComponent(escape(atob(encoded)));
+    const rates = JSON.parse(json);
+    // Merge with existing rates (imported rates overwrite conflicts)
+    const existing = loadRates();
+    const merged = { ...existing, ...rates };
+    localStorage.setItem(RATE_STORAGE_KEY, JSON.stringify(merged));
+    pushToFirebase(RATE_STORAGE_KEY, merged);
+    // Clean up URL hash
+    history.replaceState(null, '', location.pathname);
+    showToast('已匯入時薪設定！共 ' + Object.keys(rates).length + ' 筮');
+  } catch (e) {
+    console.error('Rate import failed:', e);
+  }
+}
+
+function importGroupsFromURL() {
+  const hash = location.hash;
+  if (!hash.startsWith('#groups=')) return;
+  try {
+    const encoded = hash.slice(8);
+    const json = decodeURIComponent(escape(atob(encoded)));
+    const groups = JSON.parse(json);
+    // Merge with existing groups
+    const existing = JSON.parse(localStorage.getItem(GROUP_STORAGE_KEY)) || [];
+    const merged = [...existing];
+    groups.forEach(g => {
+      if (!merged.find(m => JSON.stringify(m) === JSON.stringify(g))) {
+        merged.push(g);
+      }
+    });
+    localStorage.setItem(GROUP_STORAGE_KEY, JSON.stringify(merged));
+    pushToFirebase(GROUP_STORAGE_KEY, merged);
+    // Clean up URL hash
+    history.replaceState(null, '', location.pathname);
+    showToast('已匯入群組設定！共 ' + groups.length + ' 個');
+  } catch (e) {
+    console.error('Groups import failed:', e);
+  }
+}
+
+function importAllFromURL() {
+  const hash = location.hash;
+  if (!hash.startsWith('#all=')) return;
+  try {
+    const encoded = hash.slice(5);
+    const json = decodeURIComponent(escape(atob(encoded)));
+    const allData = JSON.parse(json);
+
+    // Import rates
+    if (allData.rates) {
+      const existing = loadRates();
+      const merged = { ...existing, ...allData.rates };
+      localStorage.setItem(RATE_STORAGE_KEY, JSON.stringify(merged));
+      pushToFirebase(RATE_STORAGE_KEY, merged);
+    }
+
+    // Import groups
+    if (allData.groups) {
+      const existing = JSON.parse(localStorage.getItem(GROUP_STORAGE_KEY)) || [];
+      const merged = [...existing];
+      allData.groups.forEach(g => {
+        if (!merged.find(m => JSON.stringify(m) === JSON.stringify(g))) {
+          merged.push(g);
+        }
+      });
+      localStorage.setItem(GROUP_STORAGE_KEY, JSON.stringify(merged));
+      pushToFirebase(GROUP_STORAGE_KEY, merged);
+    }
+
+    // Import team flags
+    if (allData.teamFlags) {
+      const existing = loadTeamFlags();
+      const merged = { ...existing, ...allData.teamFlags };
+      saveTeamFlags(merged);
+    }
+
+    // Import billing owner
+    if (allData.billingOwner) {
+      const existing = loadBillingOwner();
+      const merged = { ...existing, ...allData.billingOwner };
+      saveBillingOwner(merged);
+    }
+
+    // Clean up URL hash
+    history.replaceState(null, '', location.pathname);
+    showToast('已匯入所有設定！（時薪、群組、團隊、請款責任）');
+  } catch (e) {
+    console.error('All import failed:', e);
+  }
+}
+
+// Run on page load
+importRatesFromURL();
+importGroupsFromURL();
+importAllFromURL();
+
+function formatNum(n) { return Number.isInteger(n) ? String(n) : String(parseFloat(n.toFixed(2))); }
+function escapeHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+</script>
+</body>
+</html>
