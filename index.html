@@ -208,6 +208,31 @@ h1 { text-align: center; font-size: 1.6em; margin: 20px 0 8px; color: #2c3e50; }
 .copy-btn.copied { background: #27ae60; }
 .expand-toggle { color: #9b59b6; cursor: pointer; font-size: 0.85em; text-decoration: underline; }
 
+.sync-bar {
+  background: white; border-radius: 12px; padding: 14px 20px;
+  margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.sync-bar h3 { font-size: 1.05em; color: #2c3e50; margin-bottom: 10px; }
+.sync-controls { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.sync-controls input {
+  padding: 6px 12px; border: 1px solid #ddd; border-radius: 6px;
+  font-size: 0.9em; width: 160px; letter-spacing: 2px; text-align: center;
+  font-weight: 600;
+}
+.sync-controls button {
+  padding: 6px 14px; border: none; border-radius: 6px;
+  font-size: 0.85em; cursor: pointer; transition: all 0.2s;
+}
+.sync-btn-create { background: #9b59b6; color: white; }
+.sync-btn-create:hover { background: #8e44ad; }
+.sync-btn-connect { background: #3498db; color: white; }
+.sync-btn-connect:hover { background: #2980b9; }
+.sync-btn-disconnect { background: #e74c3c; color: white; }
+.sync-btn-disconnect:hover { background: #c0392b; }
+.sync-status {
+  font-size: 0.82em; color: #999; margin-top: 8px;
+}
+.sync-status.connected { color: #27ae60; font-weight: 600; }
 .toast {
   position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
   background: #2c3e50; color: white; padding: 10px 24px; border-radius: 8px;
@@ -222,6 +247,8 @@ h1 { text-align: center; font-size: 1.6em; margin: 20px 0 8px; color: #2c3e50; }
   .billing-panels { flex-direction: column; }
 }
 </style>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 </head>
 <body>
 <div class="container">
@@ -231,6 +258,19 @@ h1 { text-align: center; font-size: 1.6em; margin: 20px 0 8px; color: #2c3e50; }
   <div class="hint-box">
     匯出方式：打開 Mac「行事曆」App → 檔案 → 輸出 → 輸出...<br>
     如果你和另一半各有自己的行事曆，可以分別上傳兩個 .ics 檔，共同學生會自動合併。
+  </div>
+
+  <div class="sync-bar" id="syncBar">
+    <h3>即時同步</h3>
+    <div id="syncUI">
+      <div class="sync-controls">
+        <button class="sync-btn-create" onclick="createRoom()">建立新房間</button>
+        <span style="color:#999;font-size:0.85em;">或輸入代碼加入：</span>
+        <input type="text" id="roomInput" placeholder="房間代碼" maxlength="6" style="text-transform:uppercase;">
+        <button class="sync-btn-connect" onclick="joinRoom()">加入</button>
+      </div>
+      <div class="sync-status" id="syncStatus">尚未連線，設定僅儲存在本機瀏覽器</div>
+    </div>
   </div>
 
   <div class="upload-section">
@@ -341,6 +381,163 @@ h1 { text-align: center; font-size: 1.6em; margin: 20px 0 8px; color: #2c3e50; }
 <div class="toast" id="toast"></div>
 
 <script>
+// ===== Firebase Setup =====
+const firebaseConfig = {
+  apiKey: "AIzaSyBtsdmf5m2SGvduknWGehCkzIPMZ8lmkAU",
+  authDomain: "tutor-billing-sync.firebaseapp.com",
+  databaseURL: "https://tutor-billing-sync-default-rtdb.firebaseio.com",
+  projectId: "tutor-billing-sync",
+  storageBucket: "tutor-billing-sync.firebasestorage.app",
+  messagingSenderId: "691904357232",
+  appId: "1:691904357232:web:453a34a1973f22f344a5b5"
+};
+firebase.initializeApp(firebaseConfig);
+const fbDb = firebase.database();
+
+const ROOM_STORAGE_KEY = 'tutorRoom_v1';
+let currentRoom = null;
+let _skipSync = false;
+let _fbListeners = [];
+
+function generateRoomCode() {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let code = '';
+  for (let i = 0; i < 6; i++) code += chars[Math.floor(Math.random() * chars.length)];
+  return code;
+}
+
+function createRoom() {
+  const code = generateRoomCode();
+  document.getElementById('roomInput').value = code;
+  connectToRoom(code);
+}
+
+function joinRoom() {
+  const code = document.getElementById('roomInput').value.trim().toUpperCase();
+  if (!code || code.length < 4) { showToast('請輸入至少 4 碼房間代碼'); return; }
+  connectToRoom(code);
+}
+
+function connectToRoom(code) {
+  // Disconnect old listeners
+  _fbListeners.forEach(fn => fn());
+  _fbListeners = [];
+
+  currentRoom = code;
+  localStorage.setItem(ROOM_STORAGE_KEY, code);
+
+  // Push current local data to Firebase first
+  const keys = [RATE_STORAGE_KEY, GROUP_STORAGE_KEY, BILLING_OWNER_KEY, BILLED_KEY, TEAM_FLAG_KEY];
+  const roomRef = fbDb.ref('rooms/' + currentRoom);
+
+  // Upload local data (merge with remote)
+  roomRef.once('value').then(snap => {
+    const remote = snap.val() || {};
+    keys.forEach(key => {
+      try {
+        const local = JSON.parse(localStorage.getItem(key));
+        if (local && Object.keys(local).length > 0) {
+          const remoteVal = remote[key];
+          if (remoteVal && typeof remoteVal === 'object' && typeof local === 'object' && !Array.isArray(local)) {
+            // Merge objects
+            const merged = { ...remoteVal, ...local };
+            roomRef.child(key).set(merged);
+            localStorage.setItem(key, JSON.stringify(merged));
+          } else if (!remoteVal) {
+            roomRef.child(key).set(local);
+          } else {
+            // Remote exists and is array or local is array, use remote
+            localStorage.setItem(key, JSON.stringify(remoteVal));
+          }
+        } else if (remote[key]) {
+          localStorage.setItem(key, JSON.stringify(remote[key]));
+        }
+      } catch {}
+    });
+
+    // Set up real-time listeners
+    keys.forEach(key => {
+      const ref = roomRef.child(key);
+      const cb = ref.on('value', snap => {
+        if (_skipSync) return;
+        const val = snap.val();
+        if (val !== null && val !== undefined) {
+          _skipSync = true;
+          localStorage.setItem(key, JSON.stringify(val));
+          _skipSync = false;
+          // Refresh UI
+          refreshUIFromStorage();
+        }
+      });
+      _fbListeners.push(() => ref.off('value', cb));
+    });
+
+    updateSyncUI();
+    showToast('已連線到房間：' + code + '，設定將即時同步');
+    refreshUIFromStorage();
+  });
+}
+
+function disconnectRoom() {
+  _fbListeners.forEach(fn => fn());
+  _fbListeners = [];
+  currentRoom = null;
+  localStorage.removeItem(ROOM_STORAGE_KEY);
+  updateSyncUI();
+  showToast('已斷開同步連線');
+}
+
+function pushToFirebase(key, data) {
+  if (!currentRoom || _skipSync) return;
+  fbDb.ref('rooms/' + currentRoom + '/' + key).set(data).catch(() => {});
+}
+
+function refreshUIFromStorage() {
+  if (currentStudents.length > 0) {
+    renderBillingPanelsWithCards();
+    loadFamilies();
+    renderGroupingUI();
+  }
+}
+
+function updateSyncUI() {
+  const container = document.getElementById('syncUI');
+  const status = document.getElementById('syncStatus');
+  if (currentRoom) {
+    container.innerHTML = `
+      <div class="sync-controls">
+        <span style="font-size:0.95em;font-weight:600;">房間代碼：<span style="letter-spacing:2px;color:#9b59b6;font-size:1.1em;">${currentRoom}</span></span>
+        <button class="sync-btn-create" onclick="copyRoomCode()">複製代碼</button>
+        <button class="sync-btn-disconnect" onclick="disconnectRoom()">斷開連線</button>
+      </div>
+      <div class="sync-status connected" id="syncStatus">已連線，設定會即時同步到所有使用相同代碼的裝置</div>`;
+  } else {
+    container.innerHTML = `
+      <div class="sync-controls">
+        <button class="sync-btn-create" onclick="createRoom()">建立新房間</button>
+        <span style="color:#999;font-size:0.85em;">或輸入代碼加入：</span>
+        <input type="text" id="roomInput" placeholder="房間代碼" maxlength="6" style="text-transform:uppercase;padding:6px 12px;border:1px solid #ddd;border-radius:6px;font-size:0.9em;width:160px;letter-spacing:2px;text-align:center;font-weight:600;">
+        <button class="sync-btn-connect" onclick="joinRoom()">加入</button>
+      </div>
+      <div class="sync-status" id="syncStatus">尚未連線，設定僅儲存在本機瀏覽器</div>`;
+  }
+}
+
+function copyRoomCode() {
+  if (!currentRoom) return;
+  navigator.clipboard.writeText(currentRoom).then(() => showToast('已複製房間代碼：' + currentRoom));
+}
+
+// Auto-reconnect on page load
+(function() {
+  const savedRoom = localStorage.getItem(ROOM_STORAGE_KEY);
+  if (savedRoom) {
+    document.getElementById('roomInput').value = savedRoom;
+    // Delay connection to after DOM is ready
+    setTimeout(() => connectToRoom(savedRoom), 500);
+  }
+})();
+
 // ===== State =====
 let mathEventsRaw = [];
 let scienceEventsRaw = [];
@@ -710,6 +907,7 @@ function loadBillingOwner() {
 
 function saveBillingOwner(data) {
   try { localStorage.setItem(BILLING_OWNER_KEY, JSON.stringify(data)); } catch {}
+  pushToFirebase(BILLING_OWNER_KEY, data);
 }
 
 function loadTeamFlags() {
@@ -718,6 +916,7 @@ function loadTeamFlags() {
 
 function saveTeamFlags(data) {
   try { localStorage.setItem(TEAM_FLAG_KEY, JSON.stringify(data)); } catch {}
+  pushToFirebase(TEAM_FLAG_KEY, data);
 }
 
 function loadBilled() {
@@ -726,6 +925,7 @@ function loadBilled() {
 
 function saveBilled(data) {
   try { localStorage.setItem(BILLED_KEY, JSON.stringify(data)); } catch {}
+  pushToFirebase(BILLED_KEY, data);
 }
 
 // ===== 7. Grouping UI (drag & drop) =====
@@ -733,6 +933,7 @@ function saveFamilies() {
   // Save as arrays of canonical names; keep empty groups as []
   const toSave = families.map(group => group.map(idx => currentStudents[idx]?.canonical).filter(Boolean));
   try { localStorage.setItem(GROUP_STORAGE_KEY, JSON.stringify(toSave)); } catch {}
+  pushToFirebase(GROUP_STORAGE_KEY, toSave);
 }
 
 function loadFamilies() {
@@ -895,6 +1096,7 @@ function saveRates() {
     if (si && si.value) rates[s.canonical + '_sci'] = si.value;
   });
   try { localStorage.setItem(RATE_STORAGE_KEY, JSON.stringify(rates)); } catch {}
+  pushToFirebase(RATE_STORAGE_KEY, rates);
 }
 
 // ===== 9. Message generation =====
@@ -1303,6 +1505,7 @@ function importRatesFromURL() {
     const existing = loadRates();
     const merged = { ...existing, ...rates };
     localStorage.setItem(RATE_STORAGE_KEY, JSON.stringify(merged));
+    pushToFirebase(RATE_STORAGE_KEY, merged);
     // Clean up URL hash
     history.replaceState(null, '', location.pathname);
     showToast('已匯入時薪設定！共 ' + Object.keys(rates).length + ' 筆');
@@ -1327,6 +1530,7 @@ function importGroupsFromURL() {
       }
     });
     localStorage.setItem(GROUP_STORAGE_KEY, JSON.stringify(merged));
+    pushToFirebase(GROUP_STORAGE_KEY, merged);
     // Clean up URL hash
     history.replaceState(null, '', location.pathname);
     showToast('已匯入群組設定！共 ' + groups.length + ' 個');
@@ -1348,6 +1552,7 @@ function importAllFromURL() {
       const existing = loadRates();
       const merged = { ...existing, ...allData.rates };
       localStorage.setItem(RATE_STORAGE_KEY, JSON.stringify(merged));
+      pushToFirebase(RATE_STORAGE_KEY, merged);
     }
 
     // Import groups
@@ -1360,6 +1565,7 @@ function importAllFromURL() {
         }
       });
       localStorage.setItem(GROUP_STORAGE_KEY, JSON.stringify(merged));
+      pushToFirebase(GROUP_STORAGE_KEY, merged);
     }
 
     // Import team flags
