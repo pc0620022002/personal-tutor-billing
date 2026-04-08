@@ -209,30 +209,19 @@ h1 { text-align: center; font-size: 1.6em; margin: 20px 0 8px; color: #2c3e50; }
 .expand-toggle { color: #9b59b6; cursor: pointer; font-size: 0.85em; text-decoration: underline; }
 
 .sync-bar {
-  background: white; border-radius: 12px; padding: 14px 20px;
+  background: white; border-radius: 12px; padding: 10px 20px;
   margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  display: flex; align-items: center; gap: 10px;
 }
-.sync-bar h3 { font-size: 1.05em; color: #2c3e50; margin-bottom: 10px; }
-.sync-controls { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-.sync-controls input {
-  padding: 6px 12px; border: 1px solid #ddd; border-radius: 6px;
-  font-size: 0.9em; width: 160px; letter-spacing: 2px; text-align: center;
-  font-weight: 600;
+.sync-dot {
+  width: 10px; height: 10px; border-radius: 50%; background: #ccc;
+  display: inline-block; flex-shrink: 0;
 }
-.sync-controls button {
-  padding: 6px 14px; border: none; border-radius: 6px;
-  font-size: 0.85em; cursor: pointer; transition: all 0.2s;
-}
-.sync-btn-create { background: #9b59b6; color: white; }
-.sync-btn-create:hover { background: #8e44ad; }
-.sync-btn-connect { background: #3498db; color: white; }
-.sync-btn-connect:hover { background: #2980b9; }
-.sync-btn-disconnect { background: #e74c3c; color: white; }
-.sync-btn-disconnect:hover { background: #c0392b; }
-.sync-status {
-  font-size: 0.82em; color: #999; margin-top: 8px;
-}
-.sync-status.connected { color: #27ae60; font-weight: 600; }
+.sync-dot.connected { background: #27ae60; animation: pulse 2s infinite; }
+.sync-dot.error { background: #e74c3c; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+.sync-text { font-size: 0.85em; color: #999; }
+.sync-text.connected { color: #27ae60; font-weight: 600; }
 .toast {
   position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
   background: #2c3e50; color: white; padding: 10px 24px; border-radius: 8px;
@@ -261,16 +250,8 @@ h1 { text-align: center; font-size: 1.6em; margin: 20px 0 8px; color: #2c3e50; }
   </div>
 
   <div class="sync-bar" id="syncBar">
-    <h3>即時同步</h3>
-    <div id="syncUI">
-      <div class="sync-controls">
-        <button class="sync-btn-create" onclick="createRoom()">建立新房間</button>
-        <span style="color:#999;font-size:0.85em;">或輸入代碼加入：</span>
-        <input type="text" id="roomInput" placeholder="房間代碼" maxlength="6" style="text-transform:uppercase;">
-        <button class="sync-btn-connect" onclick="joinRoom()">加入</button>
-      </div>
-      <div class="sync-status" id="syncStatus">尚未連線，設定僅儲存在本機瀏覽器</div>
-    </div>
+    <span class="sync-dot" id="syncDot"></span>
+    <span class="sync-text" id="syncText">正在連線...</span>
   </div>
 
   <div class="upload-section">
@@ -394,43 +375,15 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const fbDb = firebase.database();
 
-const ROOM_STORAGE_KEY = 'tutorRoom_v1';
-let currentRoom = null;
+const FIXED_ROOM = 'FAMILY_SYNC';
+let currentRoom = FIXED_ROOM;
 let _skipSync = false;
 let _fbListeners = [];
 
-function generateRoomCode() {
-  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-  let code = '';
-  for (let i = 0; i < 6; i++) code += chars[Math.floor(Math.random() * chars.length)];
-  return code;
-}
-
-function createRoom() {
-  const code = generateRoomCode();
-  document.getElementById('roomInput').value = code;
-  connectToRoom(code);
-}
-
-function joinRoom() {
-  const code = document.getElementById('roomInput').value.trim().toUpperCase();
-  if (!code || code.length < 4) { showToast('請輸入至少 4 碼房間代碼'); return; }
-  connectToRoom(code);
-}
-
-function connectToRoom(code) {
-  // Disconnect old listeners
-  _fbListeners.forEach(fn => fn());
-  _fbListeners = [];
-
-  currentRoom = code;
-  localStorage.setItem(ROOM_STORAGE_KEY, code);
-
-  // Push current local data to Firebase first
+function initSync() {
   const keys = [RATE_STORAGE_KEY, GROUP_STORAGE_KEY, BILLING_OWNER_KEY, BILLED_KEY, TEAM_FLAG_KEY];
-  const roomRef = fbDb.ref('rooms/' + currentRoom);
+  const roomRef = fbDb.ref('rooms/' + FIXED_ROOM);
 
-  // Upload local data (merge with remote)
   roomRef.once('value').then(snap => {
     const remote = snap.val() || {};
     keys.forEach(key => {
@@ -439,14 +392,12 @@ function connectToRoom(code) {
         if (local && Object.keys(local).length > 0) {
           const remoteVal = remote[key];
           if (remoteVal && typeof remoteVal === 'object' && typeof local === 'object' && !Array.isArray(local)) {
-            // Merge objects
             const merged = { ...remoteVal, ...local };
             roomRef.child(key).set(merged);
             localStorage.setItem(key, JSON.stringify(merged));
           } else if (!remoteVal) {
             roomRef.child(key).set(local);
           } else {
-            // Remote exists and is array or local is array, use remote
             localStorage.setItem(key, JSON.stringify(remoteVal));
           }
         } else if (remote[key]) {
@@ -455,7 +406,6 @@ function connectToRoom(code) {
       } catch {}
     });
 
-    // Set up real-time listeners
     keys.forEach(key => {
       const ref = roomRef.child(key);
       const cb = ref.on('value', snap => {
@@ -465,31 +415,26 @@ function connectToRoom(code) {
           _skipSync = true;
           localStorage.setItem(key, JSON.stringify(val));
           _skipSync = false;
-          // Refresh UI
           refreshUIFromStorage();
         }
       });
       _fbListeners.push(() => ref.off('value', cb));
     });
 
-    updateSyncUI();
-    showToast('已連線到房間：' + code + '，設定將即時同步');
+    document.getElementById('syncDot').classList.add('connected');
+    const txt = document.getElementById('syncText');
+    txt.textContent = '已同步 — 兩台電腦的設定會即時更新';
+    txt.classList.add('connected');
     refreshUIFromStorage();
+  }).catch(() => {
+    document.getElementById('syncDot').classList.add('error');
+    document.getElementById('syncText').textContent = '同步連線失敗，設定僅存在本機';
   });
 }
 
-function disconnectRoom() {
-  _fbListeners.forEach(fn => fn());
-  _fbListeners = [];
-  currentRoom = null;
-  localStorage.removeItem(ROOM_STORAGE_KEY);
-  updateSyncUI();
-  showToast('已斷開同步連線');
-}
-
 function pushToFirebase(key, data) {
-  if (!currentRoom || _skipSync) return;
-  fbDb.ref('rooms/' + currentRoom + '/' + key).set(data).catch(() => {});
+  if (_skipSync) return;
+  fbDb.ref('rooms/' + FIXED_ROOM + '/' + key).set(data).catch(() => {});
 }
 
 function refreshUIFromStorage() {
@@ -500,43 +445,8 @@ function refreshUIFromStorage() {
   }
 }
 
-function updateSyncUI() {
-  const container = document.getElementById('syncUI');
-  const status = document.getElementById('syncStatus');
-  if (currentRoom) {
-    container.innerHTML = `
-      <div class="sync-controls">
-        <span style="font-size:0.95em;font-weight:600;">房間代碼：<span style="letter-spacing:2px;color:#9b59b6;font-size:1.1em;">${currentRoom}</span></span>
-        <button class="sync-btn-create" onclick="copyRoomCode()">複製代碼</button>
-        <button class="sync-btn-disconnect" onclick="disconnectRoom()">斷開連線</button>
-      </div>
-      <div class="sync-status connected" id="syncStatus">已連線，設定會即時同步到所有使用相同代碼的裝置</div>`;
-  } else {
-    container.innerHTML = `
-      <div class="sync-controls">
-        <button class="sync-btn-create" onclick="createRoom()">建立新房間</button>
-        <span style="color:#999;font-size:0.85em;">或輸入代碼加入：</span>
-        <input type="text" id="roomInput" placeholder="房間代碼" maxlength="6" style="text-transform:uppercase;padding:6px 12px;border:1px solid #ddd;border-radius:6px;font-size:0.9em;width:160px;letter-spacing:2px;text-align:center;font-weight:600;">
-        <button class="sync-btn-connect" onclick="joinRoom()">加入</button>
-      </div>
-      <div class="sync-status" id="syncStatus">尚未連線，設定僅儲存在本機瀏覽器</div>`;
-  }
-}
-
-function copyRoomCode() {
-  if (!currentRoom) return;
-  navigator.clipboard.writeText(currentRoom).then(() => showToast('已複製房間代碼：' + currentRoom));
-}
-
-// Auto-reconnect on page load
-(function() {
-  const savedRoom = localStorage.getItem(ROOM_STORAGE_KEY);
-  if (savedRoom) {
-    document.getElementById('roomInput').value = savedRoom;
-    // Delay connection to after DOM is ready
-    setTimeout(() => connectToRoom(savedRoom), 500);
-  }
-})();
+// Auto-connect on page load
+setTimeout(initSync, 300);
 
 // ===== State =====
 let mathEventsRaw = [];
@@ -651,8 +561,7 @@ function extractDateTime(block, field) {
   const regex = new RegExp('^' + field + '[^:]*:(.*?)\\s*$', 'm');
   const m = unfolded.match(regex);
   if (!m) return null;
-  const val = m[1].trim();
-  const p = val.match(/(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})/);
+  const val = m[1].trim();n  const p = val.match(/(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})/);
   if (!p) return null;
   if (val.endsWith('Z')) return new Date(Date.UTC(+p[1], +p[2]-1, +p[3], +p[4], +p[5], +p[6]));
   return new Date(+p[1], +p[2]-1, +p[3], +p[4], +p[5], +p[6]);
