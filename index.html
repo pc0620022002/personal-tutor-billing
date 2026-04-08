@@ -39,24 +39,14 @@ h1 { text-align: center; font-size: 1.6em; margin: 20px 0 8px; color: #2c3e50; }
 .setting-row label { font-size: 0.9em; min-width: 80px; color: #555; }
 .setting-row select { padding: 6px 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.9em; }
 
-/* Rate table */
+/* Rate table with unified billing panels */
 .rate-table {
   background: white; border-radius: 12px; padding: 20px;
   margin-bottom: 20px; display: none; box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 .rate-table h3 { font-size: 1.05em; margin-bottom: 6px; color: #2c3e50; }
 .rate-hint { font-size: 0.82em; color: #999; margin-bottom: 14px; }
-.rate-grid { display: grid; grid-template-columns: 1fr 80px 100px 100px; gap: 8px; align-items: center; }
-.rate-grid .student-name { font-size: 0.95em; padding: 6px 0; }
-.rate-grid .source-tag { font-size: 0.75em; padding: 2px 8px; border-radius: 10px; text-align: center; display: inline-block; }
-.tag-both { background: #e8daef; color: #6c3483; }
-.tag-math { background: #d5f5e3; color: #1e8449; }
-.tag-science { background: #d6eaf8; color: #2471a3; }
-.rate-grid input {
-  padding: 6px 10px; border: 1px solid #ddd; border-radius: 6px;
-  font-size: 0.9em; text-align: right; width: 100%;
-}
-.rate-grid input:disabled { background: #f5f5f5; color: #ccc; }
+
 .btn-share {
   padding: 5px 12px; background: #3498db; color: white; border: none;
   border-radius: 6px; font-size: 0.8em; cursor: pointer; white-space: nowrap;
@@ -73,7 +63,7 @@ h1 { text-align: center; font-size: 1.6em; margin: 20px 0 8px; color: #2c3e50; }
 .info-box ul { margin: 6px 0 0 18px; }
 .info-box li { margin-bottom: 2px; }
 
-/* Billing panels */
+/* Unified billing panels (two-column drag-and-drop) */
 .billing-panels {
   display: flex; gap: 16px; margin-top: 16px;
 }
@@ -82,29 +72,55 @@ h1 { text-align: center; font-size: 1.6em; margin: 20px 0 8px; color: #2c3e50; }
 }
 .billing-panel {
   flex: 1; border: 2px dashed #bdc3c7; border-radius: 10px; padding: 12px;
-  min-height: 200px; transition: all 0.2s;
+  min-height: 400px; transition: all 0.2s;
 }
 .billing-panel.dragover { border-color: #9b59b6; background: #faf0ff; }
 .billing-panel-header {
-  font-weight: 600; color: #2c3e50; margin-bottom: 10px; font-size: 0.95em;
+  font-weight: 600; color: #2c3e50; margin-bottom: 14px; font-size: 0.95em;
 }
-.billing-students { display: flex; flex-direction: column; gap: 10px; min-height: 100px; }
-.billing-student-card {
-  background: #f8f9fa; border: 1px solid #ddd; border-radius: 8px; padding: 10px;
+.billing-students { display: flex; flex-direction: column; gap: 10px; min-height: 350px; }
+
+/* Student card styles */
+.student-card {
+  background: white; border: 1px solid #ddd; border-radius: 8px; padding: 12px;
   cursor: grab; user-select: none; transition: all 0.15s;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
-.billing-student-card:active { cursor: grabbing; }
-.billing-student-card.dragging { opacity: 0.3; }
-.billing-student-name { font-weight: 600; font-size: 0.9em; margin-bottom: 6px; }
-.billing-student-controls {
-  display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+.student-card:active { cursor: grabbing; }
+.student-card.dragging { opacity: 0.3; }
+.student-card.billed { opacity: 0.5; }
+
+.student-card-header {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 8px; flex-wrap: wrap;
 }
-.billing-rate-input {
-  padding: 4px 8px; border: 1px solid #ddd; border-radius: 4px;
-  font-size: 0.8em; width: 60px;
+.student-card-name { font-weight: 600; font-size: 0.9em; }
+.source-tag { font-size: 0.75em; padding: 2px 8px; border-radius: 10px; text-align: center; display: inline-block; }
+.tag-both { background: #e8daef; color: #6c3483; }
+.tag-math { background: #d5f5e3; color: #1e8449; }
+.tag-science { background: #d6eaf8; color: #2471a3; }
+.student-card-info { font-size: 0.8em; color: #aaa; }
+.team-badge { font-size: 0.75em; margin-left: 2px; color: #9b59b6; font-weight: 600; }
+
+.student-card-controls {
+  display: flex; flex-direction: column; gap: 8px;
 }
-.billing-checkbox {
-  width: 18px; height: 18px; cursor: pointer;
+.rate-inputs {
+  display: flex; gap: 6px;
+}
+.rate-inputs input {
+  flex: 1; padding: 4px 8px; border: 1px solid #ddd; border-radius: 4px;
+  font-size: 0.8em; text-align: right;
+}
+.rate-inputs input:disabled { background: #f5f5f5; color: #ccc; }
+
+.card-checkboxes {
+  display: flex; gap: 12px; font-size: 0.8em;
+}
+.card-checkboxes label {
+  display: flex; align-items: center; gap: 4px; cursor: pointer;
+}
+.card-checkboxes input {
+  width: 16px; height: 16px; cursor: pointer;
 }
 
 /* Grouping section */
@@ -203,7 +219,6 @@ h1 { text-align: center; font-size: 1.6em; margin: 20px 0 8px; color: #2c3e50; }
   .container { padding: 12px; }
   h1 { font-size: 1.3em; }
   .upload-section { flex-direction: column; }
-  .rate-grid { grid-template-columns: 1fr 60px 75px 75px; }
   .billing-panels { flex-direction: column; }
 }
 </style>
@@ -268,28 +283,24 @@ h1 { text-align: center; font-size: 1.6em; margin: 20px 0 8px; color: #2c3e50; }
         <button class="btn-share" onclick="shareAll()">分享所有設定</button>
       </div>
     </div>
-    <div class="rate-hint">時薪會自動儲存在瀏覽器中，下次使用不需重新輸入。共同學生可分別設定 Math / Science 時薪。</div>
+    <div class="rate-hint">時薪會自動儲存在瀏覽器中，下次使用不需重新輸入。共同學生可分別設定 Math / Science 時薪。拖曳卡片調整請款責任人。</div>
     <div class="info-box" id="infoBox"></div>
-    <div class="rate-grid" id="rateGrid"></div>
 
-    <!-- Billing panels section -->
-    <div id="billingSection" style="display:none;margin-top:20px;">
-      <h4 style="margin-bottom:10px;color:#2c3e50;">請款責任人</h4>
-      <div class="billing-panels">
-        <div class="billing-panel" id="billingPanelMe"
-             ondragover="event.preventDefault(); this.classList.add('dragover')"
-             ondragleave="this.classList.remove('dragover')"
-             ondrop="dropOnBillingPanel(event, 'me')">
-          <div class="billing-panel-header">🔬 我負責請款</div>
-          <div class="billing-students" id="billingStudentsMe"></div>
-        </div>
-        <div class="billing-panel" id="billingPanelWife"
-             ondragover="event.preventDefault(); this.classList.add('dragover')"
-             ondragleave="this.classList.remove('dragover')"
-             ondrop="dropOnBillingPanel(event, 'wife')">
-          <div class="billing-panel-header">📐 老婆負責請款</div>
-          <div class="billing-students" id="billingStudentsWife"></div>
-        </div>
+    <!-- Unified billing panels with student cards -->
+    <div class="billing-panels">
+      <div class="billing-panel" id="billingPanelMe"
+           ondragover="event.preventDefault(); this.classList.add('dragover')"
+           ondragleave="this.classList.remove('dragover')"
+           ondrop="dropOnBillingPanel(event, 'me')">
+        <div class="billing-panel-header">🔬 我負責請款</div>
+        <div class="billing-students" id="billingStudentsMe"></div>
+      </div>
+      <div class="billing-panel" id="billingPanelWife"
+           ondragover="event.preventDefault(); this.classList.add('dragover')"
+           ondragleave="this.classList.remove('dragover')"
+           ondrop="dropOnBillingPanel(event, 'wife')">
+        <div class="billing-panel-header">📐 老婆負責請款</div>
+        <div class="billing-students" id="billingStudentsWife"></div>
       </div>
     </div>
   </div>
@@ -494,7 +505,6 @@ function onMonthChange() {
   updateRateTable();
   loadFamilies();   // reload from storage only on month/data change
   renderGroupingUI();
-  renderBillingPanels();
 }
 
 // ===== 5. Month & filtering =====
@@ -519,7 +529,7 @@ function getYM() {
   return val.split('-').map(Number);
 }
 
-// ===== 6. Rate table =====
+// ===== 6. Rate table with unified billing panels =====
 function updateRateTable() {
   const [y, m] = getYM();
   if (!y) return;
@@ -531,37 +541,7 @@ function updateRateTable() {
   currentStudents = buildStudentList(mathNamesList, sciNamesList);
 
   buildInfoBox();
-
-  const savedRates = loadRates();
-  const grid = document.getElementById('rateGrid');
-  grid.innerHTML = `
-    <div style="font-weight:600;font-size:0.85em;color:#7f8c8d;">學生</div>
-    <div style="font-weight:600;font-size:0.85em;color:#7f8c8d;text-align:center;">來源</div>
-    <div style="font-weight:600;font-size:0.85em;color:#7f8c8d;text-align:right;">Math 時薪</div>
-    <div style="font-weight:600;font-size:0.85em;color:#7f8c8d;text-align:right;">Sci 時薪</div>
-  `;
-
-  currentStudents.forEach((s, idx) => {
-    const mCount = mEv.filter(e => [...s.mathNames].includes(e.name)).length;
-    const sCount = sEv.filter(e => [...s.sciNames].includes(e.name)).length;
-    const totalCount = mCount + sCount;
-    const totalHrs = [...mEv.filter(e => [...s.mathNames].includes(e.name)), ...sEv.filter(e => [...s.sciNames].includes(e.name))].reduce((a, e) => a + e.hours, 0);
-
-    let tagHtml, tagClass;
-    if (s.isBoth) { tagHtml = 'Math+Sci'; tagClass = 'tag-both'; }
-    else if (s.isMath) { tagHtml = 'Math'; tagClass = 'tag-math'; }
-    else { tagHtml = 'Science'; tagClass = 'tag-science'; }
-
-    const sMR = savedRates[s.canonical + '_math'] || '';
-    const sSR = savedRates[s.canonical + '_sci'] || '';
-
-    grid.innerHTML += `
-      <div class="student-name">${escapeHtml(s.canonical)} <span style="color:#aaa;font-size:0.82em;">(${totalCount}堂, ${formatNum(totalHrs)}hr)</span></div>
-      <div><span class="source-tag ${tagClass}">${tagHtml}</span></div>
-      <input type="number" id="rate-math-${idx}" value="${s.isMath ? sMR : ''}" placeholder="${s.isMath ? '元/hr' : '-'}" min="0" ${s.isMath ? '' : 'disabled'} onchange="saveRates()">
-      <input type="number" id="rate-sci-${idx}" value="${s.isSci ? sSR : ''}" placeholder="${s.isSci ? '元/hr' : '-'}" min="0" ${s.isSci ? '' : 'disabled'} onchange="saveRates()">
-    `;
-  });
+  renderBillingPanelsWithCards();
 
   document.getElementById('rateTable').style.display = 'block';
   document.getElementById('results').style.display = 'none';
@@ -589,11 +569,9 @@ function buildInfoBox() {
   }
 }
 
-// ===== 6B. Billing panels =====
-function renderBillingPanels() {
+// ===== 6B. Unified billing panels with student cards =====
+function renderBillingPanelsWithCards() {
   if (currentStudents.length === 0) return;
-  const section = document.getElementById('billingSection');
-  section.style.display = 'block';
 
   const billingOwner = loadBillingOwner();
   const meDiv = document.getElementById('billingStudentsMe');
@@ -608,37 +586,66 @@ function renderBillingPanels() {
     else wifeStudents.push(idx);
   });
 
-  meDiv.innerHTML = meStudents.map(idx => makeBillingCard(idx)).join('');
-  wifeDiv.innerHTML = wifeStudents.map(idx => makeBillingCard(idx)).join('');
+  meDiv.innerHTML = meStudents.map(idx => makeStudentCard(idx)).join('');
+  wifeDiv.innerHTML = wifeStudents.map(idx => makeStudentCard(idx)).join('');
 }
 
-function makeBillingCard(idx) {
+function makeStudentCard(idx) {
   const s = currentStudents[idx];
   if (!s) return '';
   const [y, m] = getYM();
   const mEv = getFiltered(mathEvents, y, m).filter(e => [...s.mathNames].includes(e.name));
   const sEv = getFiltered(scienceEvents, y, m).filter(e => [...s.sciNames].includes(e.name));
+  const totalCount = mEv.length + sEv.length;
+  const totalHrs = [...mEv, ...sEv].reduce((a, e) => a + e.hours, 0);
+
   const savedRates = loadRates();
   const sMR = savedRates[s.canonical + '_math'] || '';
   const sSR = savedRates[s.canonical + '_sci'] || '';
   const teamFlags = loadTeamFlags();
   const hasTeam = teamFlags[s.canonical] || false;
 
+  const billed = loadBilled();
+  const billedKey = `${y}-${m}_${s.canonical}`;
+  const isBilled = billed[billedKey] || false;
+  const cardClass = isBilled ? 'student-card billed' : 'student-card';
+
+  let tagHtml, tagClass;
+  if (s.isBoth) { tagHtml = 'Math+Sci'; tagClass = 'tag-both'; }
+  else if (s.isMath) { tagHtml = 'Math'; tagClass = 'tag-math'; }
+  else { tagHtml = 'Science'; tagClass = 'tag-science'; }
+
+  let rateInputsHtml = '';
+  if (s.isMath) {
+    rateInputsHtml += `<input type="number" id="rate-math-${idx}" value="${sMR}" placeholder="Math 時薪" min="0" onchange="saveRates()">`;
+  }
+  if (s.isSci) {
+    rateInputsHtml += `<input type="number" id="rate-sci-${idx}" value="${sSR}" placeholder="Sci 時薪" min="0" onchange="saveRates()">`;
+  }
+
   return `
-    <div class="billing-student-card" draggable="true"
-         ondragstart="billingDragStart(event, ${idx})" ondragend="billingDragEnd(event)"
-         style="position:relative;">
-      <div class="billing-student-name">
-        ${escapeHtml(s.canonical)}
+    <div class="${cardClass}" draggable="true" id="student-card-${idx}" data-idx="${idx}"
+         ondragstart="billingDragStart(event, ${idx})" ondragend="billingDragEnd(event)">
+      <div class="student-card-header">
+        <span class="student-card-name">${escapeHtml(s.canonical)}</span>
+        <span class="source-tag ${tagClass}">${tagHtml}</span>
         ${hasTeam ? '<span class="team-badge">👥</span>' : ''}
+        <span class="student-card-info">(${totalCount}堂, ${formatNum(totalHrs)}hr)</span>
       </div>
-      <div class="billing-student-controls">
-        ${s.isMath ? `<input type="number" class="billing-rate-input" placeholder="Math" value="${sMR}" data-student="${idx}" data-type="math" onchange="saveBillingRateChange(this)">` : ''}
-        ${s.isSci ? `<input type="number" class="billing-rate-input" placeholder="Sci" value="${sSR}" data-student="${idx}" data-type="sci" onchange="saveBillingRateChange(this)">` : ''}
-        <label style="display:flex;align-items:center;gap:4px;margin-left:auto;">
-          <input type="checkbox" class="billing-checkbox" data-student="${idx}" ${hasTeam ? 'checked' : ''} onchange="saveTeamFlag(${idx}, this.checked)">
-          <span style="font-size:0.75em;">團隊</span>
-        </label>
+      <div class="student-card-controls">
+        <div class="rate-inputs">
+          ${rateInputsHtml}
+        </div>
+        <div class="card-checkboxes">
+          <label>
+            <input type="checkbox" data-student="${idx}" ${hasTeam ? 'checked' : ''} onchange="saveTeamFlag(${idx}, this.checked)">
+            團隊也有
+          </label>
+          <label>
+            <input type="checkbox" data-key="card-${idx}" ${isBilled ? 'checked' : ''} onchange="setCardBilledStatus(${idx}, '${s.canonical}', this.checked)">
+            已請款
+          </label>
+        </div>
       </div>
     </div>
   `;
@@ -646,12 +653,12 @@ function makeBillingCard(idx) {
 
 function billingDragStart(e, idx) {
   billingDraggedIdx = idx;
-  e.target.closest('.billing-student-card').classList.add('dragging');
+  e.target.closest('.student-card').classList.add('dragging');
   e.dataTransfer.effectAllowed = 'move';
 }
 
 function billingDragEnd(e) {
-  e.target.closest('.billing-student-card').classList.remove('dragging');
+  e.target.closest('.student-card').classList.remove('dragging');
   document.querySelectorAll('.billing-panel').forEach(p => p.classList.remove('dragover'));
 }
 
@@ -666,21 +673,21 @@ function dropOnBillingPanel(e, panelOwner) {
   const owner = loadBillingOwner();
   owner[s.canonical] = panelOwner;
   saveBillingOwner(owner);
-  renderBillingPanels();
+  renderBillingPanelsWithCards();
   billingDraggedIdx = null;
 }
 
-function saveBillingRateChange(input) {
-  const studentIdx = parseInt(input.dataset.student);
-  const type = input.dataset.type;
-  const s = currentStudents[studentIdx];
-  if (!s) return;
+function setCardBilledStatus(idx, studentName, checked) {
+  const [y, m] = getYM();
+  const billedKey = `${y}-${m}_${studentName}`;
+  const billed = loadBilled();
+  if (checked) billed[billedKey] = true;
+  else delete billed[billedKey];
+  saveBilled(billed);
 
-  const rates = loadRates();
-  const key = s.canonical + '_' + type;
-  if (input.value) rates[key] = input.value;
-  else delete rates[key];
-  try { localStorage.setItem(RATE_STORAGE_KEY, JSON.stringify(rates)); } catch {}
+  const card = document.getElementById('student-card-' + idx);
+  if (checked) card.classList.add('billed');
+  else card.classList.remove('billed');
 }
 
 function saveTeamFlag(idx, checked) {
@@ -691,7 +698,7 @@ function saveTeamFlag(idx, checked) {
   else delete flags[s.canonical];
   saveTeamFlags(flags);
   renderGroupingUI();
-  renderBillingPanels();
+  renderBillingPanelsWithCards();
 }
 
 function loadBillingOwner() {
