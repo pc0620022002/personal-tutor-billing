@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>個人家教請款訊息產生器</title>
+<title>åäººå®¶æè«æ¬¾è¨æ¯ç¢çå¨</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", sans-serif; background: #f0f2f5; color: #333; min-height: 100vh; }
@@ -241,70 +241,70 @@ h1 { text-align: center; font-size: 1.6em; margin: 20px 0 8px; color: #2c3e50; }
 </head>
 <body>
 <div class="container">
-  <h1>個人家教請款訊息產生器</h1>
-  <p class="subtitle">上傳 Apple 行事曆匯出的 .ics 檔，自動產出請款訊息</p>
+  <h1>åäººå®¶æè«æ¬¾è¨æ¯ç¢çå¨</h1>
+  <p class="subtitle">ä¸å³ Apple è¡äºæå¯åºç .ics æªï¼èªåç¢åºè«æ¬¾è¨æ¯</p>
 
   <div class="hint-box">
-    匯出方式：打開 Mac「行事曆」App → 檔案 → 輸出 → 輸出...<br>
-    如果你和另一半各有自己的行事曆，可以分別上傳兩個 .ics 檔，共同學生會自動合併。
+    å¯åºæ¹å¼ï¼æé Macãè¡äºæãApp â æªæ¡ â è¼¸åº â è¼¸åº...<br>
+    å¦æä½ åå¦ä¸ååæèªå·±çè¡äºæï¼å¯ä»¥åå¥ä¸å³å©å .ics æªï¼å±åå­¸çæèªååä½µã
   </div>
 
   <div class="sync-bar" id="syncBar">
     <span class="sync-dot" id="syncDot"></span>
-    <span class="sync-text" id="syncText">正在連線...</span>
+    <span class="sync-text" id="syncText">æ­£å¨é£ç·...</span>
   </div>
 
   <div class="upload-section">
     <div class="upload-box" id="uploadMath" onclick="document.getElementById('fileMath').click()">
-      <div class="icon">📐</div>
-      <div class="label">Math 行事曆（老婆）</div>
-      <p>點擊或拖曳 .ics 檔案</p>
+      <div class="icon">ð</div>
+      <div class="label">Math è¡äºæï¼èå©ï¼</div>
+      <p>é»ææææ³ .ics æªæ¡</p>
       <div class="file-name" id="fileNameMath"></div>
       <input type="file" id="fileMath" accept=".ics">
     </div>
     <div class="upload-box" id="uploadScience" onclick="document.getElementById('fileScience').click()">
-      <div class="icon">🔬</div>
-      <div class="label">Science 行事曆（我）</div>
-      <p>點擊或拖曳 .ics 檔案</p>
+      <div class="icon">ð¬</div>
+      <div class="label">Science è¡äºæï¼æï¼</div>
+      <p>é»ææææ³ .ics æªæ¡</p>
       <div class="file-name" id="fileNameScience"></div>
       <input type="file" id="fileScience" accept=".ics">
     </div>
   </div>
 
   <div class="settings" id="settings">
-    <h3>設定</h3>
+    <h3>è¨­å®</h3>
     <div class="setting-row">
-      <label>月份：</label>
+      <label>æä»½ï¼</label>
       <select id="monthSelect"></select>
     </div>
     <div class="setting-row">
-      <label>稱謂：</label>
+      <label>è¨­çº±ï¼</label>
       <select id="titleSelect">
-        <option value="媽媽">媽媽</option>
-        <option value="爸爸">爸爸</option>
-        <option value="家長">家長</option>
+        <option value="åª½åª½">åª½åª½</option>
+        <option value="ç¸ç¸">ç¸ç¸</option>
+        <option value="å®¶é·">å®¶é·</option>
       </select>
     </div>
     <div class="setting-row">
-      <label>問候語：</label>
+      <label>ååèªï¼</label>
       <select id="greetingSelect">
-        <option value="您好">您好</option>
-        <option value="早安">早安</option>
-        <option value="午安">午安</option>
-        <option value="晚安">晚安</option>
+        <option value="æ¨å¥½">æ¨å¥½</option>
+        <option value="æ©å®">æ©å®</option>
+        <option value="åå®">åå®</option>
+        <option value="æå®">æå®</option>
       </select>
     </div>
   </div>
 
   <div class="rate-table" id="rateTable">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-      <h3 style="margin:0;">設定每位學生的時薪</h3>
+      <h3 style="margin:0;">è¨­å®æ¯ä½å­¸ççæèª</h3>
       <div>
-        <button class="btn-share" onclick="shareRates()">分享時薪設定</button>
-        <button class="btn-share" onclick="shareAll()">分享所有設定</button>
+        <button class="btn-share" onclick="shareRates()">åäº«æèªè¨­å®</button>
+        <button class="btn-share" onclick="shareAll()">åäº«ææè¨­å®</button>
       </div>
     </div>
-    <div class="rate-hint">時薪會自動儲存在瀏覽器中，下次使用不需重新輸入。共同學生可分別設定 Math / Science 時薪。拖曳卡片調整請款責任人。</div>
+    <div class="rate-hint">æèªæèªåå²å­å¨çè¦½å¨ä¸­ï¼ä¸æ¬¡ä½¿ç¨ä¸ééæ°è¼¸å¥ãå±åå­¸çå¯åå¥è¨­å® Math / Science æèªãææ³å¡çèª¿æ´è«æ¬¾è²¬ä»»äººã</div>
     <div class="info-box" id="infoBox"></div>
 
     <!-- Unified billing panels with student cards -->
@@ -313,14 +313,14 @@ h1 { text-align: center; font-size: 1.6em; margin: 20px 0 8px; color: #2c3e50; }
            ondragover="event.preventDefault(); this.classList.add('dragover')"
            ondragleave="this.classList.remove('dragover')"
            ondrop="dropOnBillingPanel(event, 'me')">
-        <div class="billing-panel-header">🔬 我負責請款</div>
+        <div class="billing-panel-header">ð¬ æè² è²¬è«æ¬¾</div>
         <div class="billing-students" id="billingStudentsMe"></div>
       </div>
       <div class="billing-panel" id="billingPanelWife"
            ondragover="event.preventDefault(); this.classList.add('dragover')"
            ondragleave="this.classList.remove('dragover')"
            ondrop="dropOnBillingPanel(event, 'wife')">
-        <div class="billing-panel-header">📐 老婆負責請款</div>
+        <div class="billing-panel-header">ð èå©è² è²¬è«æ¬¾</div>
         <div class="billing-students" id="billingStudentsWife"></div>
       </div>
     </div>
@@ -328,30 +328,30 @@ h1 { text-align: center; font-size: 1.6em; margin: 20px 0 8px; color: #2c3e50; }
 
   <div class="grouping-section" id="groupingSection">
     <div class="grouping-header">
-      <h3>訊息分組</h3>
-      <button class="btn-share" onclick="shareGroups()">分享群組設定</button>
+      <h3>è¨æ¯åçµ</h3>
+      <button class="btn-share" onclick="shareGroups()">åäº«ç¾¤çµè¨­å®</button>
     </div>
-    <div class="grouping-hint">兄弟姊妹可拖曳到同一組，同組學生會合併為一則訊息。未分組的學生各自獨立產出。</div>
-    <button class="btn-add-family" onclick="addFamilyLane()">+ 新增家庭群組</button>
+    <div class="grouping-hint">åå¼å§å¦¹å¯ææ³å°åä¸çµï¼åçµå­¸çæåä½µçºä¸åè¨æ¯ãæªåçµçå­¸çåèªç¨ç«ç¢åºã</div>
+    <button class="btn-add-family" onclick="addFamilyLane()">+ æ°å¢å®¶åº­ç¾¤çµ</button>
     <div id="familyLanes"></div>
     <div class="group-lane ungrouped" id="ungroupedLane">
       <div class="lane-header">
-        <span class="lane-label">未分組（各自獨立產出）</span>
+        <span class="lane-label">æªåçµï¼åèªç¨ç«ç¢åºï¼</span>
       </div>
       <div class="lane-students" id="ungroupedStudents"></div>
     </div>
     <div class="generate-bar">
-      <button class="btn-generate-one" style="padding:8px 20px;font-size:0.9em;" onclick="generateAll()">全部產出</button>
+      <button class="btn-generate-one" style="padding:8px 20px;font-size:0.9em;" onclick="generateAll()">å¨é¨ç¢åº</button>
     </div>
   </div>
 
   <div class="results" id="results">
     <div class="results-header">
-      <h2>請款訊息</h2>
+      <h2>è«æ¬¾è¨æ¯</h2>
       <div>
-        <span class="expand-toggle" id="expandToggle" onclick="toggleAll()">全部展開</span>
+        <span class="expand-toggle" id="expandToggle" onclick="toggleAll()">å¨é¨å±é</span>
         &nbsp;
-        <button class="btn btn-success" onclick="copyAll()">一鍵複製全部</button>
+        <button class="btn btn-success" onclick="copyAll()">ä¸éµè¤è£½å¨é¨</button>
       </div>
     </div>
     <p class="student-count" id="studentCount"></p>
@@ -423,12 +423,12 @@ function initSync() {
 
     document.getElementById('syncDot').classList.add('connected');
     const txt = document.getElementById('syncText');
-    txt.textContent = '已同步 — 兩台電腦的設定會即時更新';
+    txt.textContent = 'å·²åæ­¥ â å©å°é»è¦çè¨­å®æå³ææ´æ°';
     txt.classList.add('connected');
     refreshUIFromStorage();
   }).catch(() => {
     document.getElementById('syncDot').classList.add('error');
-    document.getElementById('syncText').textContent = '同步連線失敗，設定僅存在本機';
+    document.getElementById('syncText').textContent = 'åæ­¥é£ç·å¤±æï¼è¨­å®åå­å¨æ¬æ©';
   });
 }
 
@@ -454,7 +454,7 @@ let scienceEventsRaw = [];
 let mathEvents = [];      // after splitting 1-on-2
 let scienceEvents = [];   // after splitting 1-on-2
 let currentStudents = []; // { canonical, mathNames, sciNames, isBoth, isMath, isSci }
-let families = [];        // [ [studentIdx, ...], ... ] — grouped families
+let families = [];        // [ [studentIdx, ...], ... ] â grouped families
 let allExpanded = false;
 let billingDraggedIdx = null;
 
@@ -468,15 +468,15 @@ const TEAM_FLAG_KEY = 'tutorTeamFlag_v1';
 function cleanParens(name) {
   return name
     .replace(/\(.*?\)/g, '')
-    .replace(/（.*?）/g, '')
-    .replace(/[(\（].*$/g, '')
+    .replace(/ï¼.*?ï¼/g, '')
+    .replace(/[(\ï¼].*$/g, '')
     .trim();
 }
 
 function normalizeName(name) {
   return cleanParens(name)
-    .replace(/[&＆+＋]/g, ' ')
-    .replace(/[,，、]/g, ' ')
+    .replace(/[&ï¼+ï¼]/g, ' ')
+    .replace(/[,ï¼ã]/g, ' ')
     .replace(/\s+/g, ' ')
     .trim()
     .toLowerCase();
@@ -561,7 +561,8 @@ function extractDateTime(block, field) {
   const regex = new RegExp('^' + field + '[^:]*:(.*?)\\s*$', 'm');
   const m = unfolded.match(regex);
   if (!m) return null;
-  const val = m[1].trim();n  const p = val.match(/(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})/);
+  const val = m[1].trim();
+  const p = val.match(/(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})/);
   if (!p) return null;
   if (val.endsWith('Z')) return new Date(Date.UTC(+p[1], +p[2]-1, +p[3], +p[4], +p[5], +p[6]));
   return new Date(+p[1], +p[2]-1, +p[3], +p[4], +p[5], +p[6]);
@@ -583,17 +584,17 @@ function extractDateTime(block, field) {
 document.getElementById('monthSelect').addEventListener('change', onMonthChange);
 
 function loadICS(file, type) {
-  if (!file.name.match(/\.ics$/i)) { showToast('請上傳 .ics 檔案'); return; }
+  if (!file.name.match(/\.ics$/i)) { showToast('è«ä¸å³ .ics æªæ¡'); return; }
   const reader = new FileReader();
   reader.onload = e => {
     try {
       const events = parseICS(e.target.result);
-      if (events.length === 0) { showToast('找不到任何行事曆事件'); return; }
+      if (events.length === 0) { showToast('æ¾ä¸å°ä»»ä½è¡äºæäºä»¶'); return; }
       if (type === 'Math') mathEventsRaw = events; else scienceEventsRaw = events;
       document.getElementById('upload' + type).classList.add('loaded');
-      document.getElementById('fileName' + type).textContent = file.name + ' (' + events.length + ' 筆)';
+      document.getElementById('fileName' + type).textContent = file.name + ' (' + events.length + ' ç­)';
       onDataUpdated();
-    } catch (err) { showToast('檔案解析失敗：' + err.message); }
+    } catch (err) { showToast('æªæ¡è§£æå¤±æï¼' + err.message); }
   };
   reader.readAsText(file);
 }
@@ -621,7 +622,7 @@ function setupMonthSelect() {
   const sel = document.getElementById('monthSelect');
   sel.innerHTML = sorted.map(m => {
     const [y, mo] = m.split('-');
-    return `<option value="${m}">${y}年${mo}月</option>`;
+    return `<option value="${m}">${y}å¹´${mo}æ</option>`;
   }).join('');
 }
 
@@ -663,7 +664,7 @@ function buildInfoBox() {
   currentStudents.forEach(s => {
     const allN = [...new Set([...s.mathNames, ...s.sciNames])];
     if (allN.length > 1) {
-      lines.push(`名稱合併：${allN.join(' + ')} → ${s.canonical}`);
+      lines.push(`åç¨±åä½µï¼${allN.join(' + ')} â ${s.canonical}`);
     }
   });
 
@@ -723,10 +724,10 @@ function makeStudentCard(idx) {
 
   let rateInputsHtml = '';
   if (s.isMath) {
-    rateInputsHtml += `<input type="number" id="rate-math-${idx}" value="${sMR}" placeholder="Math 時薪" min="0" onchange="saveRates()">`;
+    rateInputsHtml += `<input type="number" id="rate-math-${idx}" value="${sMR}" placeholder="Math æèª" min="0" onchange="saveRates()">`;
   }
   if (s.isSci) {
-    rateInputsHtml += `<input type="number" id="rate-sci-${idx}" value="${sSR}" placeholder="Sci 時薪" min="0" onchange="saveRates()">`;
+    rateInputsHtml += `<input type="number" id="rate-sci-${idx}" value="${sSR}" placeholder="Sci æèª" min="0" onchange="saveRates()">`;
   }
 
   return `
@@ -735,8 +736,8 @@ function makeStudentCard(idx) {
       <div class="student-card-header">
         <span class="student-card-name">${escapeHtml(s.canonical)}</span>
         <span class="source-tag ${tagClass}">${tagHtml}</span>
-        ${hasTeam ? '<span class="team-badge">👥</span>' : ''}
-        <span class="student-card-info">(${totalCount}堂, ${formatNum(totalHrs)}hr)</span>
+        ${hasTeam ? '<span class="team-badge">ð¥</span>' : ''}
+        <span class="student-card-info">(${totalCount}å , ${formatNum(totalHrs)}hr)</span>
       </div>
       <div class="student-card-controls">
         <div class="rate-inputs">
@@ -745,11 +746,11 @@ function makeStudentCard(idx) {
         <div class="card-checkboxes">
           <label>
             <input type="checkbox" data-student="${idx}" ${hasTeam ? 'checked' : ''} onchange="saveTeamFlag(${idx}, this.checked)">
-            團隊也有
+            åéä¹æ
           </label>
           <label>
             <input type="checkbox" data-key="card-${idx}" ${isBilled ? 'checked' : ''} onchange="setCardBilledStatus(${idx}, '${s.canonical}', this.checked)">
-            已請款
+            å·²è«æ¬¾
           </label>
         </div>
       </div>
@@ -882,10 +883,10 @@ function renderGroupingUI() {
            ondragleave="this.classList.remove('dragover')"
            ondrop="dropOnFamily(event, ${fi})">
         <div class="lane-header">
-          <span class="lane-label">家庭 ${fi + 1}</span>
+          <span class="lane-label">å®¶åº­ ${fi + 1}</span>
           <div class="lane-actions">
-            <button class="btn-generate-one" onclick="generateFamily(${fi})">產出</button>
-            <button class="lane-remove" onclick="removeFamilyLane(${fi})">移除群組</button>
+            <button class="btn-generate-one" onclick="generateFamily(${fi})">ç¢åº</button>
+            <button class="lane-remove" onclick="removeFamilyLane(${fi})">ç§»é¤ç¾¤çµ</button>
           </div>
         </div>
         <div class="lane-students">${group.map(idx => makeChip(idx)).join('')}</div>
@@ -898,7 +899,7 @@ function renderGroupingUI() {
   ungroupedDiv.innerHTML = ungrouped.map(idx =>
     `<div style="display:inline-flex;align-items:center;gap:4px;margin:2px 0;">` +
       makeChip(idx) +
-      `<button class="btn-generate-one" onclick="generateSingle(${idx})" style="padding:3px 8px;font-size:0.75em;">產出</button>` +
+      `<button class="btn-generate-one" onclick="generateSingle(${idx})" style="padding:3px 8px;font-size:0.75em;">ç¢åº</button>` +
     `</div>`
   ).join('');
 
@@ -919,7 +920,7 @@ function makeChip(idx) {
     ondragstart="dragStart(event, ${idx})" ondragend="dragEnd(event)"
     style="border-color:${s.isBoth ? '#c39bd3' : s.isMath ? '#82e0aa' : '#85c1e9'}">
     ${escapeHtml(s.canonical)}
-    ${hasTeam ? '<span class="team-badge">👥</span>' : ''}
+    ${hasTeam ? '<span class="team-badge">ð¥</span>' : ''}
     <span class="source-tag ${tagClass}" style="font-size:0.7em;margin-left:2px;">${s.isBoth ? 'M+S' : s.isMath ? 'M' : 'S'}</span>
   </span>`;
 }
@@ -1029,8 +1030,8 @@ function validateRates(studentIndices) {
   for (const idx of studentIndices) {
     const d = getStudentData(idx);
     if (!d) continue;
-    if (d.s.isMath && !d.mathRate) { showToast(`請填寫 ${d.s.canonical} 的 Math 時薪`); return false; }
-    if (d.s.isSci && !d.sciRate) { showToast(`請填寫 ${d.s.canonical} 的 Science 時薪`); return false; }
+    if (d.s.isMath && !d.mathRate) { showToast(`è«å¡«å¯« ${d.s.canonical} ç Math æèª`); return false; }
+    if (d.s.isSci && !d.sciRate) { showToast(`è«å¡«å¯« ${d.s.canonical} ç Science æèª`); return false; }
   }
   return true;
 }
@@ -1042,27 +1043,27 @@ function buildSingleMessage(idx) {
   const d = getStudentData(idx);
   if (!d) return null;
 
-  let msg = `${title}${greeting}，和您確認${m}月的上課時數：\n`;
+  let msg = `${title}${greeting}ï¼åæ¨ç¢ºèª${m}æçä¸èª²ææ¸ï¼\n`;
 
   if (d.s.isBoth) {
     const mH = d.mEv.reduce((a, e) => a + e.hours, 0);
     const sH = d.sEv.reduce((a, e) => a + e.hours, 0);
     const mF = mH * d.mathRate, sF = sH * d.sciRate;
     msg += '\n[Math]\n';
-    d.mEv.forEach(e => { msg += `${e.month}/${e.day}：${formatNum(e.hours)}hr\n`; });
-    msg += `小計：${formatNum(mH)}hr x ${d.mathRate} = ${Math.round(mF)}元\n`;
+    d.mEv.forEach(e => { msg += `${e.month}/${e.day}ï¼${formatNum(e.hours)}hr\n`; });
+    msg += `å°è¨ï¼${formatNum(mH)}hr x ${d.mathRate} = ${Math.round(mF)}å\n`;
     msg += '\n[Science]\n';
-    d.sEv.forEach(e => { msg += `${e.month}/${e.day}：${formatNum(e.hours)}hr\n`; });
-    msg += `小計：${formatNum(sH)}hr x ${d.sciRate} = ${Math.round(sF)}元\n`;
-    msg += `\n合計：${Math.round(mF + sF)}元，謝謝${title}`;
+    d.sEv.forEach(e => { msg += `${e.month}/${e.day}ï¼${formatNum(e.hours)}hr\n`; });
+    msg += `å°è¨ï¼${formatNum(sH)}hr x ${d.sciRate} = ${Math.round(sF)}å\n`;
+    msg += `\nåè¨ï¼${Math.round(mF + sF)}åï¼è¬è¬${title}`;
     return { name: d.s.canonical, msg, totalFee: Math.round(mF + sF), totalHours: mH + sH, count: d.mEv.length + d.sEv.length, isBoth: true };
   } else {
     const ev = d.s.isMath ? d.mEv : d.sEv;
     const rate = d.s.isMath ? d.mathRate : d.sciRate;
-    ev.forEach(e => { msg += `${e.month}/${e.day}：${formatNum(e.hours)}hr\n`; });
+    ev.forEach(e => { msg += `${e.month}/${e.day}ï¼${formatNum(e.hours)}hr\n`; });
     const tH = ev.reduce((a, e) => a + e.hours, 0);
     const tF = tH * rate;
-    msg += `\n共${formatNum(tH)}hr x ${rate} = ${Math.round(tF)}元，謝謝${title}`;
+    msg += `\nå±${formatNum(tH)}hr x ${rate} = ${Math.round(tF)}åï¼è¬è¬${title}`;
     return { name: d.s.canonical, msg, totalFee: Math.round(tF), totalHours: tH, count: ev.length, isBoth: false };
   }
 }
@@ -1072,7 +1073,7 @@ function buildFamilyMessage(studentIndices) {
   const title = document.getElementById('titleSelect').value;
   const greeting = document.getElementById('greetingSelect').value;
 
-  let msg = `${title}${greeting}，和您確認${m}月的上課時數：\n`;
+  let msg = `${title}${greeting}ï¼åæ¨ç¢ºèª${m}æçä¸èª²ææ¸ï¼\n`;
   let grandTotal = 0;
   let totalCount = 0;
   let totalHrs = 0;
@@ -1083,39 +1084,39 @@ function buildFamilyMessage(studentIndices) {
     if (!d) return;
     names.push(d.s.canonical);
 
-    msg += `\n【${d.s.canonical}】\n`;
+    msg += `\nã${d.s.canonical}ã\n`;
 
     if (d.s.isBoth) {
       const mH = d.mEv.reduce((a, e) => a + e.hours, 0);
       const sH = d.sEv.reduce((a, e) => a + e.hours, 0);
       const mF = mH * d.mathRate, sF = sH * d.sciRate;
       msg += '[Math]\n';
-      d.mEv.forEach(e => { msg += `${e.month}/${e.day}：${formatNum(e.hours)}hr\n`; });
-      msg += `小計：${formatNum(mH)}hr x ${d.mathRate} = ${Math.round(mF)}元\n`;
+      d.mEv.forEach(e => { msg += `${e.month}/${e.day}ï¼${formatNum(e.hours)}hr\n`; });
+      msg += `å°è¨ï¼${formatNum(mH)}hr x ${d.mathRate} = ${Math.round(mF)}å\n`;
       msg += '\n[Science]\n';
-      d.sEv.forEach(e => { msg += `${e.month}/${e.day}：${formatNum(e.hours)}hr\n`; });
-      msg += `小計：${formatNum(sH)}hr x ${d.sciRate} = ${Math.round(sF)}元\n`;
+      d.sEv.forEach(e => { msg += `${e.month}/${e.day}ï¼${formatNum(e.hours)}hr\n`; });
+      msg += `å°è¨ï¼${formatNum(sH)}hr x ${d.sciRate} = ${Math.round(sF)}å\n`;
       grandTotal += mF + sF;
       totalHrs += mH + sH;
       totalCount += d.mEv.length + d.sEv.length;
     } else if (d.s.isMath) {
-      d.mEv.forEach(e => { msg += `${e.month}/${e.day}：${formatNum(e.hours)}hr\n`; });
+      d.mEv.forEach(e => { msg += `${e.month}/${e.day}ï¼${formatNum(e.hours)}hr\n`; });
       const tH = d.mEv.reduce((a, e) => a + e.hours, 0);
-      msg += `小計：${formatNum(tH)}hr x ${d.mathRate} = ${Math.round(tH * d.mathRate)}元\n`;
+      msg += `å°è¨ï¼${formatNum(tH)}hr x ${d.mathRate} = ${Math.round(tH * d.mathRate)}å\n`;
       grandTotal += tH * d.mathRate;
       totalHrs += tH;
       totalCount += d.mEv.length;
     } else {
-      d.sEv.forEach(e => { msg += `${e.month}/${e.day}：${formatNum(e.hours)}hr\n`; });
+      d.sEv.forEach(e => { msg += `${e.month}/${e.day}ï¼${formatNum(e.hours)}hr\n`; });
       const tH = d.sEv.reduce((a, e) => a + e.hours, 0);
-      msg += `小計：${formatNum(tH)}hr x ${d.sciRate} = ${Math.round(tH * d.sciRate)}元\n`;
+      msg += `å°è¨ï¼${formatNum(tH)}hr x ${d.sciRate} = ${Math.round(tH * d.sciRate)}å\n`;
       grandTotal += tH * d.sciRate;
       totalHrs += tH;
       totalCount += d.sEv.length;
     }
   });
 
-  msg += `\n合計：${Math.round(grandTotal)}元，謝謝${title}`;
+  msg += `\nåè¨ï¼${Math.round(grandTotal)}åï¼è¬è¬${title}`;
 
   return { name: names.join(' + '), msg, totalFee: Math.round(grandTotal), totalHours: totalHrs, count: totalCount, isBoth: true, isFamily: true };
 }
@@ -1127,13 +1128,13 @@ function generateSingle(idx) {
   const result = buildSingleMessage(idx);
   if (!result) return;
   showResult('s-' + idx, result);
-  showToast(`已產出 ${result.name} 的請款訊息`);
+  showToast(`å·²ç¢åº ${result.name} çè«æ¬¾è¨æ¯`);
 }
 
 function generateFamily(fi) {
   saveRates();
   const group = families[fi];
-  if (!group || group.length === 0) { showToast('此群組沒有學生'); return; }
+  if (!group || group.length === 0) { showToast('æ­¤ç¾¤çµæ²æå­¸ç'); return; }
   if (!validateRates(group)) return;
 
   let result;
@@ -1144,7 +1145,7 @@ function generateFamily(fi) {
   }
   if (!result) return;
   showResult('f-' + fi, result);
-  showToast(`已產出 ${result.name} 的請款訊息`);
+  showToast(`å·²ç¢åº ${result.name} çè«æ¬¾è¨æ¯`);
 }
 
 function generateAll() {
@@ -1182,7 +1183,7 @@ function generateAll() {
 
   if (count > 0) {
     renderAllMessages();
-    showToast(`已產出 ${count} 則請款訊息`);
+    showToast(`å·²ç¢åº ${count} åè«æ¬¾è¨æ¯`);
   }
 }
 
@@ -1198,7 +1199,7 @@ function showResult(key, result) {
 
   if (!existing) document.getElementById('msgList').appendChild(card);
   document.getElementById('results').style.display = 'block';
-  document.getElementById('studentCount').textContent = `已產出 ${Object.keys(window._generatedMessages).length} 則`;
+  document.getElementById('studentCount').textContent = `å·²ç¢åº ${Object.keys(window._generatedMessages).length} å`;
   card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
@@ -1208,16 +1209,16 @@ function renderAllMessages() {
   const msgList = document.getElementById('msgList');
   msgList.innerHTML = entries.map(([key, m]) => `<div class="msg-card" id="result-card-${key}">${makeCardHTML(key, m)}</div>`).join('');
   document.getElementById('results').style.display = 'block';
-  document.getElementById('studentCount').textContent = `已產出 ${entries.length} 則`;
+  document.getElementById('studentCount').textContent = `å·²ç¢åº ${entries.length} å`;
   document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
 }
 
 function makeCardHTML(key, m) {
-  const tag = m.isFamily ? '<span class="source-tag tag-both" style="font-size:0.7em;margin-left:6px;">家庭</span>' :
+  const tag = m.isFamily ? '<span class="source-tag tag-both" style="font-size:0.7em;margin-left:6px;">å®¶åº­</span>' :
               m.isBoth ? '<span class="source-tag tag-both" style="font-size:0.7em;margin-left:6px;">Math+Sci</span>' : '';
   const teamFlags = loadTeamFlags();
   const hasTeam = teamFlags[m.name] || false;
-  const teamBadge = hasTeam ? '<span style="margin-left:6px;font-size:0.75em;font-weight:600;color:#9b59b6;">👥 團隊</span>' : '';
+  const teamBadge = hasTeam ? '<span style="margin-left:6px;font-size:0.75em;font-weight:600;color:#9b59b6;">ð¥ åé</span>' : '';
   const billed = loadBilled();
   const [y, mo] = getYM();
   const billedKey = `${y}-${mo}_${m.name}`;
@@ -1230,18 +1231,18 @@ function makeCardHTML(key, m) {
         <span class="name">${escapeHtml(m.name)} ${tag}${teamBadge}</span>
       </div>
       <div class="msg-header-right" onclick="event.stopPropagation()">
-        <span class="summary">${m.count}堂 | ${formatNum(m.totalHours)}hr | $${m.totalFee.toLocaleString()}</span>
+        <span class="summary">${m.count}å  | ${formatNum(m.totalHours)}hr | $${m.totalFee.toLocaleString()}</span>
         <label style="display:flex;align-items:center;gap:6px;margin-left:10px;">
           <input type="checkbox" class="billed-checkbox" data-key="${key}" ${isBilled ? 'checked' : ''} onchange="setBilledStatus('${key}', '${m.name}', this.checked)">
-          <span style="font-size:0.8em;white-space:nowrap;">已請款</span>
+          <span style="font-size:0.8em;white-space:nowrap;">å·²è«æ¬¾</span>
         </label>
       </div>
     </div>
     <div class="msg-body open">
       <div class="msg-text">${escapeHtml(m.msg)}</div>
       <div style="display:flex;gap:8px;margin-top:10px;align-items:center;">
-        <button class="copy-btn" style="margin-top:0" onclick="copySingle(this, '${key}')">複製此訊息</button>
-        <button class="copy-btn" style="margin-top:0;background:#e74c3c;" onclick="deleteCard('${key}')" onmouseover="this.style.background='#c0392b'" onmouseout="this.style.background='#e74c3c'">刪除</button>
+        <button class="copy-btn" style="margin-top:0" onclick="copySingle(this, '${key}')">è¤è£½æ­¤è¨æ¯</button>
+        <button class="copy-btn" style="margin-top:0;background:#e74c3c;" onclick="deleteCard('${key}')" onmouseover="this.style.background='#c0392b'" onmouseout="this.style.background='#e74c3c'">åªé¤</button>
       </div>
     </div>`;
 }
@@ -1329,7 +1330,7 @@ function deleteCard(key) {
   if (card) card.remove();
   if (window._generatedMessages) delete window._generatedMessages[key];
   const remaining = window._generatedMessages ? Object.keys(window._generatedMessages).length : 0;
-  document.getElementById('studentCount').textContent = `已產出 ${remaining} 則`;
+  document.getElementById('studentCount').textContent = `å·²ç¢åº ${remaining} å`;
   if (remaining === 0) document.getElementById('results').style.display = 'none';
 }
 
@@ -1338,8 +1339,8 @@ function copySingle(btn, key) {
   const msg = window._generatedMessages && window._generatedMessages[key];
   if (!msg) return;
   navigator.clipboard.writeText(msg.msg).then(() => {
-    btn.textContent = '已複製！'; btn.classList.add('copied');
-    setTimeout(() => { btn.textContent = '複製此訊息'; btn.classList.remove('copied'); }, 1500);
+    btn.textContent = 'å·²è¤è£½ï¼'; btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'è¤è£½æ­¤è¨æ¯'; btn.classList.remove('copied'); }, 1500);
   });
 }
 
@@ -1348,36 +1349,36 @@ function toggleAll() {
   document.querySelectorAll('.msg-body').forEach(b => {
     allExpanded ? b.classList.add('open') : b.classList.remove('open');
   });
-  document.getElementById('expandToggle').textContent = allExpanded ? '全部收起' : '全部展開';
+  document.getElementById('expandToggle').textContent = allExpanded ? 'å¨é¨æ¶èµ·' : 'å¨é¨å±é';
 }
 
 function copyAll() {
   if (!window._generatedMessages) return;
   const msgs = Object.values(window._generatedMessages);
-  const all = msgs.map(m => '【' + m.name + '】\n' + m.msg).join('\n\n─────────────\n\n');
-  navigator.clipboard.writeText(all).then(() => showToast('已複製全部 ' + msgs.length + ' 則訊息'));
+  const all = msgs.map(m => 'ã' + m.name + 'ã\n' + m.msg).join('\n\nâââââââââââââ\n\n');
+  navigator.clipboard.writeText(all).then(() => showToast('å·²è¤è£½å¨é¨ ' + msgs.length + ' åè¨æ¯'));
 }
 
 // ===== 12. Rate sharing via URL =====
 function shareRates() {
   saveRates();
   const rates = loadRates();
-  if (Object.keys(rates).length === 0) { showToast('尚未設定任何時薪'); return; }
+  if (Object.keys(rates).length === 0) { showToast('å°æªè¨­å®ä»»ä½æèª'); return; }
   const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(rates))));
   const url = location.origin + location.pathname + '#rates=' + encoded;
   navigator.clipboard.writeText(url).then(() => {
-    showToast('已複製分享網址！傳給對方即可同步時薪設定');
+    showToast('å·²è¤è£½åäº«ç¶²åï¼å³çµ¦å°æ¹å³å¯åæ­¥æèªè¨­å®');
   });
 }
 
 function shareGroups() {
   saveFamilies();
   const saved = JSON.parse(localStorage.getItem(GROUP_STORAGE_KEY)) || [];
-  if (saved.length === 0) { showToast('尚未設定任何群組'); return; }
+  if (saved.length === 0) { showToast('å°æªè¨­å®ä»»ä½ç¾¤çµ'); return; }
   const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(saved))));
   const url = location.origin + location.pathname + '#groups=' + encoded;
   navigator.clipboard.writeText(url).then(() => {
-    showToast('已複製群組分享網址！傳給對方即可同步群組設定');
+    showToast('å·²è¤è£½ç¾¤çµåäº«ç¶²åï¼å³çµ¦å°æ¹å³å¯åæ­¥ç¾¤çµè¨­å®');
   });
 }
 
@@ -1399,7 +1400,7 @@ function shareAll() {
   const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(allData))));
   const url = location.origin + location.pathname + '#all=' + encoded;
   navigator.clipboard.writeText(url).then(() => {
-    showToast('已複製完整分享網址！包含時薪、群組、團隊、請款責任設定');
+    showToast('å·²è¤è£½å®æ´åäº«ç¶²åï¼åå«æèªãç¾¤çµãåéãè«æ¬¾è²¬ä»»è¨­å®');
   });
 }
 
@@ -1417,7 +1418,7 @@ function importRatesFromURL() {
     pushToFirebase(RATE_STORAGE_KEY, merged);
     // Clean up URL hash
     history.replaceState(null, '', location.pathname);
-    showToast('已匯入時薪設定！共 ' + Object.keys(rates).length + ' 筆');
+    showToast('å·²å¯å¥æèªè¨­å®ï¼å± ' + Object.keys(rates).length + ' ç­');
   } catch (e) {
     console.error('Rate import failed:', e);
   }
@@ -1442,7 +1443,7 @@ function importGroupsFromURL() {
     pushToFirebase(GROUP_STORAGE_KEY, merged);
     // Clean up URL hash
     history.replaceState(null, '', location.pathname);
-    showToast('已匯入群組設定！共 ' + groups.length + ' 個');
+    showToast('å·²å¯å¥ç¾¤çµè¨­å®ï¼å± ' + groups.length + ' å');
   } catch (e) {
     console.error('Groups import failed:', e);
   }
@@ -1493,7 +1494,7 @@ function importAllFromURL() {
 
     // Clean up URL hash
     history.replaceState(null, '', location.pathname);
-    showToast('已匯入所有設定！（時薪、群組、團隊、請款責任）');
+    showToast('å·²å¯å¥ææè¨­å®ï¼ï¼æèªãç¾¤çµãåéãè«æ¬¾è²¬ä»»ï¼');
   } catch (e) {
     console.error('All import failed:', e);
   }
